@@ -8,6 +8,9 @@
     "typescript",
     "typescriptreact"
   ],
+  "files.associations": {
+    "*.config": "javascript"
+  },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
