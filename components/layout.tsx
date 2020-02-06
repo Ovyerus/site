@@ -1,14 +1,11 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import Icon from '@mdi/react';
-import { useTheme } from 'emotion-theming';
 import React from 'react';
 import dribbble from 'simple-icons/icons/dribbble';
 import github from 'simple-icons/icons/github';
 import keybase from 'simple-icons/icons/keybase';
 import medium from 'simple-icons/icons/medium';
-
-import { Theme } from '../utils';
 
 const media = [
   {
@@ -29,41 +26,37 @@ const media = [
   }
 ];
 
-const Footer: React.FC = () => {
-  const theme = useTheme<Theme>();
-
-  return (
-    <footer
+const Footer: React.FC = () => (
+  <footer
+    css={css`
+      padding: 24px;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    `}
+  >
+    <ul
       css={css`
-        padding: 24px;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
+        list-style: none;
+        display: flex;
+        padding: 0;
+        margin: 0;
+
+        & > li {
+          margin-right: 24px;
+        }
       `}
     >
-      <ul
-        css={css`
-          list-style: none;
-          display: flex;
-          padding: 0;
-          margin: 0;
-
-          & > li {
-            margin-right: 24px;
-          }
-        `}
-      >
-        {media.map(({ href, path }) => (
-          <li key={href}>
-            <a href={href}>
-              <Icon color={theme.foreground} path={path} size={1.5} />
-            </a>
-          </li>
-        ))}
-      </ul>
-    </footer>
-  );
-};
+      {media.map(({ href, path }) => (
+        <li key={href}>
+          <a href={href}>
+            <Icon color="var(--fg)" path={path} size={1.5} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </footer>
+);
 
 export const Layout: React.FC<{ withFooter?: boolean }> = ({
   withFooter,

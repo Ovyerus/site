@@ -11,6 +11,17 @@ class Document extends Document_ {
             content="width=device-width, initial-scale=1.0"
           />
           <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
+
+          <link
+            rel="stylesheet"
+            href="/dark.css"
+            media="(prefers-color-scheme: dark)"
+          />
+          <link
+            rel="stylesheet"
+            href="/light.css"
+            media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)"
+          />
         </Head>
         <body>
           <Main />
