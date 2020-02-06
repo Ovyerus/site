@@ -24,12 +24,12 @@ export const ThemeToggle = () => {
         cursor: pointer;
         padding: 0;
         position: fixed;
-        top: 16px;
-        right: 16px;
+        top: 24px;
+        right: 24px;
       `}
       onClick={toggle}
     >
-      <Icon color={theme.foreground} path={path} size={1.5} />
+      <Icon color={theme.foreground} path={path} size={1} />
     </button>
   );
 };
