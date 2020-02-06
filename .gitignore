@@ -1,3 +1,7 @@
 node_modules
 .next
 yarn-error.log
+out
+
+# Local Netlify folder
+.netlify
