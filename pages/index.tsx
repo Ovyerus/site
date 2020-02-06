@@ -4,8 +4,9 @@ import { NextPage } from 'next';
 import Link_, { LinkProps } from 'next/link';
 import React from 'react';
 
-import { Layout, Title, Paragraph, Anchor, ThemeToggle } from '../components';
+import { Layout, Title, Paragraph, Anchor } from '../components';
 
+// const Link = Anchor.withComponent(({children, ...props}: LinkProps) => );
 const Link: React.FC<LinkProps> = ({ children, ...props }) => (
   <Link_ {...props} passHref>
     <Anchor>{children}</Anchor>
@@ -14,11 +15,10 @@ const Link: React.FC<LinkProps> = ({ children, ...props }) => (
 
 const IndexPage: NextPage = () => (
   <Layout withFooter>
-    <ThemeToggle />
     <Title>Ovyerus</Title>
     <Paragraph>
       Multifaceted creative
-      <br />- <Anchor href="https://dribbble.com/ovyerus">design</Anchor>,{' '}
+      <br />- <Link href="/design">design</Link>,{' '}
       {/* <Link href="/music">music</Link> */} music, and{' '}
       <Link href="/code">code</Link>.
     </Paragraph>
