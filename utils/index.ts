@@ -16,6 +16,5 @@ export interface Theme {
   foreground: string;
   filter: string;
   filterInvert: string;
-  stroke: string;
   __type: 'dark' | 'light';
 }

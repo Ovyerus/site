@@ -13,12 +13,12 @@ const Link: React.FC<LinkProps> = ({ children, ...props }) => (
 );
 
 const IndexPage: NextPage = () => (
-  <Layout>
+  <Layout withFooter>
     <ThemeToggle />
     <Title>Ovyerus</Title>
     <Paragraph>
       Multifaceted creative
-      <br />- <Link href="/design">design</Link>,{' '}
+      <br />- <Anchor href="https://dribbble.com/ovyerus">design</Anchor>,{' '}
       {/* <Link href="/music">music</Link> */} music, and{' '}
       <Link href="/code">code</Link>.
     </Paragraph>

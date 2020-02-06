@@ -12,16 +12,14 @@ const App = ({ Component, pageProps }: AppProps) => {
         background: '#000',
         foreground: '#fff',
         filter: 'invert(0%) brightness(100%)',
-        filterInvert: 'invert(100%) brightness(150%)',
-        stroke: 'none',
+        filterInvert: 'invert() brightness(300%)',
         __type: 'dark'
       }
     : {
         background: '#fff',
         foreground: '#000',
-        filter: 'contrast(115%)',
-        filterInvert: 'invert(100%) brightness(150%)',
-        stroke: '1px rgba(0, 0, 0, 0.75)',
+        filter: 'invert()',
+        filterInvert: 'invert() brightness(300%)',
         __type: 'light'
       };
 
@@ -48,36 +46,6 @@ const App = ({ Component, pageProps }: AppProps) => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const docData = document.documentElement.dataset;
-  //   const listener = ({ detail: e }: CustomEvent<LocalStorageEventDetail>) => {
-  //     if (e.key === 'theme') docData.theme = e.newValue;
-  //     setDarkMode(isDarkTheme());
-  //   };
-
-  //   const theme = storage.get('theme');
-  //   if (theme) docData.theme = theme;
-  //   else
-  //     docData.theme = matchMedia('(prefers-color-scheme: dark)').matches
-  //       ? 'dark'
-  //       : 'light';
-
-  //   window.addEventListener('localStorage', listener);
-  //   return () => window.removeEventListener('localStorage', listener);
-  // });
-
-  // useEffect(() => {
-  //   const docData = document.documentElement.dataset;
-  //   const query = matchMedia('(prefers-color-scheme: dark)');
-  //   const listener = (e: MediaQueryListEvent) => {
-  //     if (!storage.get('theme')) docData.theme = e.matches ? 'dark' : 'light';
-  //     setDarkMode(isDarkTheme());
-  //   };
-
-  //   query.addListener(listener);
-  //   return () => query.removeListener(listener);
-  // });
-
   return (
     <ThemeProvider theme={theme}>
       <Global
@@ -97,7 +65,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           }
 
           body {
-            background: ${theme.background};
+            background-color: ${theme.background};
             color: ${theme.foreground};
             margin: 0;
             padding: 0;
@@ -105,6 +73,12 @@ const App = ({ Component, pageProps }: AppProps) => {
             flex-direction: column;
             min-height: 100vh;
             overflow: hidden;
+          }
+
+          body,
+          svg > path {
+            transition: background-color 0.2s ease-out, color 0.2s ease-out,
+              fill 0.2s ease-out;
           }
 
           #__next {

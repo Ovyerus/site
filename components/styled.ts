@@ -20,7 +20,7 @@ export const Title = styled.h1<Props>`
   filter: ${({ theme }) => theme.filter};
   transform: scaleX(120%);
   transform-origin: left;
-  -webkit-text-stroke: ${({ theme }) => theme.stroke};
+  transition: filter 0.2s ease-out;
 `;
 
 export const Paragraph = styled.p`
@@ -39,7 +39,6 @@ export const Anchor = styled.a<Props>`
     background-clip: text;
     color: transparent;
     filter: ${({ theme }) => theme.filter};
-    -webkit-text-stroke: ${({ theme }) => theme.stroke};
     transition: filter 0.2s ease-out;
 
     &:hover {
