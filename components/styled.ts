@@ -37,6 +37,7 @@ export const Anchor = styled.a`
     background: url(${background}), linear-gradient(to bottom, #fff0e5, #ffa46e);
     background-position: center center;
     background-clip: text;
+    -webkit-background-clip: text;
     color: transparent;
     filter: var(--bg-filter);
     transition: filter 0.2s ease-out;
