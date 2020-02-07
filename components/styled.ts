@@ -6,7 +6,7 @@ export const Title = styled.h1<{ smaller?: boolean }>`
   font-family: 'Helvetica Now', var(--fonts);
   font-size: ${({ smaller }) => (smaller ? '6rem' : '8rem')};
   font-weight: 900;
-  background: url(${background});
+  background: url(${background}), linear-gradient(to bottom, #fff0e5, #ffa46e);
   background-position: center center;
   background-clip: text;
   color: transparent;
@@ -33,7 +33,7 @@ export const Anchor = styled.a`
   color: var(--fg);
 
   &:not([href^='mailto']) {
-    background: url(${background});
+    background: url(${background}), linear-gradient(to bottom, #fff0e5, #ffa46e);
     background-position: center center;
     background-clip: text;
     color: transparent;
