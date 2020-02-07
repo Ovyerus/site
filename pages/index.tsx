@@ -2,6 +2,7 @@
 import { css, jsx } from '@emotion/core';
 import { NextPage } from 'next';
 import Link_, { LinkProps } from 'next/link';
+import { NextSeo } from 'next-seo';
 import React from 'react';
 
 import { Layout, Title, Paragraph, Anchor } from '../components';
@@ -14,7 +15,9 @@ const Link: React.FC<LinkProps> = ({ children, ...props }) => (
 );
 
 const IndexPage: NextPage = () => (
-  <Layout withFooter>
+  <Layout mainPage>
+    <NextSeo title="Ovyerus" titleTemplate="%s" />
+
     <Title>Ovyerus</Title>
     <Paragraph>
       Multifaceted creative

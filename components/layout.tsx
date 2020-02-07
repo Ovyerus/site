@@ -58,8 +58,8 @@ const Footer: React.FC = () => (
   </footer>
 );
 
-export const Layout: React.FC<{ withFooter?: boolean }> = ({
-  withFooter,
+export const Layout: React.FC<{ mainPage?: boolean }> = ({
+  mainPage,
   children
 }) => (
   <>
@@ -68,13 +68,16 @@ export const Layout: React.FC<{ withFooter?: boolean }> = ({
         flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        ${mainPage &&
+          css`
+            justify-content: center;
+          `};
         margin: 4rem;
       `}
     >
       {children}
     </main>
 
-    {withFooter && <Footer />}
+    {mainPage && <Footer />}
   </>
 );

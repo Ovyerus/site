@@ -1,8 +1,12 @@
-import { AppProps } from 'next/app';
 import { css, Global } from '@emotion/core';
+import { AppProps } from 'next/app';
+import { DefaultSeo } from 'next-seo';
+
+import SEO from '../next-seo.config';
 
 const App = ({ Component, pageProps }: AppProps) => (
   <>
+    <DefaultSeo {...SEO} />
     <Global
       styles={css`
         :root {
