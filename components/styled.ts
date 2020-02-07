@@ -2,9 +2,9 @@ import styled from '@emotion/styled';
 
 import background from '../assets/bg.webp';
 
-export const Title = styled.h1`
+export const Title = styled.h1<{ smaller?: boolean }>`
   font-family: 'Helvetica Now', var(--fonts);
-  font-size: 8rem;
+  font-size: ${({ smaller }) => (smaller ? '6rem' : '8rem')};
   font-weight: 900;
   background: url(${background});
   background-position: center center;
@@ -20,6 +20,12 @@ export const Title = styled.h1`
 export const Paragraph = styled.p`
   margin: 0;
   font-size: 2rem;
+`;
+
+export const Paragraph2 = styled.p`
+  margin: 0;
+  font-size: 1.5rem;
+  /* max-width: 40ch; */
 `;
 
 export const Anchor = styled.a`
