@@ -16,17 +16,29 @@ export const Title = styled.h1<{ smaller?: boolean }>`
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+
+  @media screen and (max-width: 500px) {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
 `;
 
 export const Paragraph = styled.p`
   margin: 0;
   font-size: 2rem;
+
+  @media screen and (max-width: 500px) {
+    font-size: 1.5rem;
+  }
 `;
 
 export const Paragraph2 = styled.p`
   margin: 0;
   font-size: 1.5rem;
   /* max-width: 40ch; */
+  /* @media screen and (max-width: 500px) {
+    font-size: 1rem;
+  } */
 `;
 
 export const Anchor = styled.a`

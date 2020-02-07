@@ -77,6 +77,10 @@ export const Layout: React.FC<{ mainPage?: boolean }> = ({
             justify-content: center;
           `};
         margin: 4rem;
+
+        @media screen and (max-width: 500px) {
+          margin: 2rem;
+        }
       `}
     >
       {children}
