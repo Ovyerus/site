@@ -10,19 +10,23 @@ import medium from 'simple-icons/icons/medium';
 const media = [
   {
     path: github.path,
-    href: 'https://github.com/ovyerus'
+    href: 'https://github.com/ovyerus',
+    label: 'Visit my profile on GitHub.'
   },
   {
     path: dribbble.path,
-    href: 'https://dribbble.com/ovyerus'
+    href: 'https://dribbble.com/ovyerus',
+    label: 'Visit my profile on Dribbble.'
   },
   {
     path: keybase.path,
-    href: 'https://keybase.io/ovyerus'
+    href: 'https://keybase.io/ovyerus',
+    label: 'Visit my other miscellaneous social media linked on Keybase.'
   },
   {
     path: medium.path,
-    href: 'https://medium.com/@ovyerus'
+    href: 'https://medium.com/@ovyerus',
+    label: 'Visit my profile on Medium.'
   }
 ];
 
@@ -47,9 +51,9 @@ const Footer: React.FC = () => (
         }
       `}
     >
-      {media.map(({ href, path }) => (
+      {media.map(({ href, path, label }) => (
         <li key={href}>
-          <a href={href}>
+          <a href={href} aria-label={label}>
             <Icon color="var(--fg)" path={path} size={1.5} />
           </a>
         </li>
