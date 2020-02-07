@@ -6,15 +6,16 @@ export const Title = styled.h1<{ smaller?: boolean }>`
   font-family: 'Helvetica Now', var(--fonts);
   font-size: ${({ smaller }) => (smaller ? '6rem' : '8rem')};
   font-weight: 900;
-  background: url(${background}), linear-gradient(to bottom, #fff0e5, #ffa46e);
-  background-position: center center;
-  background-clip: text;
-  color: transparent;
   margin: 0;
   text-transform: lowercase;
   filter: var(--bg-filter);
   transform: scaleX(120%);
   transform-origin: left;
+  background: url(${background}), linear-gradient(to bottom, #fff0e5, #ffa46e);
+  background-position: center center;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 `;
 
 export const Paragraph = styled.p`
