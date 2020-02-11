@@ -5,7 +5,7 @@ import React from 'react';
 import dribbble from 'simple-icons/icons/dribbble';
 import github from 'simple-icons/icons/github';
 import keybase from 'simple-icons/icons/keybase';
-import medium from 'simple-icons/icons/medium';
+import linkedin from 'simple-icons/icons/linkedin';
 
 const media = [
   {
@@ -24,9 +24,9 @@ const media = [
     label: 'Visit my other miscellaneous social media linked on Keybase.'
   },
   {
-    path: medium.path,
-    href: 'https://medium.com/@ovyerus',
-    label: 'Visit my profile on Medium.'
+    path: linkedin.path,
+    href: 'https://www.linkedin.com/in/ovyerus',
+    label: 'Visit my profile on LinkedIn.'
   }
 ];
 
