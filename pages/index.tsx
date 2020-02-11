@@ -7,7 +7,6 @@ import React from 'react';
 
 import { Layout, Title, Paragraph, Anchor } from '../components';
 
-// const Link = Anchor.withComponent(({children, ...props}: LinkProps) => );
 const Link: React.FC<LinkProps> = ({ children, ...props }) => (
   <Link_ {...props} passHref>
     <Anchor>{children}</Anchor>
