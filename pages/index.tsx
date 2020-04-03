@@ -32,7 +32,7 @@ const IndexPage: NextPage = () => (
       `}
     >
       Contact/business enquiries:{' '}
-      <Anchor href="mailto:me@ovyerus.com">me@ovyerus.com</Anchor>
+      <Anchor href="mailto:michael@ovyerus.com">michael@ovyerus.com</Anchor>
     </Paragraph>
   </Layout>
 );
