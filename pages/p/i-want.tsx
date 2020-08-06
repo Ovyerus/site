@@ -90,8 +90,8 @@ const P: NextPage = () => (
       `}
     >
       <em>
-        i feel like this world wants me to be one thing, but that's not who i
-        am.
+        i feel like this world wants me to be only one thing, but that's not who
+        i am.
       </em>
       <p>
         <em>i wish i was told earlier.</em>
