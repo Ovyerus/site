@@ -1,5 +1,6 @@
 import { css, Global } from '@emotion/core';
 import { AppProps } from 'next/app';
+import Head from 'next/head';
 import { DefaultSeo } from 'next-seo';
 
 import SEO from '../next-seo.config';
@@ -10,10 +11,14 @@ const App = ({ Component, pageProps }: AppProps) => (
     <Global
       styles={css`
         :root {
-          color-scheme: light dark;
-          --fonts: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-            Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+          --fonts: Recursive, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+            Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+            sans-serif;
           font-family: var(--fonts);
+          --bg: #000;
+          --fg: #fff;
+          --bg-filter: invert(0%) brightness(100%);
+          --bg-filter-opposite: invert() brightness(300%);
         }
 
         *,
@@ -30,7 +35,6 @@ const App = ({ Component, pageProps }: AppProps) => (
           display: flex;
           flex-direction: column;
           min-height: 100vh;
-          overflow: hidden;
         }
 
         #__next {
@@ -39,6 +43,13 @@ const App = ({ Component, pageProps }: AppProps) => (
         }
       `}
     />
+    <Head>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,MONO@-15..0,300..800,0..1&display=swap"
+        rel="stylesheet"
+      />
+    </Head>
+
     <Component {...pageProps} />
   </>
 );

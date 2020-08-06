@@ -1,6 +1,0 @@
-:root {
-  --bg: #000;
-  --fg: #fff;
-  --bg-filter: invert(0%) brightness(100%);
-  --bg-filter-opposite: invert() brightness(300%);
-}
