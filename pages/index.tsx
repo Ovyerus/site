@@ -10,7 +10,7 @@ const IndexPage: NextPage = () => (
     <NextSeo title="Ovyerus" titleTemplate="%s" />
 
     <Title>Ovyerus</Title>
-    <Paragraph>Multifaceted creative.</Paragraph>
+    <Paragraph>Multifaceted creative. Frontend developer.</Paragraph>
 
     <Paragraph
       css={css`
