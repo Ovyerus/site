@@ -1,3 +1,4 @@
+/** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import Icon from '@mdi/react';
 import React from 'react';
