@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { css, jsx } from '@emotion/react';
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 
