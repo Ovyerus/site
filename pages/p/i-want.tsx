@@ -1,3 +1,4 @@
+/** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import { NextPage } from 'next';
 
