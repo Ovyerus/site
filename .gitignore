@@ -1,7 +1,21 @@
-node_modules
-.next
-yarn-error.log
-out
+# build output
+dist/
+.output/
 
-# Local Netlify folder
-.netlify
+# dependencies
+.yarn/cache
+.yarn/install-state.gz
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
