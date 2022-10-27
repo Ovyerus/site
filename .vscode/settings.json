@@ -1,6 +1,5 @@
 {
   "editor.formatOnSave": true,
-  "eslint.autoFixOnSave": true,
   "eslint.enable": true,
   "eslint.validate": [
     "javascript",
@@ -29,7 +28,11 @@
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[astro]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "prettier.documentSelectors": ["**/*.astro"]
 }

@@ -1,0 +1,27 @@
+# All root domains owned (on a registry level) by Michael M (ovyerus.com)
+# Domains that redirect to domains not in this list may not be in complete control.
+# Content outside of these domains cannot be guarenteed to be owned or managed by Michael.
+
+# Last updated: 2022-10-22T11:43:28.868Z
+
+# You are here
+ovyerus.com
+ovyerus.com.au
+ovyerus.au
+
+# CDN/fileshare.
+ovy.cloud
+
+# Link shortener & internal services
+ovy.sh
+
+# Miscellaneous apps
+prismaliser.app
+
+# Handed off to friend
+erisa.au
+
+# Unused
+ovy.au
+aleph.chat
+comet.sh

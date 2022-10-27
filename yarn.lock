@@ -15,17 +15,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@astrojs/compiler@npm:0.27.2, @astrojs/compiler@npm:^0.27.1":
+  version: 0.27.2
+  resolution: "@astrojs/compiler@npm:0.27.2"
+  checksum: 10e823c4c89e63414c4479f966ed2026f5f0c005d741668d4293d09de49a671946481405e1917f6e1c9f574a846993ac18ae4e6367a72b39d0712b0743d91b43
+  languageName: node
+  linkType: hard
+
 "@astrojs/compiler@npm:^0.23.4":
   version: 0.23.5
   resolution: "@astrojs/compiler@npm:0.23.5"
   checksum: 9779b8a7fab2b467ea8637fca8129110fe3b6dbee4fc2e9fe4ec162c3f91ffd77fd447abab01a926b7440749e03c269dda65c4ca1d8759d9662f9198e56eeb01
-  languageName: node
-  linkType: hard
-
-"@astrojs/compiler@npm:^0.27.1":
-  version: 0.27.2
-  resolution: "@astrojs/compiler@npm:0.27.2"
-  checksum: 10e823c4c89e63414c4479f966ed2026f5f0c005d741668d4293d09de49a671946481405e1917f6e1c9f574a846993ac18ae4e6367a72b39d0712b0743d91b43
   languageName: node
   linkType: hard
 
@@ -470,17 +470,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource/bebas-neue@npm:^4.5.9":
-  version: 4.5.9
-  resolution: "@fontsource/bebas-neue@npm:4.5.9"
-  checksum: e097682ee04d7ab04afc485443ca805835f72021ab875938ec171a70217ebc46f3d9e4429ceb18fb14173f6cc7e34949f38b6450fd2352954300009ba29f8226
-  languageName: node
-  linkType: hard
-
-"@fontsource/inter@npm:^4.5.14":
-  version: 4.5.14
-  resolution: "@fontsource/inter@npm:4.5.14"
-  checksum: 4e2eb9e54f8de0025bca7ad8e0822549f1873c5d9a634b8f99630d7bba750b1c86263229bae99375fc82489daa38df41e0304c77c3efda2d9a2f78d0eba3ec56
+"@fontsource/montserrat@npm:^4.5.13":
+  version: 4.5.13
+  resolution: "@fontsource/montserrat@npm:4.5.13"
+  checksum: 89bbb4d82ee54ba66538c266a44076603963e5dd9ce514a9ffb664b69902fbe521fe15e2d45d13767032ac5962535a2205ba70b3b479c71de249d6d6e9521d75
   languageName: node
   linkType: hard
 
@@ -597,7 +590,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pkgr/utils@npm:^2.3.0":
+"@pkgr/utils@npm:^2.3.0, @pkgr/utils@npm:^2.3.1":
   version: 2.3.1
   resolution: "@pkgr/utils@npm:2.3.1"
   dependencies:
@@ -636,6 +629,20 @@ __metadata:
   peerDependencies:
     "@proload/core": ^0.3.2
   checksum: 23a0ab650f85003954257031585917be81fecef24119c2a71f097e7b397229f95a80f269822473eeffcd6d48991f202cef343a1ba3157d5d68998c5adddb4a59
+  languageName: node
+  linkType: hard
+
+"@tailwindcss/typography@npm:^0.5.7":
+  version: 0.5.7
+  resolution: "@tailwindcss/typography@npm:0.5.7"
+  dependencies:
+    lodash.castarray: ^4.4.0
+    lodash.isplainobject: ^4.0.6
+    lodash.merge: ^4.6.2
+    postcss-selector-parser: 6.0.10
+  peerDependencies:
+    tailwindcss: "*"
+  checksum: 27686a455d13367c6ee4473e0579f1fc0e9de1de4606845101f8943eb94c5d00a18fecac60111028b9cb2f3253ea16a9a6f889d3711214b5baaa153f021fbc47
   languageName: node
   linkType: hard
 
@@ -3242,6 +3249,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.castarray@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "lodash.castarray@npm:4.4.0"
+  checksum: fca8c7047e0ae2738b0b2503fb00157ae0ff6d8a1b716f87ed715b22560e09de438c75b65e01a7e44ceb41c5b31dce2eb576e46db04beb9c699c498e03cbd00f
+  languageName: node
+  linkType: hard
+
+"lodash.isplainobject@npm:^4.0.6":
+  version: 4.0.6
+  resolution: "lodash.isplainobject@npm:4.0.6"
+  checksum: 29c6351f281e0d9a1d58f1a4c8f4400924b4c79f18dfc4613624d7d54784df07efaff97c1ff2659f3e085ecf4fff493300adc4837553104cef2634110b0d5337
+  languageName: node
+  linkType: hard
+
+"lodash.merge@npm:^4.6.2":
+  version: 4.6.2
+  resolution: "lodash.merge@npm:4.6.2"
+  checksum: ad580b4bdbb7ca1f7abf7e1bce63a9a0b98e370cf40194b03380a46b4ed799c9573029599caebc1b14e3f24b111aef72b96674a56cfa105e0f5ac70546cdc005
+  languageName: node
+  linkType: hard
+
 "log-symbols@npm:^5.1.0":
   version: 5.1.0
   resolution: "log-symbols@npm:5.1.0"
@@ -4502,7 +4530,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-selector-parser@npm:^6.0.10":
+"postcss-selector-parser@npm:6.0.10, postcss-selector-parser@npm:^6.0.10":
   version: 6.0.10
   resolution: "postcss-selector-parser@npm:6.0.10"
   dependencies:
@@ -4551,6 +4579,18 @@ __metadata:
     sass-formatter: ^0.7.5
     synckit: ^0.7.0
   checksum: b0e527645158c97c2726aaf532e920ff4a1b98fe9cd594612e2c9c399f64eaa395255ec4371b2d0a527e5dc80af93b214adbcfe2a306e622878c35e128b6a761
+  languageName: node
+  linkType: hard
+
+"prettier-plugin-astro@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "prettier-plugin-astro@npm:0.6.0"
+  dependencies:
+    "@astrojs/compiler": 0.27.2
+    prettier: ^2.7.1
+    sass-formatter: ^0.7.5
+    synckit: ^0.8.4
+  checksum: a2632b625e7fa048f6ddb522e0f2a20ad20b9215c83286b9450ee94271fd628747ea0ffd812dd626102a7d80599a549d2f18447ef481bf64140c93e9e649ca7c
   languageName: node
   linkType: hard
 
@@ -5062,11 +5102,12 @@ __metadata:
   dependencies:
     "@astrojs/prefetch": ^0.1.0
     "@astrojs/tailwind": ^2.1.1
-    "@fontsource/bebas-neue": ^4.5.9
-    "@fontsource/inter": ^4.5.14
+    "@fontsource/montserrat": ^4.5.13
+    "@tailwindcss/typography": ^0.5.7
     astro: ^1.5.2
     astro-icon: ^0.7.3
     prettier: ^2.7.1
+    prettier-plugin-astro: ^0.6.0
     tailwindcss: ^3.2.1
   languageName: unknown
   linkType: soft
@@ -5334,6 +5375,16 @@ __metadata:
     "@pkgr/utils": ^2.3.0
     tslib: ^2.4.0
   checksum: 15b1841c16e80e84e4eb7b43680f37ad94377a032cd9f5f6fd1c9cbd32bb1b7d1cf1c32111821d4f1b5477dffb599aeda7f0c1e70c7333fbedd80951d41bf5e8
+  languageName: node
+  linkType: hard
+
+"synckit@npm:^0.8.4":
+  version: 0.8.4
+  resolution: "synckit@npm:0.8.4"
+  dependencies:
+    "@pkgr/utils": ^2.3.1
+    tslib: ^2.4.0
+  checksum: 83e054fe4494dab42114fc4ed36a11b85e18742d304ade3f40d3afb4ba4145d76183adba1f29e2c36e9a0a453b93a83e2387505f96a0efd901f562927a968c44
   languageName: node
   linkType: hard
 
