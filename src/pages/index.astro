@@ -1,10 +1,56 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+
+const email = "ovy@ovyerus.com";
 ---
 
-<Layout title="Welcome to Astro.">
-	<main class="w-screen h-screen flex items-center justify-center flex-col">
-    <h1 class="font-header text-[200px]">Ovyerus</h1>
-    <p class="text-xl">Multifaceted creative. Frontend developer.</p>
-	</main>
+<Layout title="Ovyerus">
+  <main class="h-full flex flex-col gap-5">
+    <!-- TODO: cool animation -->
+    <div class="h-1/2 bg-gradient-to-br from-[#f0f] to-[#0ff]"></div>
+    <div class="h-1/2 p-[20px] flex flex-col gap-5">
+      <!-- Does this ARIA work? -->
+      <img
+        class="max-w-[600px]"
+        alt="Ovyerus"
+        src="/wordmark.svg"
+        role="heading"
+        aria-level="1"
+        aria-label="Ovyerus"
+      />
+      <p>
+        Multifaceted creative, programmer of many things.<br />
+        Currently frontend developer @ BIRDI<br />
+      </p>
+      <p>
+        Contact:&nbsp; <a class="font-bold" href={`mailto:${email}`}>{email}</a>
+      </p>
+
+      <div class="flex-1"></div>
+
+      <footer class="flex justify-between">
+        <ul class="footer-links">
+          <li><a href="https://github.com/Ovyerus">github</a></li>
+          <li><a href="https://twitter.com/ovyerus">twitter</a></li>
+          <li><a href="https://dribbble.com/Ovyerus">dribbble</a></li>
+        </ul>
+        <ul class="footer-links justify-end">
+          <li><a href="/keys.txt">ssh keys</a></li>
+          <li><a href="/domains.txt">domains list</a></li>
+        </ul>
+      </footer>
+    </div>
+  </main>
 </Layout>
+
+<style>
+  .footer-links {
+    @apply flex gap-[10px] underline;
+  }
+
+  .footer-links li + li::before {
+    content: "/";
+    margin-right: 10px;
+    display: inline-block;
+  }
+</style>
