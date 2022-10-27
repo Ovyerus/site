@@ -7,4 +7,5 @@ import prefetch from "@astrojs/prefetch";
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), prefetch()],
+  site: "https://ovyerus.com",
 });
