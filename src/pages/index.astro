@@ -7,7 +7,7 @@ const email = "ovy@ovyerus.com";
 <Layout title="Ovyerus">
   <main class="h-full flex flex-col gap-5">
     <!-- TODO: cool animation -->
-    <div class="h-1/2 bg-gradient-to-br from-[#f0f] to-[#0ff]"></div>
+    <div class="h-1/2 gradient-block"></div>
     <div class="h-1/2 p-[20px] flex flex-col gap-5">
       <!-- Does this ARIA work? -->
       <img
@@ -44,6 +44,30 @@ const email = "ovy@ovyerus.com";
 </Layout>
 
 <style>
+  @keyframes gradient-shift {
+    0% {
+      background-position: 100% 50%;
+    }
+    40% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 0% 50%;
+    }
+    90% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .gradient-block {
+    @apply bg-gradient-to-br from-[#f0f] to-[#0ff];
+    background-size: 500% 100%;
+    animation: gradient-shift 10s linear infinite;
+  }
+
   .footer-links {
     @apply flex gap-[10px] underline;
   }
