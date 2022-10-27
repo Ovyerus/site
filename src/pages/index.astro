@@ -5,10 +5,11 @@ const email = "ovy@ovyerus.com";
 ---
 
 <Layout title="Ovyerus">
-  <main class="h-full flex flex-col gap-5">
-    <!-- TODO: cool animation -->
-    <div class="h-1/2 gradient-block"></div>
-    <div class="h-1/2 p-[20px] flex flex-col gap-5">
+  <main class="min-h-screen flex flex-col gap-2.5 md:gap-5 p-2.5 md:p-5">
+    <div class="h-1/2 min-h-[100px] gradient-block flex-grow basis-[0]"></div>
+    <div
+      class="h-full md:h-1/2 p-2.5 md:p-5 flex flex-col gap-5 flex-grow basis-[0]"
+    >
       <!-- Does this ARIA work? -->
       <img
         class="max-w-[600px]"
@@ -20,7 +21,7 @@ const email = "ovy@ovyerus.com";
       />
       <p>
         Multifaceted creative, programmer of many things.<br />
-        Currently frontend developer @ BIRDI<br />
+        Currently frontend developer @ BIRDI
       </p>
       <p>
         Contact:&nbsp; <a class="font-bold" href={`mailto:${email}`}>{email}</a>
@@ -28,7 +29,7 @@ const email = "ovy@ovyerus.com";
 
       <div class="flex-1"></div>
 
-      <footer class="flex justify-between">
+      <footer class="flex flex-col md:flex-row justify-between">
         <ul class="footer-links">
           <li><a href="https://github.com/Ovyerus">github</a></li>
           <li><a href="https://twitter.com/ovyerus">twitter</a></li>
@@ -69,7 +70,7 @@ const email = "ovy@ovyerus.com";
   }
 
   .footer-links {
-    @apply flex gap-[10px] underline;
+    @apply flex flex-wrap gap-[10px] underline;
   }
 
   .footer-links li + li::before {
