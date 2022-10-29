@@ -1,12 +1,17 @@
 ---
 import "@fontsource/montserrat/400.css";
 import "@fontsource/montserrat/700.css";
+import { SEO } from "astro-seo";
 
 export interface Props {
+  description: string;
   title: string;
+  ogTitle: string;
 }
 
-const { title } = Astro.props;
+const { description, title, ogTitle } = Astro.props;
+const image = new URL(Astro.site!);
+image.pathname = "/ogimage.png";
 ---
 
 <!DOCTYPE html>
@@ -16,7 +21,28 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <SEO
+      title={title}
+      description={description}
+      openGraph={{
+        basic: {
+          title: ogTitle,
+          type: "website",
+          image: image.toString(),
+        },
+        optional: {
+          siteName: "Ovyerus",
+          description,
+        },
+        image: {
+          alt: "A magenta to cyan gradient.",
+        },
+      }}
+      twitter={{
+        card: "summary",
+        creator: "@ovyerus",
+      }}
+    />
   </head>
   <body
     class="bg-black text-white text-xl md:text-2xl italic w-screen flex-grow"
