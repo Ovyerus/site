@@ -795,6 +795,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/prettier@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "@types/prettier@npm:2.7.1"
+  checksum: 5e3f58e229d6c73b5f5cae2e8f96c1c4a5b5805f83459e17a045ba8e96152b1d38e86b63e3172fb159dac923388699660862b75b2d37e54220805f0e691e26f1
+  languageName: node
+  linkType: hard
+
 "@types/resolve@npm:^1.17.0":
   version: 1.20.2
   resolution: "@types/resolve@npm:1.20.2"
@@ -1121,6 +1128,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"autoprefixer@npm:^10.4.13":
+  version: 10.4.13
+  resolution: "autoprefixer@npm:10.4.13"
+  dependencies:
+    browserslist: ^4.21.4
+    caniuse-lite: ^1.0.30001426
+    fraction.js: ^4.2.0
+    normalize-range: ^0.1.2
+    picocolors: ^1.0.0
+    postcss-value-parser: ^4.2.0
+  peerDependencies:
+    postcss: ^8.1.0
+  bin:
+    autoprefixer: bin/autoprefixer
+  checksum: dcb1cb7ae96a3363d65d82e52f9a0a7d8c982256f6fd032d7e1ec311f099c23acfebfd517ff8e96bf93f716a66c4ea2b80c60aa19efd2f474ce434bd75ef7b79
+  languageName: node
+  linkType: hard
+
 "autoprefixer@npm:^10.4.7":
   version: 10.4.12
   resolution: "autoprefixer@npm:10.4.12"
@@ -1342,6 +1367,13 @@ __metadata:
   version: 1.0.30001423
   resolution: "caniuse-lite@npm:1.0.30001423"
   checksum: fe443f323f5dc6a858ef7d7deddb93db5e5f9a35e22970c4a65c4ef793bb696c1e2f038df572722d9edf29021e43ed16f5131faafde783563bd0d9eccf486592
+  languageName: node
+  linkType: hard
+
+"caniuse-lite@npm:^1.0.30001426":
+  version: 1.0.30001429
+  resolution: "caniuse-lite@npm:1.0.30001429"
+  checksum: d1658080248ef5ef0f5157423b2766026e6aa45642ce3b2cc74859b6a54e39881dd902397a2368324ed30ed0cd40250f11a4a4f3773453cd57b88db5e5e5c76a
   languageName: node
   linkType: hard
 
@@ -4802,7 +4834,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.14, postcss@npm:^8.4.16, postcss@npm:^8.4.17":
+"postcss@npm:^8.4.14, postcss@npm:^8.4.16, postcss@npm:^8.4.17, postcss@npm:^8.4.18":
   version: 8.4.18
   resolution: "postcss@npm:8.4.18"
   dependencies:
@@ -5439,9 +5471,12 @@ __metadata:
     "@astrojs/prefetch": ^0.1.0
     "@astrojs/tailwind": ^2.1.1
     "@fontsource/montserrat": ^4.5.13
+    "@types/prettier": ^2.7.1
     astro: ^1.5.2
     astro-compress: ^1.1.1
     astro-seo: ^0.6.0
+    autoprefixer: ^10.4.13
+    postcss: ^8.4.18
     prettier: ^2.7.1
     prettier-plugin-astro: ^0.6.0
     tailwindcss: ^3.2.1

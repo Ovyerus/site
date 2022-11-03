@@ -4,7 +4,7 @@ import "@fontsource/montserrat/700.css";
 import { SEO } from "astro-seo";
 
 export interface Props {
-  description: string;
+  description?: string;
   title: string;
   ogTitle: string;
 }
@@ -21,9 +21,13 @@ image.pathname = "/ogimage.png";
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <!--
+      Something is being really stupid and insisting that my optional properties
+      aren't compatiable with other optional properties. What gives?
+    -->
     <SEO
       title={title}
-      description={description}
+      description={description as any}
       openGraph={{
         basic: {
           title: ogTitle,
@@ -32,7 +36,7 @@ image.pathname = "/ogimage.png";
         },
         optional: {
           siteName: "Ovyerus",
-          description,
+          description: description as any,
         },
         image: {
           alt: "A magenta to cyan gradient.",
@@ -57,3 +61,41 @@ image.pathname = "/ogimage.png";
     </style>
   </body>
 </html>
+
+<style is:global>
+  .content {
+    @apply min-h-screen flex flex-col gap-2.5 md:gap-5 p-2.5 md:p-5;
+  }
+
+  @keyframes gradient-shift {
+    0% {
+      background-position: 100% 50%;
+    }
+    40% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 0% 50%;
+    }
+    90% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .neon {
+    @apply from-[#f0f] to-[#0ff];
+    background-size: 500% 100%;
+    animation: gradient-shift 10s linear infinite;
+
+    &:not(.neon-right) {
+      @apply bg-gradient-to-br;
+    }
+
+    &.neon-right {
+      @apply bg-gradient-to-r;
+    }
+  }
+</style>
