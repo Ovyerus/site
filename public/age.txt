@@ -1,0 +1,5 @@
+# My age recipient IDs. Both of these are stored on different Yubikeys.
+# As a result, you will need https://github.com/str4d/age-plugin-yubikey or
+# similar in order to encrypt to them.
+age1yubikey1qv5zj6kstrmdw5ydqs72fh624c262qjckgq0hkqrccl6h3puu8esj3f2a7s
+age1yubikey1qtmxuagrpq8jn5yrt79qcmj9ns2r5gmhdmu6tt6zqdraz5duwugzksegq4q
