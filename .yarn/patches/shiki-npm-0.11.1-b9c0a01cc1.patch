@@ -1,0 +1,38 @@
+diff --git a/dist/index.esm.js b/dist/index.esm.js
+index 2078d151a9eabd261c37562842dbcb02161c0708..fb5aed4edb1161d6a5655f5e38bad551808823b4 100644
+--- a/dist/index.esm.js
++++ b/dist/index.esm.js
+@@ -870,10 +870,10 @@ const languages = [
+ ];
+
+ var FontStyle = /* @__PURE__ */ ((FontStyle2) => {
+-  FontStyle2[FontStyle2["NotSet"] = -1] = "NotSet";
+-  FontStyle2[FontStyle2["None"] = 0] = "None";
+-  FontStyle2[FontStyle2["Italic"] = 1] = "Italic";
+-  FontStyle2[FontStyle2["Bold"] = 2] = "Bold";
++  FontStyle2[FontStyle2["NotSet"] = 0] = "NotSet";
++  FontStyle2[FontStyle2["None"] = 1] = "None";
++  FontStyle2[FontStyle2["Italic"] = 2] = "Italic";
++  FontStyle2[FontStyle2["Bold"] = 3] = "Bold";
+   FontStyle2[FontStyle2["Underline"] = 4] = "Underline";
+   return FontStyle2;
+ })(FontStyle || {});
+diff --git a/dist/index.js b/dist/index.js
+index 5b734129a5fcf224cffd59c2081358ef770271a4..d17fac9d21339748fbeb30b7faa7b689d818cdb4 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -874,10 +874,10 @@ const languages = [
+ ];
+
+ var FontStyle = /* @__PURE__ */ ((FontStyle2) => {
+-  FontStyle2[FontStyle2["NotSet"] = -1] = "NotSet";
+-  FontStyle2[FontStyle2["None"] = 0] = "None";
+-  FontStyle2[FontStyle2["Italic"] = 1] = "Italic";
+-  FontStyle2[FontStyle2["Bold"] = 2] = "Bold";
++  FontStyle2[FontStyle2["NotSet"] = 0] = "NotSet";
++  FontStyle2[FontStyle2["None"] = 1] = "None";
++  FontStyle2[FontStyle2["Italic"] = 2] = "Italic";
++  FontStyle2[FontStyle2["Bold"] = 3] = "Bold";
+   FontStyle2[FontStyle2["Underline"] = 4] = "Underline";
+   return FontStyle2;
+ })(FontStyle || {});

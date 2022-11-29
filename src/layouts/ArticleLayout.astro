@@ -1,0 +1,110 @@
+---
+import "@fontsource/iosevka/400.css";
+import "@fontsource/iosevka/700.css";
+import type { MarkdownLayoutProps } from "astro";
+import { format, parseISO } from "date-fns";
+
+import BaseLayout from "./Layout.astro";
+import ArticleNav from "../components/ArticleNav.astro";
+
+type Props = MarkdownLayoutProps<{
+  title: string;
+  createdAt?: string;
+  modifiedAt?: string;
+  navCurrent?: string; // make based on path?
+}>;
+
+const fmt = (d: Date) => format(d, "MMMM do, yyyy");
+
+const { frontmatter } = Astro.props;
+const createdAt = frontmatter.createdAt
+  ? fmt(parseISO(frontmatter.createdAt))
+  : null;
+const modifiedAt = frontmatter.modifiedAt
+  ? fmt(parseISO(frontmatter.modifiedAt))
+  : null;
+---
+
+<BaseLayout
+  title={`${frontmatter.title} - Ovyerus`}
+  ogTitle={frontmatter.title}
+>
+  <ArticleNav current={frontmatter.navCurrent || "/posts"} />
+
+  <article class="w-full max-w-3xl m-auto mt-10">
+    <header class="mb-5 flex flex-col gap-5">
+      <h1 class="text-4xl font-bold">{frontmatter.title}</h1>
+      {
+        (createdAt || modifiedAt) && (
+          <div class="flex flex-col text-sm opacity-75">
+            {createdAt && <span>{createdAt}</span>}
+            {modifiedAt && <span>Last updated {modifiedAt}</span>}
+          </div>
+        )
+      }
+    </header>
+
+    <main
+      class="not-italic prose prose-invert max-w-none prose-headings:italic prose-headings:relative"
+    >
+      <hr />
+      <slot />
+    </main>
+  </article>
+</BaseLayout>
+
+<style is:global>
+  body {
+    /* TODO: find out why this happens on my desktop */
+    overflow-x: hidden;
+  }
+
+  .astro-code {
+    position: relative;
+    overflow: visible;
+    background: linear-gradient(to bottom right, #f0f, #0ff);
+
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      inset: 1px;
+      background: #101416;
+      border-radius: inherit;
+    }
+
+    & > code {
+      display: block;
+      background: linear-gradient(to bottom, #f0f, #0ff);
+      background-clip: text;
+      padding: 0;
+      counter-reset: step;
+      counter-increment: step calc(var(--start, 1) - 1);
+      color: inherit;
+
+      &::before {
+        content: none;
+        display: none;
+      }
+
+      & .line::before {
+        content: counter(step);
+        counter-increment: step;
+        width: 1rem;
+        margin-right: 1.5rem;
+        display: inline-block;
+        text-align: left;
+        color: transparent;
+      }
+    }
+  }
+
+  .line {
+    & [style*="#5CDAFC"],
+    & [style*="#7BF2FF"],
+    & [style*="#00ACCE"],
+    & [style*="#3EC6C4"] {
+      color: transparent !important;
+    }
+  }
+</style>

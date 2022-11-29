@@ -1,0 +1,52 @@
+---
+import { SEO } from "astro-seo";
+
+interface Props {
+  description?: string | undefined;
+  title: string;
+  ogTitle: string;
+}
+
+const { description, title, ogTitle } = Astro.props;
+const image = new URL(Astro.site!);
+image.pathname = "/ogimage.png";
+---
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="generator" content={Astro.generator} />
+  <script
+    defer
+    data-domain="ovyerus.com"
+    data-api="/api/event"
+    src="/js/script.js"
+  ></script>
+  <!--
+    Something is being really stupid and insisting that my optional properties
+    aren't compatiable with other optional properties. What gives?
+  -->
+  <SEO
+    title={title}
+    description={description as any}
+    openGraph={{
+      basic: {
+        title: ogTitle,
+        type: "website",
+        image: image.toString(),
+      },
+      optional: {
+        siteName: "Ovyerus",
+        description: description as any,
+      },
+      image: {
+        alt: "A magenta to cyan gradient.",
+      },
+    }}
+    twitter={{
+      card: "summary",
+      creator: "@ovyerus",
+    }}
+  />
+</head>
