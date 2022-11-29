@@ -5,7 +5,7 @@ const email = "ovy@ovyerus.com";
 ---
 
 <Layout
-  title="Ovyerus"
+  title="Home - Ovyerus"
   ogTitle="Ovyerus"
   description="Multifaceted creative, programmer of many things."
 >
@@ -34,13 +34,13 @@ const email = "ovy@ovyerus.com";
       <div class="flex-1"></div>
 
       <footer class="flex flex-col md:flex-row justify-between">
-        <ul class="footer-links">
+        <ul class="link-list">
           <li><a rel="me" href="https://github.com/Ovyerus">github</a></li>
           <li><a rel="me" href="https://twitter.com/ovyerus">twitter</a></li>
           <li><a rel="me" href="https://aus.social/@ovyerus">mastodon</a></li>
           <li><a rel="me" href="https://dribbble.com/Ovyerus">dribbble</a></li>
         </ul>
-        <ul class="footer-links justify-end">
+        <ul class="link-list justify-end">
           <li><a href="/ssh.txt">ssh keys</a></li>
           <li><a href="/domains.txt">domains list</a></li>
         </ul>
@@ -48,15 +48,3 @@ const email = "ovy@ovyerus.com";
     </div>
   </main>
 </Layout>
-
-<style>
-  .footer-links {
-    @apply flex flex-wrap gap-[10px] underline;
-
-    & li + li::before {
-      content: "/";
-      margin-right: 10px;
-      display: inline-block;
-    }
-  }
-</style>

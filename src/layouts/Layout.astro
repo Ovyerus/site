@@ -1,107 +1,81 @@
 ---
 import "@fontsource/montserrat/400.css";
 import "@fontsource/montserrat/700.css";
-import { SEO } from "astro-seo";
+import Head from "../components/Head.astro";
 
-export interface Props {
-  description?: string;
+interface Props {
+  description?: string | undefined;
   title: string;
   ogTitle: string;
 }
 
 const { description, title, ogTitle } = Astro.props;
-const image = new URL(Astro.site!);
-image.pathname = "/ogimage.png";
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <script
-      defer
-      data-domain="ovyerus.com"
-      data-api="/api/event"
-      src="/js/script.js"
-    ></script>
-    <!--
-      Something is being really stupid and insisting that my optional properties
-      aren't compatiable with other optional properties. What gives?
-    -->
-    <SEO
-      title={title}
-      description={description as any}
-      openGraph={{
-        basic: {
-          title: ogTitle,
-          type: "website",
-          image: image.toString(),
-        },
-        optional: {
-          siteName: "Ovyerus",
-          description: description as any,
-        },
-        image: {
-          alt: "A magenta to cyan gradient.",
-        },
-      }}
-      twitter={{
-        card: "summary",
-        creator: "@ovyerus",
-      }}
-    />
-  </head>
+  <Head description={description} title={title} ogTitle={ogTitle} />
   <body
     class="bg-black text-white text-xl md:text-2xl italic w-screen flex-grow"
   >
     <slot />
-    <style>
+    <style is:global>
       html {
         min-height: 100%;
         display: flex;
         flex-direction: column;
       }
+
+      .content {
+        @apply min-h-screen flex flex-col gap-2.5 md:gap-5 p-2.5 md:p-5;
+      }
+
+      @keyframes gradient-shift {
+        0% {
+          background-position: 100% 50%;
+        }
+        40% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 0% 50%;
+        }
+        90% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 100% 50%;
+        }
+      }
+
+      .neon {
+        @apply from-[#f0f] to-[#0ff];
+        background-size: 500% 100%;
+        animation: gradient-shift 10s linear infinite;
+
+        &:not(.neon-right) {
+          @apply bg-gradient-to-br;
+        }
+
+        &.neon-right {
+          @apply bg-gradient-to-r;
+        }
+      }
+
+      .link-list {
+        @apply flex flex-wrap gap-[10px];
+
+        & li {
+          & + li::before {
+            content: "/";
+            margin-right: 10px;
+          }
+
+          & > a {
+            @apply underline;
+          }
+        }
+      }
     </style>
   </body>
 </html>
-
-<style is:global>
-  .content {
-    @apply min-h-screen flex flex-col gap-2.5 md:gap-5 p-2.5 md:p-5;
-  }
-
-  @keyframes gradient-shift {
-    0% {
-      background-position: 100% 50%;
-    }
-    40% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 0% 50%;
-    }
-    90% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 100% 50%;
-    }
-  }
-
-  .neon {
-    @apply from-[#f0f] to-[#0ff];
-    background-size: 500% 100%;
-    animation: gradient-shift 10s linear infinite;
-
-    &:not(.neon-right) {
-      @apply bg-gradient-to-br;
-    }
-
-    &.neon-right {
-      @apply bg-gradient-to-r;
-    }
-  }
-</style>

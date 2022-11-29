@@ -1,0 +1,32 @@
+---
+interface Props {
+  current: string;
+}
+
+const links = ["/posts", "/about", "/now"];
+const { current } = Astro.props;
+---
+
+<nav class="p-5">
+  <!-- <img class="h-10" alt="Ovyerus logo" src="/wordmark-white.svg" /> -->
+
+  <ul class="link-list text-lg justify-center">
+    <li><a href="/">home</a></li>
+
+    {
+      links.map((l) => (
+        <li>
+          <a class:list={[{ current: l === current }]} href={l}>
+            {l.slice(1)}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .current {
+    @apply bg-gradient-to-r from-[#f0f] to-[#0ff] text-transparent bg-clip-text;
+  }
+</style>
