@@ -3,13 +3,11 @@ interface Props {
   current: string;
 }
 
-const links = ["/posts", "/about", "/now"];
+const links = [/* "/posts", */ "/about" /* , "/now" */];
 const { current } = Astro.props;
 ---
 
 <nav class="p-5">
-  <!-- <img class="h-10" alt="Ovyerus logo" src="/wordmark-white.svg" /> -->
-
   <ul class="link-list text-lg justify-center">
     <li><a href="/">home</a></li>
 
