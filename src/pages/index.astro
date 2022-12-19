@@ -23,13 +23,18 @@ const email = "ovy@ovyerus.com";
         aria-level="1"
         aria-label="Ovyerus"
       />
-      <p>
-        Multifaceted creative, programmer of many things.<br />
-        Currently frontend developer @ BIRDI
-      </p>
-      <p>
-        Contact:&nbsp; <a class="font-bold" href={`mailto:${email}`}>{email}</a>
-      </p>
+      <p>Multifaceted creative, programmer of many things.</p>
+      <div>
+        <p>
+          Contact:&nbsp; <a class="font-bold" href={`mailto:${email}`}>
+            {email}
+          </a>
+        </p>
+        <ul class="link-list">
+          <li><a href="/about">about</a></li>
+          <!-- <li><a href="/now">now</a></li> -->
+        </ul>
+      </div>
 
       <div class="flex-1"></div>
 
@@ -38,7 +43,9 @@ const email = "ovy@ovyerus.com";
           <li><a rel="me" href="https://github.com/Ovyerus">github</a></li>
           <li><a rel="me" href="https://twitter.com/ovyerus">twitter</a></li>
           <li><a rel="me" href="https://aus.social/@ovyerus">mastodon</a></li>
-          <li><a rel="me" href="https://dribbble.com/Ovyerus">dribbble</a></li>
+          <li>
+            <a rel="me" href="https://dribbble.com/Ovyerus">dribbble</a>
+          </li>
         </ul>
         <ul class="link-list justify-end">
           <li><a href="/ssh.txt">ssh keys</a></li>
