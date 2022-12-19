@@ -17,7 +17,7 @@ part of. Besides programming, I also enjoy video games of a wide variety, as
 well as dabble in music production and various other hobbies such as mechanical
 keyboards. <!-- and 3d printing (soon I hope!) -->
 
-Important infxormation from me will be signed with the following
+Important information from me will be signed with the following
 [Minisign](https://jedisct1.github.io/minisign/) public key:
 
 ```
