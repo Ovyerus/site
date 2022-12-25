@@ -2,6 +2,7 @@
 layout: ../layouts/ArticleLayout.astro
 title: About me
 navCurrent: /about
+summary: Who/what/why am I?
 # createdAt: 2022-11-27Z
 # modifiedAt: 2022-12-04Z
 ---
@@ -42,6 +43,8 @@ This list is also available at [/age.txt](/age.txt).
 I can be easily reached at [ovy@ovyerus.com](mailto:ovy@ovyerus.com), or on my
 [Mastodon account](https://aus.social/@ovyerus).
 
+**You may not contact me about anything cryptocurrency/"Web3"/NFT related.**
+
 ---
 
 Here's some interesting points about me:
@@ -50,14 +53,3 @@ Here's some interesting points about me:
   than a year (and loving how comfy it is).
 - All my programming knowledge is fully self taught - I picked it up during high
   school as a hobby.
-
-<!-- ## Music
-
-Maybe add this later - or not at all. Not really relevant.
-
-If you want to follow what I'm listen to currently, you can check me out on
-[Last.fm](https://www.last.fm/user/Ovyerus) or
-[ListenBrainz](https://listenbrainz.org/user/Ovyerus).
-
-blah blah blah
--->

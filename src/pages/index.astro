@@ -1,4 +1,5 @@
 ---
+import wordmark from "../assets/wordmark-gradient.svg";
 import Layout from "../layouts/Layout.astro";
 
 const email = "ovy@ovyerus.com";
@@ -18,7 +19,7 @@ const email = "ovy@ovyerus.com";
       <img
         class="max-w-[600px]"
         alt="Ovyerus"
-        src="/wordmark.svg"
+        src={wordmark}
         role="heading"
         aria-level="1"
         aria-label="Ovyerus"
@@ -32,7 +33,7 @@ const email = "ovy@ovyerus.com";
         </p>
         <ul class="link-list">
           <li><a href="/about">about</a></li>
-          <!-- <li><a href="/now">now</a></li> -->
+          <li><a href="/now">now</a></li>
         </ul>
       </div>
 
@@ -41,7 +42,6 @@ const email = "ovy@ovyerus.com";
       <footer class="flex flex-col md:flex-row justify-between">
         <ul class="link-list">
           <li><a rel="me" href="https://github.com/Ovyerus">github</a></li>
-          <li><a rel="me" href="https://twitter.com/ovyerus">twitter</a></li>
           <li><a rel="me" href="https://aus.social/@ovyerus">mastodon</a></li>
           <li>
             <a rel="me" href="https://dribbble.com/Ovyerus">dribbble</a>
