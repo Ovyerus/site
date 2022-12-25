@@ -5,6 +5,7 @@ import type { MarkdownLayoutProps } from "astro";
 import { format, parseISO } from "date-fns";
 
 import BaseLayout from "./Layout.astro";
+import ArticleFooter from "../components/ArticleFooter.astro";
 import ArticleNav from "../components/ArticleNav.astro";
 
 type Props = MarkdownLayoutProps<{
@@ -12,6 +13,8 @@ type Props = MarkdownLayoutProps<{
   createdAt?: string;
   modifiedAt?: string;
   navCurrent?: string; // make based on path?
+  preamble?: string;
+  summary?: string;
 }>;
 
 const fmt = (d: Date) => format(d, "MMMM do, yyyy");
@@ -28,11 +31,12 @@ const modifiedAt = frontmatter.modifiedAt
 <BaseLayout
   title={`${frontmatter.title} - Ovyerus`}
   ogTitle={frontmatter.title}
+  description={frontmatter.summary}
 >
   <ArticleNav current={frontmatter.navCurrent || "/posts"} />
 
-  <article class="w-full max-w-3xl m-auto mt-10">
-    <header class="mb-5 flex flex-col gap-5">
+  <section class="sm:w-full max-w-3xl m-2.5 sm:m-auto sm:mt-10">
+    <header class="mb-5 flex flex-col gap-1">
       <h1 class="text-4xl font-bold">{frontmatter.title}</h1>
       {
         (createdAt || modifiedAt) && (
@@ -42,15 +46,26 @@ const modifiedAt = frontmatter.modifiedAt
           </div>
         )
       }
+
+      {
+        frontmatter.preamble && (
+          <div
+            class="text-base opacity-75 mt-2"
+            set:html={frontmatter.preamble}
+          />
+        )
+      }
     </header>
 
     <main
-      class="not-italic prose prose-invert max-w-none prose-headings:italic prose-headings:relative mb-10"
+      class="not-italic prose prose-invert max-w-none prose-headings:italic prose-headings:relative mb-12"
     >
       <hr />
       <slot />
     </main>
-  </article>
+  </section>
+
+  <ArticleFooter />
 </BaseLayout>
 
 <style is:global>
