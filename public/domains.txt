@@ -2,7 +2,7 @@
 # Domains that redirect to domains not in this list may not be in complete control.
 # Content outside of these domains cannot be guarenteed to be owned or managed by Michael.
 
-# Last updated: 2022-10-22T11:43:28.868Z
+# Last updated: 2023-01-04T23:18:19.488Z
 
 # You are here
 ovyerus.com
@@ -12,7 +12,10 @@ ovyerus.au
 # CDN/fileshare.
 ovy.cloud
 
-# Link shortener & internal services
+# Link shortener
+ovy.rs
+
+# Hosted/internal services
 ovy.sh
 
 # Miscellaneous apps
