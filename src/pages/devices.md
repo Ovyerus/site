@@ -2,6 +2,7 @@
 layout: ../layouts/ArticleLayout.astro
 title: Devices
 navCurrent: /devices
+comments: false
 ---
 
 <!-- ## Devices -->

@@ -5,6 +5,7 @@ navCurrent: /now
 # createdAt: 2022-11-27Z
 modifiedAt: 2022-12-04Z
 summary: Everything that's going on with me right now.
+comments: false
 
 preamble: |
   This is a <a class="underline hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#f0f] hover:to-[#0ff]" href="https://nownownow.com/about">now</a> page.

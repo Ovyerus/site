@@ -14,9 +14,11 @@ const { description, title, ogTitle } = Astro.props;
 
 <!DOCTYPE html>
 <html lang="en">
-  <Head description={description} title={title} ogTitle={ogTitle} />
+  <Head description={description} title={title} ogTitle={ogTitle}>
+    <slot name="head" />
+  </Head>
   <body
-    class="bg-black text-white text-xl md:text-2xl italic w-screen flex-grow"
+    class="bg-black text-white text-xl md:text-2xl italic w-screen flex-grow flex flex-col"
   >
     <slot />
 

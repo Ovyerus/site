@@ -5,6 +5,7 @@ import remarkFigureCaption from "@microflash/remark-figure-caption";
 import { defineConfig } from "astro/config";
 import compress from "astro-compress";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeExternalLinks from "rehype-external-links";
 import rehypeSlug from "rehype-slug";
 
 import dolch from "./src/dolch.theme.json" assert { type: "json" };
@@ -16,7 +17,14 @@ export default defineConfig({
   markdown: {
     extendDefaultPlugins: true,
     remarkPlugins: [remarkFigureCaption, a11yEmoji],
-    rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+    rehypePlugins: [
+      rehypeSlug,
+      rehypeAutolinkHeadings,
+      [
+        rehypeExternalLinks,
+        { target: "_blank", rel: ["nofollow", "noopener"] },
+      ],
+    ],
     shikiConfig: {
       wrap: true,
       theme: {

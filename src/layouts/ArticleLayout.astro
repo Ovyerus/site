@@ -7,6 +7,7 @@ import { format, parseISO } from "date-fns";
 import BaseLayout from "./Layout.astro";
 import ArticleFooter from "../components/ArticleFooter.astro";
 import ArticleNav from "../components/ArticleNav.astro";
+import Comments from "../components/Comments.astro";
 
 type Props = MarkdownLayoutProps<{
   title: string;
@@ -15,17 +16,24 @@ type Props = MarkdownLayoutProps<{
   navCurrent?: string; // make based on path?
   preamble?: string;
   summary?: string;
+  comments?: boolean;
 }>;
 
 const fmt = (d: Date) => format(d, "MMMM do, yyyy");
 
 const { frontmatter } = Astro.props;
+const comments = frontmatter.comments ?? true;
+
 const createdAt = frontmatter.createdAt
   ? fmt(parseISO(frontmatter.createdAt))
   : null;
 const modifiedAt = frontmatter.modifiedAt
   ? fmt(parseISO(frontmatter.modifiedAt))
   : null;
+
+// TODO: automate creation of this in CI.
+const backlinkPath = Astro.url.pathname.replace("/posts", "");
+const backlink = `https://ovy.rs${backlinkPath}`;
 ---
 
 <BaseLayout
@@ -33,10 +41,12 @@ const modifiedAt = frontmatter.modifiedAt
   ogTitle={frontmatter.title}
   description={frontmatter.summary}
 >
+  {comments && <meta slot="head" name="giscus:backlink" content={backlink} />}
+
   <ArticleNav current={frontmatter.navCurrent || "/posts"} />
 
   <section class="sm:w-full max-w-3xl m-2.5 sm:m-auto sm:mt-10">
-    <header class="mb-5 flex flex-col gap-1">
+    <header class="flex flex-col gap-1 mb-5">
       <h1 class="text-4xl font-bold">{frontmatter.title}</h1>
       {
         (createdAt || modifiedAt) && (
@@ -50,19 +60,22 @@ const modifiedAt = frontmatter.modifiedAt
       {
         frontmatter.preamble && (
           <div
-            class="text-base opacity-75 mt-2"
+            class="mt-2 text-base opacity-75"
             set:html={frontmatter.preamble}
           />
         )
       }
     </header>
 
+    <!-- TODO: style the links in headers -->
     <main
-      class="not-italic prose prose-invert max-w-none prose-headings:italic prose-headings:relative mb-12"
+      class="mb-12 not-italic prose prose-invert max-w-none prose-headings:italic prose-headings:relative"
     >
       <hr />
       <slot />
     </main>
+
+    {comments && <Comments />}
   </section>
 
   <ArticleFooter />
@@ -77,7 +90,6 @@ const modifiedAt = frontmatter.modifiedAt
   .astro-code,
   .shiki {
     position: relative;
-    overflow: visible;
     background: linear-gradient(to bottom right, #f0f, #0ff);
 
     &::before {
@@ -103,14 +115,16 @@ const modifiedAt = frontmatter.modifiedAt
         display: none;
       }
 
-      & .line::before {
-        content: counter(step);
-        counter-increment: step;
-        width: 1rem;
-        margin-right: 1.5rem;
-        display: inline-block;
-        text-align: left;
-        color: transparent;
+      & .line {
+        &::before {
+          content: counter(step);
+          counter-increment: step;
+          width: 1rem;
+          margin-right: 1.5rem;
+          display: inline-block;
+          text-align: left;
+          color: transparent;
+        }
       }
     }
   }
