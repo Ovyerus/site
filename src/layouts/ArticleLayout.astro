@@ -8,16 +8,9 @@ import Layout from "./Layout.astro";
 import ArticleFooter from "../components/ArticleFooter.astro";
 import ArticleNav from "../components/ArticleNav.astro";
 import Comments from "../components/Comments.astro";
+import type { PostFrontmatter } from "~types";
 
-type Props = MarkdownLayoutProps<{
-  title: string;
-  createdAt?: string;
-  modifiedAt?: string;
-  navCurrent?: string; // make based on path?
-  preamble?: string;
-  summary?: string;
-  comments?: boolean;
-}>;
+type Props = MarkdownLayoutProps<PostFrontmatter>;
 
 const fmt = (d: Date) => format(d, "MMMM do, yyyy");
 
@@ -39,7 +32,7 @@ const backlink = `https://ovy.rs${backlinkPath}`;
 <Layout
   title={`${frontmatter.title} - Ovyerus`}
   ogTitle={frontmatter.title}
-  description={frontmatter.summary}
+  description={frontmatter.description}
 >
   {comments && <meta slot="head" name="giscus:backlink" content={backlink} />}
 
