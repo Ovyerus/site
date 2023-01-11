@@ -11,6 +11,8 @@ import rehypeSlug from "rehype-slug";
 
 import dolch from "./src/dolch.theme.json" assert { type: "json" };
 
+// TODO: indieweb/microformats?
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), prefetch(), sitemap(), compress()],
