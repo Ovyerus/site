@@ -4,7 +4,7 @@ title: What I'm doing now
 navCurrent: /now
 # createdAt: 2022-11-27Z
 modifiedAt: 2022-12-04Z
-summary: Everything that's going on with me right now.
+description: Everything that's going on with me right now.
 comments: false
 
 preamble: |

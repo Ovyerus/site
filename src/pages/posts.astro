@@ -2,8 +2,9 @@
 import Layout from "../layouts/Layout.astro";
 import ArticleFooter from "../components/ArticleFooter.astro";
 import ArticleNav from "../components/ArticleNav.astro";
+import type { PostFrontmatter } from "~types";
 
-const posts = await Astro.glob("./posts/*.md");
+const posts = await Astro.glob<PostFrontmatter>("./posts/*.md");
 ---
 
 <Layout
@@ -36,14 +37,14 @@ const posts = await Astro.glob("./posts/*.md");
               <h2 class="font-bold text-2xl">{p.frontmatter.title}</h2>
               {!!p.frontmatter.tags && (
                 <div class="flex gap-2">
-                  {(p.frontmatter.tags as string[]).map((tag) => (
+                  {p.frontmatter.tags.map((tag) => (
                     <span class="text-base border-[1px] px-3 py-1 rounded-full">
                       {tag}
                     </span>
                   ))}
                 </div>
               )}
-              <p class="text-lg opacity-75">{p.frontmatter.summary}</p>
+              <p class="text-lg opacity-75">{p.frontmatter.description}</p>
             </a>
           </article>
         ))

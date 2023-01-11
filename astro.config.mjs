@@ -1,5 +1,6 @@
 import tailwind from "@astrojs/tailwind";
 import prefetch from "@astrojs/prefetch";
+import sitemap from "@astrojs/sitemap";
 import a11yEmoji from "@fec/remark-a11y-emoji";
 import remarkFigureCaption from "@microflash/remark-figure-caption";
 import { defineConfig } from "astro/config";
@@ -12,7 +13,7 @@ import dolch from "./src/dolch.theme.json" assert { type: "json" };
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), prefetch(), compress()],
+  integrations: [tailwind(), prefetch(), sitemap(), compress()],
   site: "https://ovyerus.com",
   markdown: {
     extendDefaultPlugins: true,
