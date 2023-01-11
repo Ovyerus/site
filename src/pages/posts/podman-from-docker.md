@@ -5,7 +5,7 @@ summary: >
   I recently moved some personal services across machines and decided it would
   be a good excuse to try out Podman instead of Docker. This is a log of what I
   encountered in my move, as a Docker user.
-createdAt: 2023-01-08Z
+createdAt: 2023-01-11Z
 ---
 
 I have a dedicated server running Proxmox, which I use to provision some virtual
@@ -25,11 +25,12 @@ repositories as well.
 sudo apt install podman
 ```
 
-One of the cool things about Podman is that containers are run rootless by
-default, so you don't need to screw with using `sudo docker` all the time, or
-creating a central `docker` group to use it without sudo, AND it means that if
-you run a multi-user server, you can safely give other users access to it
-without them being able to run root containers.
+One of the cool things about Podman is that it uses the standard fork/exec
+technique seen around Unix (instead of a server/client model like Docker), and
+the containers are run rootless by default (as the executing user instead). This
+means that if you're on a multi-user server, you don't need to give users access
+to `sudo docker` or to create a `docker` group for them, and it makes it more
+easily auditable if you have the tools for that.
 
 However because Podman is daemon-less, by default if you log out of your session
 after starting some containers with it, you'll find that they've mysteriously
@@ -235,7 +236,7 @@ on how many containers you're managing in each one, and some services might need
 a specific start order/conditions to be met in order to start properly. And it's
 also just a lot to do when you're wanting to host something like
 [Plausible](https://plausible.io/) or [Sentry](https://sentry.io/). So sadly
-this isn't much use to us, but it is useful as a headstart on creating our own
+this isn't much use to us, but it is useful as a head start on creating our own
 units.
 
 What I ended up doing was modifying it so that all the unit ends up doing is
@@ -328,6 +329,12 @@ options to make sure they start in the correct order.
 
 ---
 
-[[TODO: Insert really cool conclusion here]]
+Overall, the move to Podman was relatively painless. Besides some packaging
+unluckiness on Ubuntu's part, it was easy to get up and running coming from
+Docker, and the compatibility with existing tools like Docker Compose is a huge
+plus too. It would be nice to see Podman Compose to be improved a bit to be up
+to par with Docker Compose - at least in regards to re-`up` behaviour and logs -
+as it is a good offering, but what's there right now works.
 
-Overall
+This is the first blog post I've written ever, so let me know how it went, if
+there's anything I can improve for future posts, etc. Thanks!
