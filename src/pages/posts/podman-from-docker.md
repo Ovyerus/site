@@ -1,7 +1,10 @@
 ---
 layout: ~layouts/ArticleLayout.astro
 title: Moving to Podman from Docker & Docker Compose
-summary: Who/what/why am I?
+summary: >
+  I recently moved some personal services across machines and decided it would
+  be a good excuse to try out Podman instead of Docker. This is a log of what I
+  encountered in my move, as a Docker user.
 createdAt: 2023-01-08Z
 ---
 
@@ -71,8 +74,8 @@ Compose called Podman Compose.
 Podman Compose is easy to get, being in distro repos alongside Podman, and takes
 after Docker Compose v1 in the sense that it's a Python CLI script which manages
 a group of containers and associated networks & volumes from a single manifest.
-For the most common usage you would want from Compose, Podman does it pretty and
-it's a decent solution if
+For the most common usage you would want from Compose, Podman's is a decent
+solution.
 
 I personally have some gripes with some of Podman Compose's behaviour though,
 mainly in regards to how `up` works compared to Docker Compose. If you ever need
@@ -325,6 +328,6 @@ options to make sure they start in the correct order.
 
 ---
 
-<!-- TODO -->
+[[TODO: Insert really cool conclusion here]]
 
-[[Insert really cool conclusion here]]
+Overall
