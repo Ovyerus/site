@@ -1,0 +1,96 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ArticleFooter from "../components/ArticleFooter.astro";
+import ArticleNav from "../components/ArticleNav.astro";
+
+const posts = await Astro.glob("./posts/*.md");
+---
+
+<Layout
+  title="Posts - Ovyerus"
+  ogTitle="Posts"
+  description="something something deez nuts"
+>
+  <ArticleNav current="/posts" />
+
+  <section class="flex-1 max-w-3xl w-full self-center flex flex-col gap-5">
+    <header class="flex flex-col gap-3">
+      <h1 class="text-4xl font-bold">Posts</h1>
+      <span class="text-base opacity-75">
+        Here lies posts of mine that I write every now and then. Most people
+        would usually consider this a blog, but I treat it as a space to dump
+        stuff from my mind, whether they be big things or small stuff I've just
+        thought about. Post quality, length, and time between them will probably
+        vary wildly.
+      </span>
+    </header>
+
+    <hr class="border-t-0 h-[1px] bg-gradient-to-r from-[#f0f] to-[#0ff]" />
+
+    <!-- Revise to show the post like i discussed with raven? -->
+    <main>
+      {
+        posts.map((p) => (
+          <article class="post">
+            <a class="flex flex-col gap-2 p-5" href={p.url}>
+              <h2 class="font-bold text-2xl">{p.frontmatter.title}</h2>
+              {!!p.frontmatter.tags && (
+                <div class="flex gap-2">
+                  {(p.frontmatter.tags as string[]).map((tag) => (
+                    <span class="text-base border-[1px] px-3 py-1 rounded-full">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <p class="text-lg opacity-75">{p.frontmatter.summary}</p>
+            </a>
+          </article>
+        ))
+      }
+    </main>
+  </section>
+
+  <ArticleFooter />
+</Layout>
+
+<style>
+  @property --bg1 {
+    syntax: "<color>";
+    initial-value: #101416;
+    inherits: false;
+  }
+
+  @property --bg2 {
+    syntax: "<color>";
+    initial-value: #101416;
+    inherits: false;
+  }
+
+  .post {
+    @apply rounded-lg;
+    position: relative;
+    background: linear-gradient(to bottom right, var(--bg1), var(--bg2));
+    color: white;
+    transition: --bg1 0.2s ease-out, --bg2 0.2s ease-out;
+
+    &:hover {
+      --bg1: #f0f;
+      --bg2: #0ff;
+    }
+
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      inset: 1px;
+      background: #101416;
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    & * {
+      z-index: 5;
+    }
+  }
+</style>

@@ -5,6 +5,7 @@ summary: >
   I recently moved some personal services across machines and decided it would
   be a good excuse to try out Podman instead of Docker. This is a log of what I
   encountered in my move, as a Docker user.
+tags: [containers, long]
 createdAt: 2023-01-11Z
 ---
 

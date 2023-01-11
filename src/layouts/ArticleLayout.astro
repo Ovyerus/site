@@ -4,7 +4,7 @@ import "@fontsource/iosevka/700.css";
 import type { MarkdownLayoutProps } from "astro";
 import { format, parseISO } from "date-fns";
 
-import BaseLayout from "./Layout.astro";
+import Layout from "./Layout.astro";
 import ArticleFooter from "../components/ArticleFooter.astro";
 import ArticleNav from "../components/ArticleNav.astro";
 import Comments from "../components/Comments.astro";
@@ -36,7 +36,7 @@ const backlinkPath = Astro.url.pathname.replace("/posts", "");
 const backlink = `https://ovy.rs${backlinkPath}`;
 ---
 
-<BaseLayout
+<Layout
   title={`${frontmatter.title} - Ovyerus`}
   ogTitle={frontmatter.title}
   description={frontmatter.summary}
@@ -79,7 +79,7 @@ const backlink = `https://ovy.rs${backlinkPath}`;
   </section>
 
   <ArticleFooter />
-</BaseLayout>
+</Layout>
 
 <style is:global>
   body {
