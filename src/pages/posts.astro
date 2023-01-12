@@ -15,7 +15,9 @@ const posts = await Astro.glob<PostFrontmatter>("./posts/*.md");
 >
   <ArticleNav current="/posts" />
 
-  <section class="flex-1 max-w-3xl w-full self-center flex flex-col gap-5">
+  <section
+    class="flex-1 max-w-3xl w-full self-center flex flex-col gap-5 p-2.5 md:p-5"
+  >
     <header class="flex flex-col gap-3">
       <!-- TODO: add rss icon -->
       <h1 class="text-4xl font-bold">Posts</h1>
