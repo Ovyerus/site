@@ -1,11 +1,9 @@
 import rss from "@astrojs/rss";
+import type { MarkdownInstance } from "astro";
 import { parseISO } from "date-fns";
 import type { PostFrontmatter } from "~types";
 
-interface Post {
-  url: string;
-  frontmatter: PostFrontmatter;
-}
+type Post = MarkdownInstance<PostFrontmatter>;
 
 const postsImport = import.meta.glob<true, string, Post>("./posts/*.md", {
   eager: true,
@@ -20,7 +18,7 @@ export const get = () =>
     site: import.meta.env.SITE,
     drafts: false,
     items: posts.map((p) => ({
-      link: p.url,
+      link: p.url!,
       title: p.frontmatter.title,
       pubDate: parseISO(p.frontmatter.createdAt),
       description: p.frontmatter.description!,

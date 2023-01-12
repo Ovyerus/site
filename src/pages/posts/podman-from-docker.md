@@ -71,6 +71,8 @@ Besides this, Podman acts almost exactly how you would expect Docker would,
 which is really cool. Podman also provide their own alternative to Docker
 Compose called Podman Compose.
 
+---
+
 ## Podman Compose
 
 Podman Compose is easy to get, being in distro repos alongside Podman, and takes
@@ -189,6 +191,8 @@ set -x DOCKER_HOST unix:///run/user/1000/podman/podman.sock
 And with this, we're all set to use Docker Compose as we would if we were just
 using normal Docker on our system, with re-running `docker-compose up`
 restarting only the necessary containers as we would expect!
+
+---
 
 ## Keeping everything running with systemd
 

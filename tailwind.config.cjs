@@ -39,18 +39,6 @@ module.exports = {
               paddingLeft: theme("padding[1.5]"),
               fontSize: theme("fontSize.base"),
             },
-            "code::before": {
-              content: "''",
-              display: "block",
-              position: "absolute",
-              inset: "0",
-              borderRadius: theme("borderRadius.md"),
-              backgroundColor: "#101416",
-              zIndex: "-1",
-            },
-            "code::after": {
-              content: "normal",
-            },
             blockquote: {
               position: "relative",
             },

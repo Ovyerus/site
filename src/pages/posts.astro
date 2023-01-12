@@ -1,4 +1,5 @@
 ---
+import Icon from "astro-icon";
 import Layout from "../layouts/Layout.astro";
 import ArticleFooter from "../components/ArticleFooter.astro";
 import ArticleNav from "../components/ArticleNav.astro";
@@ -25,11 +26,16 @@ const posts = await Astro.glob<PostFrontmatter>("./posts/*.md");
         thought about. Post quality, length, and time between them will probably
         vary wildly.
       </span>
+
+      <a href="/rss.xml" class="flex text-sm gap-2 items-center underline">
+        RSS feed
+        <Icon name="lucide:rss" width="16px" height="16px" />
+      </a>
     </header>
 
     <hr class="border-t-0 h-[1px] bg-gradient-to-r from-[#f0f] to-[#0ff]" />
 
-    <!-- Revise to show the post like i discussed with raven? -->
+    <!-- Revise to show the posts like i discussed with raven? -->
     <main>
       {
         posts.map((p) => (
@@ -74,7 +80,7 @@ const posts = await Astro.glob<PostFrontmatter>("./posts/*.md");
     position: relative;
     background: linear-gradient(to bottom right, var(--bg1), var(--bg2));
     color: white;
-    transition: --bg1 0.2s ease-out, --bg2 0.2s ease-out;
+    transition: --bg1 0.1s ease-out, --bg2 0.1s ease-out;
 
     &:hover {
       --bg1: #f0f;
