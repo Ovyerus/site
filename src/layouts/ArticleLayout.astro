@@ -60,10 +60,7 @@ const backlink = `https://ovy.rs${backlinkPath}`;
       }
     </header>
 
-    <!-- TODO: style the links in headers -->
-    <main
-      class="mb-12 not-italic prose prose-invert max-w-none prose-headings:italic prose-headings:relative"
-    >
+    <main class="prose prose-invert article-content">
       <hr />
       <slot />
     </main>
@@ -78,6 +75,34 @@ const backlink = `https://ovy.rs${backlinkPath}`;
   body {
     /* TODO: find out why this happens on my desktop */
     overflow-x: hidden;
+  }
+
+  .article-content {
+    @apply mb-12 not-italic  max-w-none;
+    @apply prose-headings:italic prose-headings:relative;
+
+    & :is(h1, h2, h3, h4, h5, h6) {
+      display: flex;
+      gap: 0.5rem;
+
+      & > a {
+        background: linear-gradient(to bottom right, #f0f, #0ff);
+        background-clip: text;
+        color: transparent;
+        text-decoration: none;
+        font-style: normal;
+        opacity: 0;
+        transition: opacity 0.1s ease-out;
+
+        &:hover {
+          font-weight: bold;
+        }
+      }
+
+      &:hover > a {
+        opacity: 1;
+      }
+    }
   }
 
   .astro-code,

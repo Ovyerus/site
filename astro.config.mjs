@@ -22,7 +22,10 @@ export default defineConfig({
     remarkPlugins: [remarkFigureCaption, a11yEmoji],
     rehypePlugins: [
       rehypeSlug,
-      rehypeAutolinkHeadings,
+      [
+        rehypeAutolinkHeadings,
+        { behavior: "append", content: { type: "text", value: "#" } },
+      ],
       [
         rehypeExternalLinks,
         { target: "_blank", rel: ["nofollow", "noopener"] },
