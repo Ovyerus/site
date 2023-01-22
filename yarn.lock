@@ -1154,16 +1154,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro-worker-links@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "astro-worker-links@npm:0.1.0"
+"astro-worker-links@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "astro-worker-links@npm:0.1.1"
   dependencies:
     astro: ^1.9.2
     colorette: ^2.0.19
     ofetch: ^1.0.0
     typescript: ^4.9.4
     zod: ^3.20.2
-  checksum: 91e39b7b84a3603d0d3841fe527754484dd9ca736defc78c87fb71533281c20acce9932c01f7f6330a40e59b644e52f095abe8bf7a1adedbc9eadac7ea93f7a7
+  checksum: 3556795e33b47e9619117493b7219682b51d3f71ad430b08bf41e1a04a7416b6ac00038777342e0076d7bfb04955f2e7050a4654fcef4aa0f2302b4a9129e80e
   languageName: node
   linkType: hard
 
@@ -5626,7 +5626,7 @@ __metadata:
     astro-compress: ~1.0.12
     astro-icon: ^0.8.0
     astro-seo: ^0.6.1
-    astro-worker-links: ^0.1.0
+    astro-worker-links: ^0.1.1
     autoprefixer: ^10.4.13
     date-fns: ^2.29.3
     postcss: ^8.4.21
