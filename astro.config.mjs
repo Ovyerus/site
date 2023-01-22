@@ -5,6 +5,7 @@ import a11yEmoji from "@fec/remark-a11y-emoji";
 import remarkFigureCaption from "@microflash/remark-figure-caption";
 import { defineConfig } from "astro/config";
 import compress from "astro-compress";
+import workerLinks from "astro-worker-links";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeSlug from "rehype-slug";
@@ -15,7 +16,29 @@ import dolch from "./src/dolch.theme.json" assert { type: "json" };
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), prefetch(), sitemap(), compress()],
+  integrations: [
+    tailwind(),
+    prefetch(),
+    sitemap(),
+    workerLinks({
+      domain: "https://ovy.rs",
+      secret: process.env.WORKER_LINKS_SECRET,
+      getPageMapping(pages) {
+        return pages
+          .filter(
+            (url) =>
+              url.pathname !== "/posts/" && url.pathname.includes("/posts")
+          )
+          .map((url) => {
+            return {
+              page: url.href,
+              shortlink: url.pathname.replace("/posts", ""),
+            };
+          });
+      },
+    }),
+    compress(),
+  ],
   site: "https://ovyerus.com",
   markdown: {
     extendDefaultPlugins: true,

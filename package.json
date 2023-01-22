@@ -5,6 +5,9 @@
   "author": "Ovyerus <ovy@ovyerus.com>",
   "license": "UNLICENSED",
   "private": true,
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -26,6 +29,7 @@
     "astro-compress": "~1.0.12",
     "astro-icon": "^0.8.0",
     "astro-seo": "^0.6.1",
+    "astro-worker-links": "^0.1.0",
     "date-fns": "^2.29.3",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-external-links": "^2.0.1",
