@@ -5140,6 +5140,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier-plugin-tailwindcss@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "prettier-plugin-tailwindcss@npm:0.2.1"
+  peerDependencies:
+    prettier: ">=2.2.0"
+  checksum: 5a04b26f50baea552aaff938b6413bf66d0050c3ca5a0d5bc432a7efc8f8e4ba194a23b1aabd4d39d36228afaf368ba2bce24ebb87f4972459a3679eff6942e8
+  languageName: node
+  linkType: hard
+
 "prettier@npm:^2.7.1":
   version: 2.7.1
   resolution: "prettier@npm:2.7.1"
@@ -5811,6 +5820,7 @@ __metadata:
     postcss: ^8.4.21
     prettier: ^2.8.2
     prettier-plugin-astro: ^0.7.2
+    prettier-plugin-tailwindcss: ^0.2.1
     rehype-autolink-headings: ^6.1.1
     rehype-external-links: ^2.0.1
     rehype-slug: ^5.1.0
