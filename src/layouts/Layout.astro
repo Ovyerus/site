@@ -18,7 +18,7 @@ const { description, title, ogTitle } = Astro.props;
     <slot name="head" />
   </Head>
   <body
-    class="bg-black text-white text-xl md:text-2xl italic w-screen flex-grow flex flex-col"
+    class="flex w-screen flex-grow flex-col bg-black text-xl italic text-white md:text-2xl"
   >
     <slot />
 
@@ -30,7 +30,7 @@ const { description, title, ogTitle } = Astro.props;
       }
 
       .content {
-        @apply min-h-screen flex flex-col gap-2.5 md:gap-5 p-2.5 md:p-5;
+        @apply flex min-h-screen flex-col gap-2.5 p-2.5 md:gap-5 md:p-5;
       }
 
       @keyframes gradient-shift {

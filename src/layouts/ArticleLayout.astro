@@ -38,8 +38,8 @@ const backlink = `https://ovy.rs${backlinkPath}`;
 
   <ArticleNav current={frontmatter.navCurrent || "/posts"} />
 
-  <section class="w-full max-w-3xl p-2.5 sm:p-0 sm:m-auto sm:mt-10">
-    <header class="flex flex-col gap-1 mb-5">
+  <section class="w-full max-w-3xl p-2.5 sm:m-auto sm:mt-10 sm:p-0">
+    <header class="mb-5 flex flex-col gap-1">
       <h1 class="text-4xl font-bold">{frontmatter.title}</h1>
       {
         (createdAt || modifiedAt) && (
@@ -60,7 +60,7 @@ const backlink = `https://ovy.rs${backlinkPath}`;
       }
     </header>
 
-    <main class="prose prose-invert article-content">
+    <main class="article-content prose prose-invert">
       <hr />
       <slot />
     </main>
@@ -78,8 +78,8 @@ const backlink = `https://ovy.rs${backlinkPath}`;
   }
 
   .article-content {
-    @apply mb-12 not-italic  max-w-none;
-    @apply prose-headings:italic prose-headings:relative;
+    @apply mb-12 max-w-none  not-italic;
+    @apply prose-headings:relative prose-headings:italic;
 
     & :is(h1, h2, h3, h4, h5, h6) {
       display: flex;

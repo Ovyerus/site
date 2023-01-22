@@ -16,7 +16,7 @@ const posts = await Astro.glob<PostFrontmatter>("./posts/*.md");
   <ArticleNav current="/posts" />
 
   <section
-    class="flex-1 max-w-3xl w-full self-center flex flex-col gap-5 p-2.5 md:p-5"
+    class="flex w-full max-w-3xl flex-1 flex-col gap-5 self-center p-2.5 md:p-5"
   >
     <header class="flex flex-col gap-3">
       <!-- TODO: add rss icon -->
@@ -29,13 +29,13 @@ const posts = await Astro.glob<PostFrontmatter>("./posts/*.md");
         vary wildly.
       </span>
 
-      <a href="/rss.xml" class="flex text-sm gap-2 items-center underline">
+      <a href="/rss.xml" class="flex items-center gap-2 text-sm underline">
         RSS feed
         <Icon name="lucide:rss" width="16px" height="16px" />
       </a>
     </header>
 
-    <hr class="border-t-0 h-[1px] bg-gradient-to-r from-[#f0f] to-[#0ff]" />
+    <hr class="h-[1px] border-t-0 bg-gradient-to-r from-[#f0f] to-[#0ff]" />
 
     <!-- Revise to show the posts like i discussed with raven? -->
     <main>
@@ -43,11 +43,11 @@ const posts = await Astro.glob<PostFrontmatter>("./posts/*.md");
         posts.map((p) => (
           <article class="post">
             <a class="flex flex-col gap-2 p-5" href={p.url}>
-              <h2 class="font-bold text-2xl">{p.frontmatter.title}</h2>
+              <h2 class="text-2xl font-bold">{p.frontmatter.title}</h2>
               {!!p.frontmatter.tags && (
                 <div class="flex gap-2">
                   {p.frontmatter.tags.map((tag) => (
-                    <span class="text-base border-[1px] px-3 py-1 rounded-full">
+                    <span class="rounded-full border-[1px] px-3 py-1 text-base">
                       {tag}
                     </span>
                   ))}
