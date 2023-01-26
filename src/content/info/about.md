@@ -1,11 +1,7 @@
 ---
-layout: ../layouts/ArticleLayout.astro
 title: About me
-navCurrent: /about
 description: Who/what/why am I?
-comments: false
-# createdAt: 2022-11-27Z
-# modifiedAt: 2022-12-04Z
+navCurrent: /about
 ---
 
 ## Overview
