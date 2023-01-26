@@ -1,8 +1,8 @@
 ---
-layout: ../layouts/ArticleLayout.astro
 title: Devices
+description:
+  A list of the specs of the different machines I own, as a curiousity.
 navCurrent: /devices
-comments: false
 ---
 
 <!-- ## Devices -->

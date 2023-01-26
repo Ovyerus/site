@@ -1,5 +1,4 @@
 ---
-layout: ~layouts/ArticleLayout.astro
 title: Moving to Podman from Docker & Docker Compose
 description: >
   I recently moved some personal services across machines and decided it would

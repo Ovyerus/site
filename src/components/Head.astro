@@ -8,8 +8,7 @@ interface Props {
 }
 
 const { description, title, ogTitle } = Astro.props;
-const image = new URL(Astro.site!);
-image.pathname = "/ogimage.png";
+const image = new URL("/ogimage.png", Astro.site).href;
 ---
 
 <head>
@@ -40,7 +39,7 @@ image.pathname = "/ogimage.png";
       basic: {
         title: ogTitle,
         type: "website",
-        image: image.toString(),
+        image,
       },
       optional: {
         siteName: "Ovyerus",

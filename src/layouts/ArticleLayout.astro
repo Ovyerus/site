@@ -1,46 +1,52 @@
 ---
 import "@fontsource/iosevka/400.css";
 import "@fontsource/iosevka/700.css";
-import type { MarkdownLayoutProps } from "astro";
 import { format, parseISO } from "date-fns";
 
 import Layout from "./Layout.astro";
 import ArticleFooter from "../components/ArticleFooter.astro";
 import ArticleNav from "../components/ArticleNav.astro";
 import Comments from "../components/Comments.astro";
-import type { PostFrontmatter } from "~types";
 
-type Props = MarkdownLayoutProps<PostFrontmatter>;
+interface Props {
+  title: string;
+  createdAt?: string | undefined;
+  modifiedAt?: string | undefined;
+  description?: string;
+  navCurrent?: string;
+  comments?: boolean;
+  preamble?: string;
+  tags?: string[];
+}
 
 const fmt = (d: Date) => format(d, "MMMM do, yyyy");
 
-const { frontmatter } = Astro.props;
-const comments = frontmatter.comments ?? true;
+const {
+  title,
+  description,
+  navCurrent = "/posts",
+  comments = false,
+  preamble,
+  createdAt: _createdAt,
+  modifiedAt: _modifiedAt,
+} = Astro.props;
 
-const createdAt = frontmatter.createdAt
-  ? fmt(parseISO(frontmatter.createdAt))
-  : null;
-const modifiedAt = frontmatter.modifiedAt
-  ? fmt(parseISO(frontmatter.modifiedAt))
-  : null;
+const createdAt = _createdAt ? fmt(parseISO(_createdAt)) : null;
+const modifiedAt = _modifiedAt ? fmt(parseISO(_modifiedAt)) : null;
 
 // TODO: automate creation of this in CI.
 const backlinkPath = Astro.url.pathname.replace("/posts", "");
-const backlink = `https://ovy.rs${backlinkPath}`;
+const backlink = new URL(backlinkPath, "https://ovy.rs").href;
 ---
 
-<Layout
-  title={`${frontmatter.title} - Ovyerus`}
-  ogTitle={frontmatter.title}
-  description={frontmatter.description}
->
+<Layout title={`${title} - Ovyerus`} ogTitle={title} description={description}>
   {comments && <meta slot="head" name="giscus:backlink" content={backlink} />}
 
-  <ArticleNav current={frontmatter.navCurrent || "/posts"} />
+  <ArticleNav current={navCurrent} />
 
   <section class="w-full max-w-3xl p-2.5 sm:m-auto sm:mt-10 sm:p-0">
     <header class="mb-5 flex flex-col gap-1">
-      <h1 class="text-4xl font-bold">{frontmatter.title}</h1>
+      <h1 class="text-4xl font-bold">{title}</h1>
       {
         (createdAt || modifiedAt) && (
           <div class="flex flex-col text-sm opacity-75">
@@ -51,11 +57,8 @@ const backlink = `https://ovy.rs${backlinkPath}`;
       }
 
       {
-        frontmatter.preamble && (
-          <div
-            class="mt-2 text-base opacity-75"
-            set:html={frontmatter.preamble}
-          />
+        preamble && (
+          <div class="mt-2 text-base opacity-75" set:html={preamble} />
         )
       }
     </header>
