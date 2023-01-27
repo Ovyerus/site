@@ -18,6 +18,6 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<ArticleLayout {...post.data}>
+<ArticleLayout {...post.data} comments>
   <Content />
 </ArticleLayout>
