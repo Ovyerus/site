@@ -1,0 +1,22 @@
+---
+const friends = [
+  {
+    url: "https://joscomputing.space",
+    image: "spotlight.gif",
+    alt: "Spotlight",
+  },
+  { url: "https://ziad87.net", image: "ziad87.gif", alt: "ziad87" },
+  { url: "https://lewisakura.moe", image: "lewi.png", alt: "lewisakura" },
+  { url: "https://auravoid.dev", image: "auravoid.png", alt: "auravoid" },
+];
+---
+
+<div class="flex flex-wrap gap-2">
+  {
+    friends.map((f) => (
+      <a href={f.url}>
+        <img src={`/webring/${f.image}`} alt={f.alt} width="88" height="31" />
+      </a>
+    ))
+  }
+</div>

@@ -1,6 +1,7 @@
 ---
-import wordmark from "../assets/wordmark-gradient.svg";
-import Layout from "../layouts/Layout.astro";
+import wordmark from "~assets/wordmark-gradient.svg";
+import Webring from "~components/Webring.astro";
+import Layout from "~layouts/Layout.astro";
 
 const email = "ovy@ovyerus.com";
 ---
@@ -40,7 +41,7 @@ const email = "ovy@ovyerus.com";
 
       <div class="flex-1"></div>
 
-      <footer class="flex flex-col justify-between md:flex-row">
+      <footer class="flex flex-row flex-wrap-reverse justify-between">
         <ul class="link-list">
           <li><a rel="me" href="https://github.com/Ovyerus">github</a></li>
           <li><a rel="me" href="https://aus.social/@ovyerus">mastodon</a></li>
@@ -53,6 +54,8 @@ const email = "ovy@ovyerus.com";
           <li><a href="/domains.txt">domains list</a></li>
         </ul>
       </footer>
+
+      <Webring />
     </div>
   </main>
 </Layout>
