@@ -1,6 +1,9 @@
 {
   "extends": "astro/tsconfigs/strictest",
   "compilerOptions": {
+    // Temporarily enabled to suppress the deprecation notice until TypeScript 5 officially releases.
+    "ignoreDeprecations": "5.0",
+
     "baseUrl": ".",
     "paths": {
       "~*": ["src/*"]
