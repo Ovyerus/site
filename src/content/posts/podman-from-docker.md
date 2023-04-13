@@ -6,6 +6,7 @@ description: >
   encountered in my move, as a Docker user.
 tags: [containers, long]
 createdAt: 2023-01-11Z
+modifiedAt: 2023-04-14Z
 ---
 
 I have a dedicated server running Proxmox, which I use to provision some virtual
@@ -186,6 +187,22 @@ like it was for me. Do double check though!
 ```fish
 set -x DOCKER_HOST unix:///run/user/1000/podman/podman.sock
 ```
+
+---
+
+#### Edit
+
+One thing I didn't realise at the time of making this post originally, was that
+this socket isn't actually created by default. You will need to have Podman
+launched as a service so that the socket exists, this can either be done with
+the `podman system service` command or just by using systemd.
+
+```
+systemctl enable --user podman
+systemctl start --user podman
+```
+
+---
 
 And with this, we're all set to use Docker Compose as we would if we were just
 using normal Docker on our system, with re-running `docker-compose up`
