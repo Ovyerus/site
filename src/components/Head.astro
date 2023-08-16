@@ -26,15 +26,10 @@ const image = new URL("/ogimage.png", Astro.site).href;
     defer
     data-domain="ovyerus.com"
     data-api="/api/event"
-    src="/js/script.js"
-  ></script>
-  <!--
-    Something is being really stupid and insisting that my optional properties
-    aren't compatiable with other optional properties. What gives?
-  -->
+    src="/js/script.js"></script>
   <SEO
     title={title}
-    description={description as any}
+    description={description}
     openGraph={{
       basic: {
         title: ogTitle,
@@ -43,7 +38,7 @@ const image = new URL("/ogimage.png", Astro.site).href;
       },
       optional: {
         siteName: "Ovyerus",
-        description: description as any,
+        description,
       },
       image: {
         alt: "A magenta to cyan gradient.",
