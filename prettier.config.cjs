@@ -1,5 +1,5 @@
 /** @type import('prettier').Config */
-export default {
+module.exports = {
   plugins: [
     import("prettier-plugin-astro"),
     import("prettier-plugin-tailwindcss"),
