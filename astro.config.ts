@@ -22,12 +22,12 @@ export default defineConfig({
     sitemap(),
     workerLinks({
       domain: "https://ovy.rs",
-      secret: process.env.WORKER_LINKS_SECRET,
+      secret: process.env.WORKER_LINKS_SECRET!,
       getPageMapping(pages) {
         return pages
           .filter(
             (url) =>
-              url.pathname !== "/posts/" && url.pathname.includes("/posts")
+              url.pathname !== "/posts/" && url.pathname.includes("/posts"),
           )
           .map((url) => {
             return {
@@ -41,7 +41,6 @@ export default defineConfig({
   ],
   site: "https://ovyerus.com",
   markdown: {
-    extendDefaultPlugins: true,
     remarkPlugins: [remarkFigureCaption, a11yEmoji],
     rehypePlugins: [
       rehypeSlug,
@@ -58,6 +57,7 @@ export default defineConfig({
       wrap: true,
       theme: {
         ...dolch,
+        settings: dolch.tokenColors,
         bg: "#101416",
         fg: "#b0b4b7",
         type: "dark",

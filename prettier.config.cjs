@@ -1,8 +1,8 @@
 /** @type import('prettier').Config */
-module.exports = {
+export default {
   plugins: [
-    require.resolve("prettier-plugin-astro"),
-    require.resolve("prettier-plugin-tailwindcss"),
+    import("prettier-plugin-astro"),
+    import("prettier-plugin-tailwindcss"),
   ],
   proseWrap: "always",
   overrides: [
