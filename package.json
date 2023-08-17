@@ -16,6 +16,9 @@
     "astro": "astro"
   },
   "dependencies": {
+    "astro": "^2.10.9"
+  },
+  "devDependencies": {
     "@astrojs/prefetch": "^0.3.0",
     "@astrojs/rss": "^2.4.4",
     "@astrojs/sitemap": "^2.0.2",
@@ -25,25 +28,22 @@
     "@fontsource/montserrat": "^5.0.8",
     "@microflash/remark-figure-caption": "^1.0.1",
     "@tailwindcss/typography": "^0.5.9",
-    "astro": "^2.10.9",
     "astro-compress": "^2.0.12",
     "astro-iconify": "^1.2.0",
     "astro-seo": "^0.7.5",
     "astro-worker-links": "^0.2.0",
+    "autoprefixer": "^10.4.15",
     "date-fns": "^2.30.0",
+    "postcss": "^8.4.28",
+    "prettier": "^3.0.2",
+    "prettier-plugin-astro": "^0.11.1",
+    "prettier-plugin-tailwindcss": "^0.5.3",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-external-links": "^2.1.0",
     "rehype-slug": "^5.1.0",
     "remark-toc": "^8.0.1",
     "shiki": "^0.14.3",
     "tailwindcss": "^3.3.3"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.4.15",
-    "postcss": "^8.4.28",
-    "prettier": "^3.0.2",
-    "prettier-plugin-astro": "^0.11.1",
-    "prettier-plugin-tailwindcss": "^0.5.3"
   },
   "packageManager": "yarn@3.6.1",
   "resolutions": {
