@@ -1,9 +1,6 @@
-/** @type import('prettier').Config */
+/** @type {import('@types/prettier').Options} */
 module.exports = {
-  plugins: [
-    import("prettier-plugin-astro"),
-    import("prettier-plugin-tailwindcss"),
-  ],
+  plugins: ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
   proseWrap: "always",
   overrides: [
     {
