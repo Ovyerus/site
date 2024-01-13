@@ -1,8 +1,8 @@
 {
   "extends": "astro/tsconfigs/strictest",
   "compilerOptions": {
-    // Temporarily enabled to suppress the deprecation notice until TypeScript 5 officially releases.
-    "ignoreDeprecations": "5.0",
+    // Without this, TS is really insistent that you add "undefined" to optionally chained properties.
+    "exactOptionalPropertyTypes": false,
 
     "baseUrl": ".",
     "paths": {
