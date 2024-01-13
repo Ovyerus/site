@@ -1,7 +1,7 @@
 {
   "extends": "astro/tsconfigs/strictest",
   "compilerOptions": {
-    // Without this, TS is really insistent that you add "undefined" to optionally chained properties.
+    // Let me pass `undefined` explicitly to option properties.
     "exactOptionalPropertyTypes": false,
 
     "baseUrl": ".",
