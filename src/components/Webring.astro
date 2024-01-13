@@ -1,4 +1,10 @@
 ---
+interface Friend {
+  url: string;
+  image: string;
+  alt: string;
+};
+
 const friends = [
   { url: "https://wale.au", image: "wale.png", alt: "Wale" },
   {
@@ -10,7 +16,7 @@ const friends = [
   { url: "https://ziad87.net", image: "ziad87.gif", alt: "ziad87" },
   { url: "https://lewisakura.moe", image: "lewi.png", alt: "lewisakura" },
   { url: "https://auravoid.dev", image: "auravoid.png", alt: "auravoid" },
-];
+] satisfies Friend[];
 ---
 
 <div class="flex flex-wrap gap-2">

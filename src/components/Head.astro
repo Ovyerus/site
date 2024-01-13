@@ -2,13 +2,15 @@
 import { SEO } from "astro-seo";
 
 interface Props {
-  description?: string | undefined;
+  description?: string;
   title: string;
   ogTitle: string;
 }
 
 const { description, title, ogTitle } = Astro.props;
 const image = new URL("/ogimage.png", Astro.site).href;
+
+const IS_PRODUCTION = import.meta.env.MODE === "production";
 ---
 
 <head>
@@ -22,19 +24,19 @@ const image = new URL("/ogimage.png", Astro.site).href;
     title="Ovyerus' Posts"
     href="https://ovyerus.com/rss.xml"
   />
-  <script
-    defer
-    data-domain="ovyerus.com"
-    data-api="/api/event"
-    src="/js/script.js"
-  ></script>
-  <!--
-    Something is being really stupid and insisting that my optional properties
-    aren't compatiable with other optional properties. What gives?
-  -->
+  {
+    IS_PRODUCTION && (
+      <script
+        defer
+        data-domain="ovyerus.com"
+        data-api="/api/event"
+        src="/js/script.js"
+      />
+    )
+  }
   <SEO
     title={title}
-    description={description as any}
+    description={description}
     openGraph={{
       basic: {
         title: ogTitle,
@@ -43,7 +45,7 @@ const image = new URL("/ogimage.png", Astro.site).href;
       },
       optional: {
         siteName: "Ovyerus",
-        description: description as any,
+        description,
       },
       image: {
         alt: "A magenta to cyan gradient.",
