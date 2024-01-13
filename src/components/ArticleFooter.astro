@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import wordmark from "../assets/wordmark.svg";
 ---
 
@@ -6,9 +7,10 @@ import wordmark from "../assets/wordmark.svg";
   class="neon relative m-2.5 flex flex-col items-center justify-center gap-2 p-2.5 text-base text-black md:m-5 md:p-5"
 >
   <a href="/" class="md:absolute md:left-5">
-    <img
+    <Image
       class="max-w-[200px]"
       alt="Ovyerus"
+      aria-label="Ovyerus"
       src={wordmark}
       role="heading"
       aria-level="1"
