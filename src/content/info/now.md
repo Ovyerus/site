@@ -56,8 +56,3 @@ If you want a more up-to-date feed on what I'm currently listening to, you can
 check out my [ListenBrainz](https://listenbrainz.org/user/Ovyerus) or
 [Last.fm](https://www.last.fm/user/Ovyerus) profiles. You can also see what I've
 bought on [Bandcamp](https://bandcamp.com/ovyerus) recently.
-
----
-
-If you're curious about the devices I'm currently using/have, I have a dedicated
-list at [/devices](/devices).

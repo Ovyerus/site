@@ -38,7 +38,7 @@ const posts = await getCollection("posts");
     <hr class="h-[1px] border-t-0 bg-gradient-to-r from-[#f0f] to-[#0ff]" />
 
     <!-- Revise to show the posts like i discussed with raven? -->
-    <main>
+    <main class="flex flex-col gap-5">
       {
         posts.map(({ data, slug }) => (
           <article class="post">
@@ -82,7 +82,9 @@ const posts = await getCollection("posts");
     position: relative;
     background: linear-gradient(to bottom right, var(--bg1), var(--bg2));
     color: white;
-    transition: --bg1 0.1s ease-out, --bg2 0.1s ease-out;
+    transition:
+      --bg1 0.1s ease-out,
+      --bg2 0.1s ease-out;
 
     &:hover {
       --bg1: #f0f;
