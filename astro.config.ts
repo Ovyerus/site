@@ -1,5 +1,4 @@
 import tailwind from "@astrojs/tailwind";
-import prefetch from "@astrojs/prefetch";
 import sitemap from "@astrojs/sitemap";
 import a11yEmoji from "@fec/remark-a11y-emoji";
 import remarkFigureCaption from "@microflash/remark-figure-caption";
@@ -18,7 +17,6 @@ import dolch from "./src/dolch.theme.json" assert { type: "json" };
 export default defineConfig({
   integrations: [
     tailwind(),
-    prefetch(),
     sitemap(),
     workerLinks({
       domain: "https://ovy.rs",
@@ -39,6 +37,9 @@ export default defineConfig({
     }),
     compress(),
   ],
+  prefetch: {
+    prefetchAll: true,
+  },
   site: "https://ovyerus.com",
   markdown: {
     remarkPlugins: [remarkFigureCaption, a11yEmoji],
