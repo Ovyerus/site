@@ -1,9 +1,17 @@
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 16C0 7.16344 7.16344 0 16 0H48C56.8366 0 64 7.16344 64 16V48C64 56.8366 56.8366 64 48 64H16C7.16344 64 0 56.8366 0 48V16Z" fill="url(#paint0_linear_1071_6)"/>
-<defs>
-<linearGradient id="paint0_linear_1071_6" x1="72" y1="72" x2="0" y2="0" gradientUnits="userSpaceOnUse">
-<stop stop-color="#00FFFF"/>
-<stop offset="0.919625" stop-color="#FF00FF"/>
-</linearGradient>
-</defs>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient gradientUnits="objectBoundingBox" x1="1.125" y1="1.125" x2="0" y2="0" id="gradient_1">
+      <stop offset="0%" stop-color="#00FFFF" />
+      <stop offset="91.9625%" stop-color="#FF00FF" />
+    </linearGradient>
+    <path d="M64 0L64 0L64 64L0 64L0 0L64 0Z" id="path_1" />
+    <clipPath id="clip_1">
+      <use xlink:href="#path_1" clip-rule="evenodd" fill-rule="evenodd" />
+    </clipPath>
+  </defs>
+  <g id="Frame">
+    <path d="M64 0L64 0L64 64L0 64L0 0L64 0Z" id="Frame" fill="none" stroke="none" />
+    <path d="M0 16C0 7.16344 7.16344 0 16 0L48 0C56.8366 0 64 7.16344 64 16L64 48C64 56.8366 56.8366 64 48 64L16 64C7.16344 64 0 56.8366 0 48L0 16L0 16Z" id="Path" fill="#000000" stroke="none" clip-path="url(#clip_1)" />
+    <path d="M13.2601 10C10.3552 10 8 12.3642 8 15.2803L8 48.2175C8 51.4109 10.5791 54 13.7603 54L16.7448 54L16.7448 42.6276L16.7448 35.8841L16.7448 21.6913C16.7448 19.6616 18.3836 18.0159 20.4056 18.0159L41.7946 18.0159L41.7946 10L13.2601 10ZM47.2552 10L47.2552 21.3724L47.2552 28.577L47.2552 42.3087C47.2552 44.3385 45.6164 45.9841 43.5944 45.9841L22.163 45.9841L22.163 54L50.7406 54C53.6454 54 56 51.6358 56 48.7197L56 15.7825C56 12.589 53.4209 10 50.2397 10L47.2552 10Z" id="Icon" fill="url(#gradient_1)" fill-rule="evenodd" stroke="none" clip-path="url(#clip_1)" />
+  </g>
 </svg>
