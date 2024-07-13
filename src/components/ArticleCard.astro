@@ -1,0 +1,72 @@
+---
+interface Props {
+  title: string;
+  href: string;
+  tags?: string[];
+}
+
+const { href, tags = [], title } = Astro.props;
+---
+
+<article class="post">
+  <a class="flex flex-col gap-2 p-5" {href}>
+    <h2 class="text-2xl font-bold">{title}</h2>
+    {
+      !!tags.length && (
+        <div class="flex gap-2" aria-label="Tags">
+          {tags.map((tag) => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+      )
+    }
+    <p class="text-lg opacity-75"><slot /></p>
+  </a>
+</article>
+
+<style>
+  @property --bg1 {
+    syntax: "<color>";
+    initial-value: #101416;
+    inherits: false;
+  }
+
+  @property --bg2 {
+    syntax: "<color>";
+    initial-value: #101416;
+    inherits: false;
+  }
+
+  .post {
+    @apply rounded-lg;
+    position: relative;
+    background: linear-gradient(to bottom right, var(--bg1), var(--bg2));
+    color: white;
+    transition:
+      --bg1 0.1s ease-out,
+      --bg2 0.1s ease-out;
+
+    &:hover {
+      --bg1: #f0f;
+      --bg2: #0ff;
+    }
+
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      inset: 1px;
+      background: #101416;
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    & * {
+      z-index: 5;
+    }
+  }
+
+  .tag {
+    @apply rounded bg-gradient-to-br from-[#ff00ff7f] to-[#00ffff7f] px-1 text-base font-semibold text-white;
+  }
+</style>

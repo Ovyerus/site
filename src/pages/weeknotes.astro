@@ -1,0 +1,56 @@
+---
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+import { format, nextSunday, parseISO } from "date-fns";
+import ArticleIndex from "../components/ArticleIndex.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+import Layout from "../layouts/Layout.astro";
+
+const weeknotes = await getCollection("weeknotes");
+const weekRe = /^\d{4}-w\d{2}\.md$/i;
+const incorrectWeeknoteFilename = weeknotes.find((w) => !weekRe.test(w.id));
+
+if (incorrectWeeknoteFilename)
+  throw new Error(
+    `weeknote "${incorrectWeeknoteFilename.id}" is in an invalid format! It should match the ISO week format.`,
+  );
+---
+
+<Layout
+  title="Weeknotes - Ovyerus"
+  ogTitle="Weeknotes"
+  description="Trying to keep a weekly journal of what's going on."
+>
+  <ArticleIndex title="Weeknotes" navCurrent="/weeknotes">
+    <Fragment slot="description">
+      Here lies my <a
+        class="inline-flex items-center gap-1 underline"
+        href="https://indieweb.org/week_note"
+        rel="noopener"
+        target="_blank"
+      >
+        weeknotes
+        <Icon name="lucide:external-link" size={16} />
+      </a>, an attempt to force me to do some decent writing more frequently, in
+      the form of weekly journal-ish entries. No guarantees on quality or
+      length.
+    </Fragment>
+
+    <!-- TODO: decide on a better layout once I have a decent amount of entries -->
+    {
+      weeknotes.map(({ slug }) => {
+        const weekDate = parseISO(slug.toUpperCase());
+        const writtenDate = nextSunday(weekDate); // I *should* be writing these every Sunday.
+
+        return (
+          <ArticleCard
+            title={format(weekDate, "'Weeknote' ww, yyyy")}
+            href={`/weeknotes/${slug}`}
+          >
+            {format(writtenDate, "MMMM do, yyyy")}
+          </ArticleCard>
+        );
+      })
+    }
+  </ArticleIndex>
+</Layout>

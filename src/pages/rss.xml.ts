@@ -1,6 +1,5 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
-import { parseISO } from "date-fns";
 
 const posts = await getCollection("posts");
 
@@ -13,7 +12,7 @@ export const GET = () =>
     items: posts.map(({ data, slug }) => ({
       link: new URL(slug, import.meta.env.SITE).href,
       title: data.title,
-      pubDate: parseISO(data.createdAt),
+      pubDate: data.createdAt,
       description: data.description!,
     })),
   });

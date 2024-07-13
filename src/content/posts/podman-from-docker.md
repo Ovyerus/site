@@ -5,8 +5,8 @@ description: >
   be a good excuse to try out Podman instead of Docker. This is a log of what I
   encountered in my move, as a Docker user.
 tags: [containers, long]
-createdAt: 2023-01-11Z
-modifiedAt: 2023-04-14Z
+createdAt: 2023-01-11
+modifiedAt: 2023-04-14
 ---
 
 I have a dedicated server running Proxmox, which I use to provision some virtual

@@ -1,7 +1,7 @@
 ---
 import "@fontsource/iosevka/400.css";
 import "@fontsource/iosevka/700.css";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 
 import Layout from "./Layout.astro";
 import ArticleFooter from "../components/ArticleFooter.astro";
@@ -10,8 +10,8 @@ import Comments from "../components/Comments.astro";
 
 interface Props {
   title: string;
-  createdAt?: string;
-  modifiedAt?: string;
+  createdAt?: Date;
+  modifiedAt?: Date;
   description?: string;
   navCurrent?: string;
   comments?: boolean;
@@ -31,8 +31,8 @@ const {
   modifiedAt: _modifiedAt,
 } = Astro.props;
 
-const createdAt = _createdAt ? fmt(parseISO(_createdAt)) : null;
-const modifiedAt = _modifiedAt ? fmt(parseISO(_modifiedAt)) : null;
+const createdAt = _createdAt ? fmt(_createdAt) : null;
+const modifiedAt = _modifiedAt ? fmt(_modifiedAt) : null;
 
 // TODO: automate creation of this in CI.
 const backlinkPath = Astro.url.pathname.replace("/posts", "");
@@ -81,7 +81,7 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
   }
 
   .article-content {
-    @apply mb-12 max-w-none  not-italic;
+    @apply mb-12 max-w-none not-italic;
     @apply prose-headings:relative prose-headings:italic;
 
     & :is(h1, h2, h3, h4, h5, h6) {
