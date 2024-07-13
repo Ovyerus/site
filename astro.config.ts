@@ -4,6 +4,7 @@ import a11yEmoji from "@fec/remark-a11y-emoji";
 import remarkFigureCaption from "@microflash/remark-figure-caption";
 import { defineConfig } from "astro/config";
 import compress from "astro-compress";
+import icon from "astro-icon";
 import workerLinks from "astro-worker-links";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
@@ -16,6 +17,7 @@ import dolch from "./src/dolch.theme.json" assert { type: "json" };
 // https://astro.build/config
 export default defineConfig({
   integrations: [
+    icon(),
     tailwind(),
     sitemap(),
     workerLinks({

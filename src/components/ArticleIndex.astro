@@ -1,0 +1,41 @@
+---
+import { Icon } from "astro-icon/components";
+import ArticleFooter from "../components/ArticleFooter.astro";
+import ArticleNav from "../components/ArticleNav.astro";
+
+interface Props {
+  title: string;
+  navCurrent: string;
+  rss?: string;
+}
+
+const { title, navCurrent: current, rss } = Astro.props;
+---
+
+<ArticleNav {current} />
+
+<section
+  class="flex w-full max-w-3xl flex-1 flex-col gap-5 self-center p-2.5 md:p-5"
+>
+  <header class="flex flex-col gap-3">
+    <h1 class="text-4xl font-bold">{title}</h1>
+    <p class="text-base opacity-75"><slot name="description" /></p>
+
+    {
+      rss && (
+        <a href={rss} class="flex items-center gap-2 text-sm underline">
+          RSS feed
+          <Icon name="lucide:rss" size={16} />
+        </a>
+      )
+    }
+  </header>
+
+  <hr class="h-[1px] border-t-0 bg-gradient-to-r from-[#f0f] to-[#0ff]" />
+
+  <main class="flex flex-col gap-5">
+    <slot />
+  </main>
+</section>
+
+<ArticleFooter />

@@ -4,7 +4,7 @@ description: >
   How I revamped my note-taking in Obsidian with a custom iOS Shortcut, making
   capturing thoughts quick and effortless.
 tags: [obsidian, ios, short]
-createdAt: 2024-05-24Z
+createdAt: 2024-05-24
 ---
 
 <abbr title="Too long; didn't read">TL;DR</abbr>: Install the

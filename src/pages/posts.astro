@@ -1,9 +1,8 @@
 ---
-import Icon from "astro-iconify";
-import Layout from "../layouts/Layout.astro";
-import ArticleFooter from "../components/ArticleFooter.astro";
-import ArticleNav from "../components/ArticleNav.astro";
 import { getCollection } from "astro:content";
+import ArticleCard from "../components/ArticleCard.astro";
+import ArticleIndex from "../components/ArticleIndex.astro";
+import Layout from "../layouts/Layout.astro";
 
 const posts = await getCollection("posts");
 ---
@@ -11,57 +10,24 @@ const posts = await getCollection("posts");
 <Layout
   title="Posts - Ovyerus"
   ogTitle="Posts"
-  description="something something deez nuts"
+  description="Posts about the occasional cool thing."
 >
-  <ArticleNav current="/posts" />
+  <ArticleIndex title="Posts" rss="/rss.xml" navCurrent="/posts">
+    <Fragment slot="description">
+      Here lies posts of mine that I write every now and then. Most people would
+      usually consider this a blog, but I treat it as a space to dump stuff from
+      my mind, whether they be big things or small stuff I've just thought
+      about. Post quality, length, and frequency will probably vary wildly.
+    </Fragment>
 
-  <section
-    class="flex w-full max-w-3xl flex-1 flex-col gap-5 self-center p-2.5 md:p-5"
-  >
-    <header class="flex flex-col gap-3">
-      <!-- TODO: add rss icon -->
-      <h1 class="text-4xl font-bold">Posts</h1>
-      <span class="text-base opacity-75">
-        Here lies posts of mine that I write every now and then. Most people
-        would usually consider this a blog, but I treat it as a space to dump
-        stuff from my mind, whether they be big things or small stuff I've just
-        thought about. Post quality, length, and time between them will probably
-        vary wildly.
-      </span>
-
-      <a href="/rss.xml" class="flex items-center gap-2 text-sm underline">
-        RSS feed
-        <Icon name="lucide:rss" width="16px" height="16px" />
-      </a>
-    </header>
-
-    <hr class="h-[1px] border-t-0 bg-gradient-to-r from-[#f0f] to-[#0ff]" />
-
-    <!-- Revise to show the posts like i discussed with raven? -->
-    <main class="flex flex-col gap-5">
-      {
-        posts.map(({ data, slug }) => (
-          <article class="post">
-            <a class="flex flex-col gap-2 p-5" href={`/posts/${slug}`}>
-              <h2 class="text-2xl font-bold">{data.title}</h2>
-              {!!data.tags && (
-                <div class="flex gap-2">
-                  {data.tags.map((tag) => (
-                    <span class="rounded-full border-[1px] px-3 py-1 text-base">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-              <p class="text-lg opacity-75">{data.description}</p>
-            </a>
-          </article>
-        ))
-      }
-    </main>
-  </section>
-
-  <ArticleFooter />
+    {
+      posts.map(({ data: { title, description, tags }, slug }) => (
+        <ArticleCard href={`/posts/${slug}`} {title} {tags}>
+          {description}
+        </ArticleCard>
+      ))
+    }
+  </ArticleIndex>
 </Layout>
 
 <style>
