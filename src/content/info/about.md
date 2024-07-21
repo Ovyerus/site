@@ -6,7 +6,7 @@ navCurrent: /about
 
 ## Overview
 
-Hi there! I'm Michael, but I go by Ovyerus online. I'm a professional frontend
+Hi there! I'm Ashlynne, but I go by Ovyerus online. I'm a professional frontend
 web developer, but work on a load of open source stuff outside of work.
 
 Most of my free time is spent programming, mostly on my various open source
