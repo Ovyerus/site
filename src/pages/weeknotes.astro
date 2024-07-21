@@ -38,7 +38,7 @@ if (incorrectWeeknoteFilename)
 
     <!-- TODO: decide on a better layout once I have a decent amount of entries -->
     {
-      weeknotes.map(({ slug }) => {
+      weeknotes.reverse().map(({ slug }) => {
         const weekDate = parseISO(slug.toUpperCase());
         const writtenDate = nextSunday(weekDate); // I *should* be writing these every Sunday.
 
