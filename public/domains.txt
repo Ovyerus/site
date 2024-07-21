@@ -1,6 +1,6 @@
-# All root domains owned (on a registry level) by Michael M (ovyerus.com)
+# All root domains owned (on a registry level) by Ashlynne M (ovyerus.com)
 # Domains that redirect to domains not in this list may not be in complete control.
-# Content outside of these domains cannot be guarenteed to be owned or managed by Michael.
+# Content outside of these domains cannot be guarenteed to be owned or managed by Ashlynne.
 
 # Last updated: 2023-01-04T23:18:19.488Z
 
