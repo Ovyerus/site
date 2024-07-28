@@ -40,7 +40,7 @@ This list is also available at [/age.txt](/age.txt).
 I can be easily reached at [ovy@ovyerus.com](mailto:ovy@ovyerus.com), or on my
 [Mastodon account](https://aus.social/@ovyerus).
 
-**You may not contact me about anything cryptocurrency/"Web3"/NFT related.**
+**You may not contact me about anything cryptocurrency/"Web3"/NFT/AI related.**
 
 ---
 

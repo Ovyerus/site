@@ -157,5 +157,10 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
     & [style*="#3EC6C4" i] {
       color: transparent !important;
     }
+
+    /* TODO: how the fuck do I fix this properly??? */
+    &:last-child:has(> :empty) {
+      display: none;
+    }
   }
 </style>
