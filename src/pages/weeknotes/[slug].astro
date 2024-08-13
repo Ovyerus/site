@@ -23,6 +23,6 @@ const title = format(date, "'Weeknote' ww, yyyy");
 const description = `My weekly journal entry for ${format(date, "'week' ww 'of' yyyy")}.`;
 ---
 
-<ArticleLayout {title} {description} navCurrent="/weeknotes">
+<ArticleLayout {title} {description} navCurrent="/weeknotes" preamble={weeknote.data.subtitle}>
   <Content />
 </ArticleLayout>

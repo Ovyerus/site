@@ -38,13 +38,15 @@ if (incorrectWeeknoteFilename)
 
     <!-- TODO: decide on a better layout once I have a decent amount of entries -->
     {
-      weeknotes.reverse().map(({ slug }) => {
+      weeknotes.reverse().map(({ slug, data: { subtitle } }) => {
         const weekDate = parseISO(slug.toUpperCase());
         const writtenDate = nextSunday(weekDate); // I *should* be writing these every Sunday.
+        const title = format(weekDate, "'Weeknote' ww, yyyy");
 
         return (
           <ArticleCard
-            title={format(weekDate, "'Weeknote' ww, yyyy")}
+            {title}
+            {subtitle}
             href={`/weeknotes/${slug}`}
           >
             {format(writtenDate, "MMMM do, yyyy")}
