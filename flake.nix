@@ -14,7 +14,14 @@
     defaultForSystems = fn: forSystems (pkgs: {default = fn pkgs;});
   in {
     devShells = defaultForSystems (
-      pkgs: with pkgs; mkShell {nativeBuildInputs = [nodejs_20 yarn];}
+      pkgs:
+        with pkgs;
+          mkShell {
+            nativeBuildInputs = [nodejs_20 yarn vips pkg-config];
+            shellHook = ''
+              export LD_LIBRARY_PATH="${lib.makeLibraryPath [vips]}:$LD_LIBRARY_PATH"
+            '';
+          }
     );
   };
 }
