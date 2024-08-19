@@ -3,6 +3,7 @@ import type { GetStaticPaths } from "astro";
 import { type CollectionEntry, getCollection } from "astro:content";
 import { format, parseISO } from "date-fns";
 import ArticleLayout from "~layouts/ArticleLayout.astro";
+import { getWeeknoteTitle } from "~lib/weeknotes";
 
 export const getStaticPaths = (async () => {
   const weeknotes = await getCollection("weeknotes");
@@ -19,10 +20,15 @@ interface Props {
 const { weeknote } = Astro.props;
 const { Content } = await weeknote.render();
 const date = parseISO(weeknote.slug.toUpperCase());
-const title = format(date, "'Weeknote' ww, yyyy");
+const title = getWeeknoteTitle(date);
 const description = `My weekly journal entry for ${format(date, "'week' ww 'of' yyyy")}.`;
 ---
 
-<ArticleLayout {title} {description} navCurrent="/weeknotes" preamble={weeknote.data.subtitle}>
+<ArticleLayout
+  {title}
+  {description}
+  navCurrent="/weeknotes"
+  preamble={weeknote.data.subtitle}
+>
   <Content />
 </ArticleLayout>

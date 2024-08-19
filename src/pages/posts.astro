@@ -3,8 +3,9 @@ import { getCollection } from "astro:content";
 import ArticleCard from "../components/ArticleCard.astro";
 import ArticleIndex from "../components/ArticleIndex.astro";
 import Layout from "../layouts/Layout.astro";
+import { sortPosts } from "~lib/posts";
 
-const posts = await getCollection("posts");
+const posts = sortPosts(await getCollection("posts"));
 ---
 
 <Layout
@@ -12,7 +13,7 @@ const posts = await getCollection("posts");
   ogTitle="Posts"
   description="Posts about the occasional cool thing."
 >
-  <ArticleIndex title="Posts" rss="/rss.xml" navCurrent="/posts">
+  <ArticleIndex title="Posts" rss="/posts/rss.xml" navCurrent="/posts">
     <Fragment slot="description">
       Here lies posts of mine that I write every now and then. Most people would
       usually consider this a blog, but I treat it as a space to dump stuff from

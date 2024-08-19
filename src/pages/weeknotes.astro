@@ -1,12 +1,17 @@
 ---
 import { getCollection } from "astro:content";
 import { Icon } from "astro-icon/components";
-import { format, nextSunday, parseISO } from "date-fns";
+import { format } from "date-fns";
 import ArticleIndex from "../components/ArticleIndex.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import Layout from "../layouts/Layout.astro";
+import {
+  getDayWeeknoteWasWritten,
+  getWeeknoteTitle,
+  sortWeeknotes,
+} from "~lib/weeknotes";
 
-const weeknotes = await getCollection("weeknotes");
+let weeknotes = await getCollection("weeknotes");
 const weekRe = /^\d{4}-w\d{2}\.md$/i;
 const incorrectWeeknoteFilename = weeknotes.find((w) => !weekRe.test(w.id));
 
@@ -14,6 +19,8 @@ if (incorrectWeeknoteFilename)
   throw new Error(
     `weeknote "${incorrectWeeknoteFilename.id}" is in an invalid format! It should match the ISO week format.`,
   );
+
+weeknotes = sortWeeknotes(weeknotes);
 ---
 
 <Layout
@@ -21,7 +28,11 @@ if (incorrectWeeknoteFilename)
   ogTitle="Weeknotes"
   description="Trying to keep a weekly journal of what's going on."
 >
-  <ArticleIndex title="Weeknotes" navCurrent="/weeknotes">
+  <ArticleIndex
+    title="Weeknotes"
+    rss="/weeknotes/rss.xml"
+    navCurrent="/weeknotes"
+  >
     <Fragment slot="description">
       Here lies my <a
         class="inline-flex items-center gap-1 underline"
@@ -38,18 +49,13 @@ if (incorrectWeeknoteFilename)
 
     <!-- TODO: decide on a better layout once I have a decent amount of entries -->
     {
-      weeknotes.reverse().map(({ slug, data: { subtitle } }) => {
-        const weekDate = parseISO(slug.toUpperCase());
-        const writtenDate = nextSunday(weekDate); // I *should* be writing these every Sunday.
-        const title = format(weekDate, "'Weeknote' ww, yyyy");
+      weeknotes.map(({ slug, data: { subtitle } }) => {
+        const date = getDayWeeknoteWasWritten(slug);
+        const title = getWeeknoteTitle(date);
 
         return (
-          <ArticleCard
-            {title}
-            {subtitle}
-            href={`/weeknotes/${slug}`}
-          >
-            {format(writtenDate, "MMMM do, yyyy")}
+          <ArticleCard {title} {subtitle} href={`/weeknotes/${slug}`}>
+            {format(date, "MMMM do, yyyy")}
           </ArticleCard>
         );
       })

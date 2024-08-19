@@ -1,18 +1,22 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
+import { sortPosts } from "~lib/posts";
+import { renderMarkdownForRSS } from "~lib/rss";
 
-const posts = await getCollection("posts");
+const posts = sortPosts(await getCollection("posts"));
 
 export const GET = () =>
   rss({
-    title: "Ovyerus' Posts",
+    title: "Ovyerus' posts",
     description:
       "A stream of my consciousness shouted into the ether. Sometimes big posts, sometimes small posts. Depends on how I'm feeling when I write whatever.",
     site: import.meta.env.SITE,
-    items: posts.map(({ data, slug }) => ({
-      link: new URL(slug, import.meta.env.SITE).href,
+    trailingSlash: false,
+    items: posts.map(({ body, data, slug }) => ({
+      link: `/posts/${slug}`,
       title: data.title,
       pubDate: data.createdAt,
-      description: data.description!,
+      description: data.description,
+      content: renderMarkdownForRSS(body),
     })),
   });
