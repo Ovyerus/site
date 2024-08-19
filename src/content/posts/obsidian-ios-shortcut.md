@@ -1,6 +1,6 @@
 ---
 title: My iOS Shortcut for Obsidian quick capture
-description: >
+description: >-
   How I revamped my note-taking in Obsidian with a custom iOS Shortcut, making
   capturing thoughts quick and effortless.
 tags: [obsidian, ios, short]
