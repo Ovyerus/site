@@ -1,5 +1,12 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/rss.xml",
+      "destination": "/posts/rss.xml",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/js/script.js",
@@ -8,11 +15,6 @@
     {
       "source": "/api/event",
       "destination": "https://stats.ovy.sh/api/event"
-    },
-    {
-      "source": "/rss.xml",
-      "destination": "/posts/rss.xml",
-      "permanent": true
     }
   ]
 }
