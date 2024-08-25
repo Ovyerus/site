@@ -51,7 +51,7 @@ weeknotes = sortWeeknotes(weeknotes);
     {
       weeknotes.map(({ slug, data: { subtitle } }) => {
         const date = getDayWeeknoteWasWritten(slug);
-        const title = getWeeknoteTitle(date);
+        const title = getWeeknoteTitle(slug);
 
         return (
           <ArticleCard {title} {subtitle} href={`/weeknotes/${slug}`}>
