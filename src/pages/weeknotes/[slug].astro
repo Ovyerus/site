@@ -20,7 +20,7 @@ interface Props {
 const { weeknote } = Astro.props;
 const { Content } = await weeknote.render();
 const date = parseISO(weeknote.slug.toUpperCase());
-const title = getWeeknoteTitle(date);
+const title = getWeeknoteTitle(weeknote.slug);
 const description = `My weekly journal entry for ${format(date, "'week' ww 'of' yyyy")}.`;
 ---
 

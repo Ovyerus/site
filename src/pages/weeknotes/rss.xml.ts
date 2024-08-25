@@ -23,7 +23,7 @@ export const GET = () =>
 
       return {
         link: `/weeknotes/${slug}`,
-        title: `${getWeeknoteTitle(date)}${subtitle}`,
+        title: `${getWeeknoteTitle(slug)}${subtitle}`,
         pubDate: date,
         description,
         content,

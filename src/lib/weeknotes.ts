@@ -1,15 +1,22 @@
 import type { CollectionEntry } from "astro:content";
-import { format, isAfter, isBefore, nextSunday, parseISO } from "date-fns";
+import {
+  addDays,
+  format,
+  isAfter,
+  isBefore,
+  lastDayOfWeek,
+  parseISO,
+} from "date-fns";
 
 export const getDayWeeknoteWasWritten = (slug: string) => {
-  // I write weeknotes on Sundays, but date-fns uses Monday-Sunday weeks and
-  // parses ISO weeks as the Monday, so need to shift it.
   const date = parseISO(slug.toUpperCase());
-  return nextSunday(date);
+  return addDays(lastDayOfWeek(date), 1);
 };
 
-export const getWeeknoteTitle = (date: Date) =>
-  format(date, "'Weeknote' ww, yyyy");
+export const getWeeknoteTitle = (slug: string) => {
+  const date = parseISO(slug.toUpperCase());
+  return format(date, "'Weeknote' ww, yyyy");
+};
 
 export const sortWeeknotes = (weeknotes: CollectionEntry<"weeknotes">[]) =>
   weeknotes.toSorted(({ slug: slugA }, { slug: slugB }) => {
