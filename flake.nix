@@ -24,6 +24,12 @@
           }
     );
 
-    packages = defaultForSystems (pkgs: pkgs.callPackage ./site.nix {});
+    packages = forSystems (pkgs: let
+      site = pkgs.callPackage ./site.nix {};
+      container = pkgs.callPackage ./container.nix {inherit site;};
+    in {
+      inherit site container;
+      default = site;
+    });
   };
 }
