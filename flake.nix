@@ -23,5 +23,7 @@
             '';
           }
     );
+
+    packages = defaultForSystems (pkgs: pkgs.callPackage ./site.nix {});
   };
 }
