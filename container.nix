@@ -5,7 +5,7 @@
 }:
 dockerTools.buildLayeredImage {
   name = "ovyerus-site-container";
-  tag = "2024";
+  tag = "latest";
 
   config = {
     Cmd = ["${caddy}/bin/caddy" "run" "--adapter" "caddyfile" "--config" "${./Caddyfile}"];

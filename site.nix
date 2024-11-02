@@ -12,10 +12,6 @@ stdenv.mkDerivation (finalAttrs: {
   version = "2.0.0";
   src = ./.;
 
-  # yarnOfflineCache = fetchYarnDeps {
-  #   yarnLock = ./yarn.lock;
-  #   hash = lib.fakeHash;
-  # };
   nativeBuildInputs = [nodejs_20 yarn vips pkg-config];
 
   yarnOfflineCache = stdenv.mkDerivation {
@@ -57,7 +53,6 @@ stdenv.mkDerivation (finalAttrs: {
     outputHashMode = "recursive";
   };
 
-  # nativeBuildInputs = [yarnConfigHook yarnBuildHook];
   configurePhase = ''
     runHook preConfigure
 
