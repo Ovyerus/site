@@ -7,6 +7,11 @@
   root * {$SITE_ROOT}
   encode gzip # TODO: check options
   file_server
+  log
+
+  redir /rss.xml /posts/rss.xml 307
+  reverse_proxy /js/script.js https://stats.ovy.sh
+  reverse_proxy /api/event https://stats.ovy.sh
 
   handle_errors {
     @404 {
