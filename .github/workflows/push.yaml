@@ -31,3 +31,8 @@ jobs:
           docker load < result
           docker tag ovyerus-site-container ghcr.io/ovyerus/site:latest
           docker push ghcr.io/ovyerus/site:latest
+
+      - name: Deploy to fly.io
+        run: nix develop --command fly deploy
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
