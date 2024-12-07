@@ -8,14 +8,15 @@ interface Props {
   description?: string;
   title: string;
   ogTitle: string;
+  ogImage?: string;
 }
 
-const { description, title, ogTitle } = Astro.props;
+const { description, title, ogTitle, ogImage } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-  <Head description={description} title={title} ogTitle={ogTitle}>
+  <Head {description} {title} {ogTitle} {ogImage}>
     <slot name="head" />
   </Head>
   <body

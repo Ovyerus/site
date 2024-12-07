@@ -22,6 +22,7 @@ const postsCollection = defineCollection({
 const weeknotesCollection = defineCollection({
   schema: z.object({
     subtitle: z.string().optional(),
+    description: z.string().optional(),
   }),
 });
 

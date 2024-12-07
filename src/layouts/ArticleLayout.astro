@@ -17,6 +17,7 @@ interface Props {
   comments?: boolean;
   preamble?: string;
   tags?: string[];
+  ogImage?: string;
 }
 
 const fmt = (d: Date) => format(d, "MMMM do, yyyy");
@@ -27,6 +28,7 @@ const {
   navCurrent = "/posts",
   comments = false,
   preamble,
+  ogImage,
   createdAt: _createdAt,
   modifiedAt: _modifiedAt,
 } = Astro.props;
@@ -39,7 +41,7 @@ const backlinkPath = Astro.url.pathname.replace("/posts", "");
 const backlink = new URL(backlinkPath, "https://ovy.rs").href;
 ---
 
-<Layout title={`${title} - Ovyerus`} ogTitle={title} description={description}>
+<Layout title={`${title} - Ovyerus`} ogTitle={title} {description} {ogImage}>
   {comments && <meta slot="head" name="giscus:backlink" content={backlink} />}
 
   <ArticleNav current={navCurrent} />

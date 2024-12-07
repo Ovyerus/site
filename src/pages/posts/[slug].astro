@@ -15,10 +15,11 @@ interface Props {
   post: CollectionEntry<"posts">;
 }
 
+const { slug } = Astro.params;
 const { post } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<ArticleLayout {...post.data} comments>
+<ArticleLayout {...post.data} ogImage={`posts/${slug}.png`} comments>
   <Content />
 </ArticleLayout>

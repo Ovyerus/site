@@ -24,6 +24,7 @@
     "@fontsource/montserrat": "^5.1.0",
     "@iconify-json/lucide": "^1.2.18",
     "@microflash/remark-figure-caption": "^2.0.2",
+    "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/typography": "^0.5.15",
     "astro": "5.0.3",
     "astro-compress": "^2.3.5",
@@ -37,10 +38,12 @@
     "rehype-slug": "^6.0.0",
     "remark-toc": "^9.0.0",
     "sanitize-html": "^2.13.1",
+    "satori": "^0.12.0",
     "tailwindcss": "^3.4.16"
   },
   "devDependencies": {
     "@types/markdown-it": "^14.1.2",
+    "@types/node": "^22.10.1",
     "@types/sanitize-html": "^2.13.0",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
@@ -48,5 +51,5 @@
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.9"
   },
-  "packageManager": "yarn@4.5.1"
+  "packageManager": "yarn@4.5.3"
 }

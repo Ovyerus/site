@@ -9,12 +9,25 @@ import workerLinks from "astro-worker-links";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeSlug from "rehype-slug";
+import * as fs from "node:fs";
 
 import dolch from "./src/dolch.theme.json" assert { type: "json" };
 
+const rawFonts = (exts: string[]) => ({
+  name: "vite-plugin-ovyerus-raw-fonts",
+  transform(_: unknown, id: string) {
+    if (exts.some((e) => id.endsWith(e))) {
+      const buffer = fs.readFileSync(id);
+      return {
+        code: `export default ${JSON.stringify(buffer)};`,
+        map: null,
+      };
+    }
+  },
+});
+
 // TODO: indieweb/microformats?
 
-// https://astro.build/config
 export default defineConfig({
   integrations: [
     icon(),
@@ -66,5 +79,9 @@ export default defineConfig({
         type: "dark",
       },
     },
+  },
+  vite: {
+    plugins: [rawFonts([".ttf", ".woff", ".woff2"])],
+    optimizeDeps: { exclude: ["@resvg/resvg-js"] },
   },
 });
