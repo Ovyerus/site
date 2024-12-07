@@ -54,12 +54,12 @@ const IS_PRODUCTION = import.meta.env.MODE === "production";
         siteName: "Ovyerus",
         description,
       },
-      // image: {
-      //   alt: "A magenta to cyan gradient.",
-      //   type: "image/png",
-      //   height: 250,
-      //   width: 500,
-      // },
+      image: {
+        alt: "",
+        type: "image/png",
+        height: ogImage ? 315 : 250,
+        width: ogImage ? 600 : 500,
+      },
     }}
     twitter={{
       card: "summary_large_image",

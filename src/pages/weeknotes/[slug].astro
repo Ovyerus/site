@@ -17,6 +17,7 @@ interface Props {
   weeknote: CollectionEntry<"weeknotes">;
 }
 
+const { slug } = Astro.params;
 const { weeknote } = Astro.props;
 const { Content } = await weeknote.render();
 const date = parseISO(weeknote.slug.toUpperCase());
@@ -29,6 +30,7 @@ const description = `My weekly journal-ish entry for ${format(date, "'week' ww '
   {description}
   navCurrent="/weeknotes"
   preamble={weeknote.data.subtitle}
+  ogImage={`posts/${slug}.png`}
 >
   <Content />
 </ArticleLayout>
