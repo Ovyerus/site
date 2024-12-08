@@ -18,6 +18,11 @@ export const getWeeknoteTitle = (slug: string) => {
   return format(date, "'Weeknote' ww, yyyy");
 };
 
+export const getWeeknoteTitleForSentence = (slug: string) => {
+  const date = parseISO(slug.toUpperCase());
+  return format(date, "'week' ww 'of' yyyy");
+};
+
 export const sortWeeknotes = (weeknotes: CollectionEntry<"weeknotes">[]) =>
   weeknotes.toSorted(({ slug: slugA }, { slug: slugB }) => {
     const a = parseISO(slugA.toUpperCase());

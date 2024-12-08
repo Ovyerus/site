@@ -6,7 +6,11 @@ import { getCollection } from "astro:content";
 import satori from "satori";
 import type { APIRoute, GetStaticPaths } from "astro";
 import { format, formatISO } from "date-fns";
-import { getDayWeeknoteWasWritten, getWeeknoteTitle } from "~lib/weeknotes";
+import {
+  getDayWeeknoteWasWritten,
+  getWeeknoteTitle,
+  getWeeknoteTitleForSentence,
+} from "~lib/weeknotes";
 import wordmarkData from "~assets/wordmark-gradient.svg";
 
 const wordmark =
@@ -143,16 +147,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const weeknoteProps = weeknotes.map(({ data, slug }) => {
     const createdAt = getDayWeeknoteWasWritten(slug);
     const title = getWeeknoteTitle(slug);
-    const titleOverline = format(createdAt, "'Week' ww 'of' yyyy");
 
     return {
       params: { slug: `weeknotes/${slug}` } satisfies Params,
       props: {
-        overline: data.subtitle ? `Weeknotes: ${titleOverline}` : "Weeknotes",
+        overline: data.subtitle
+          ? `Weeknotes: ${title.replace("Weeknote", "Week")}`
+          : "Weeknotes",
         title: data.subtitle || title,
         description:
           data.description ||
-          `My weekly journal-ish entry for ${titleOverline.toLowerCase()}.`,
+          `My weekly journal-ish entry for ${getWeeknoteTitleForSentence(slug)}.`,
         createdAt,
       } satisfies Props,
     };
