@@ -2,7 +2,7 @@
   lib,
   stdenv,
   cacert,
-  nodejs_20,
+  nodejs_22,
   yarn,
   vips,
   pkg-config,
@@ -14,7 +14,7 @@ in
     version = "2.0.0";
     src = lib.cleanSource ./.;
 
-    nativeBuildInputs = [nodejs_20 yarn vips pkg-config];
+    nativeBuildInputs = [nodejs_22 yarn vips pkg-config];
 
     yarnOfflineCache = stdenv.mkDerivation {
       name = "ovyerus-site-deps";

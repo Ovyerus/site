@@ -17,7 +17,7 @@
       pkgs:
         with pkgs;
           mkShell {
-            nativeBuildInputs = [nodejs_20 yarn vips pkg-config flyctl];
+            nativeBuildInputs = [nodejs_22 yarn vips pkg-config flyctl];
             shellHook = ''
               export LD_LIBRARY_PATH="${lib.makeLibraryPath [vips]}:$LD_LIBRARY_PATH"
             '';
