@@ -1,26 +1,24 @@
 import type { CollectionEntry } from "astro:content";
 import {
-  addDays,
   format,
   isAfter,
   isBefore,
-  lastDayOfWeek,
+  lastDayOfISOWeek,
   parseISO,
 } from "date-fns";
 
-export const getDayWeeknoteWasWritten = (slug: string) => {
+// TODO: write tests to cover edge cases like crossing the year and shit
+export const getWeeknoteStrings = (slug: string) => {
   const date = parseISO(slug.toUpperCase());
-  return addDays(lastDayOfWeek(date), 1);
-};
+  const [year, week] = slug.replace("w", "").split("-");
+  const writtenDate = lastDayOfISOWeek(date);
 
-export const getWeeknoteTitle = (slug: string) => {
-  const date = parseISO(slug.toUpperCase());
-  return format(date, "'Weeknote' ww, yyyy");
-};
-
-export const getWeeknoteTitleForSentence = (slug: string) => {
-  const date = parseISO(slug.toUpperCase());
-  return format(date, "'week' ww 'of' yyyy");
+  return {
+    createdAt: writtenDate,
+    written: format(writtenDate, "MMMM do, yyyy"),
+    title: `Weeknote ${week}, ${year}`,
+    sentence: `week ${week} of ${year}`,
+  };
 };
 
 export const sortWeeknotes = (weeknotes: CollectionEntry<"weeknotes">[]) =>

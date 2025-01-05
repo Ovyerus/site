@@ -2,7 +2,7 @@
 import type { GetStaticPaths } from "astro";
 import { type CollectionEntry, getCollection } from "astro:content";
 import ArticleLayout from "~layouts/ArticleLayout.astro";
-import { getWeeknoteTitle, getWeeknoteTitleForSentence } from "~lib/weeknotes";
+import { getWeeknoteStrings } from "~lib/weeknotes";
 
 export const getStaticPaths = (async () => {
   const weeknotes = await getCollection("weeknotes");
@@ -19,10 +19,9 @@ interface Props {
 const { slug } = Astro.params;
 const { weeknote } = Astro.props;
 const { Content } = await weeknote.render();
-const title = getWeeknoteTitle(weeknote.slug);
+const { title, sentence } = getWeeknoteStrings(weeknote.slug);
 const description =
-  weeknote.data.description ||
-  `My weekly journal-ish entry for ${getWeeknoteTitleForSentence(weeknote.slug)}.`;
+  weeknote.data.description || `My weekly journal-ish entry for ${sentence}.`;
 ---
 
 <ArticleLayout

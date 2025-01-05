@@ -5,12 +5,8 @@ import { Resvg } from "@resvg/resvg-js";
 import { getCollection } from "astro:content";
 import satori from "satori";
 import type { APIRoute, GetStaticPaths } from "astro";
-import { format, formatISO } from "date-fns";
-import {
-  getDayWeeknoteWasWritten,
-  getWeeknoteTitle,
-  getWeeknoteTitleForSentence,
-} from "~lib/weeknotes";
+import { formatISO } from "date-fns";
+import { getWeeknoteStrings } from "~lib/weeknotes";
 import wordmarkData from "~assets/wordmark-gradient.svg";
 
 const wordmark =
@@ -145,8 +141,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection("posts");
 
   const weeknoteProps = weeknotes.map(({ data, slug }) => {
-    const createdAt = getDayWeeknoteWasWritten(slug);
-    const title = getWeeknoteTitle(slug);
+    const { createdAt, title, sentence } = getWeeknoteStrings(slug);
 
     return {
       params: { slug: `weeknotes/${slug}` } satisfies Params,
@@ -156,8 +151,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
           : "Weeknotes",
         title: data.subtitle || title,
         description:
-          data.description ||
-          `My weekly journal-ish entry for ${getWeeknoteTitleForSentence(slug)}.`,
+          data.description || `My weekly journal-ish entry for ${sentence}.`,
         createdAt,
       } satisfies Props,
     };

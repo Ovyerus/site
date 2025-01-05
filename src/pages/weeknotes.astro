@@ -1,15 +1,10 @@
 ---
 import { getCollection } from "astro:content";
 import { Icon } from "astro-icon/components";
-import { format } from "date-fns";
 import ArticleIndex from "../components/ArticleIndex.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import Layout from "../layouts/Layout.astro";
-import {
-  getDayWeeknoteWasWritten,
-  getWeeknoteTitle,
-  sortWeeknotes,
-} from "~lib/weeknotes";
+import { getWeeknoteStrings, sortWeeknotes } from "~lib/weeknotes";
 
 let weeknotes = await getCollection("weeknotes");
 const weekRe = /^\d{4}-w\d{2}\.md$/i;
@@ -50,12 +45,11 @@ weeknotes = sortWeeknotes(weeknotes);
     <!-- TODO: decide on a better layout once I have a decent amount of entries -->
     {
       weeknotes.map(({ slug, data: { subtitle } }) => {
-        const date = getDayWeeknoteWasWritten(slug);
-        const title = getWeeknoteTitle(slug);
+        const { title, written } = getWeeknoteStrings(slug);
 
         return (
           <ArticleCard {title} {subtitle} href={`/weeknotes/${slug}`}>
-            {format(date, "MMMM do, yyyy")}
+            {written}
           </ArticleCard>
         );
       })
