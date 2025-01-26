@@ -1,12 +1,12 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection, render } from "astro:content";
 import ArticleLayout from "~layouts/ArticleLayout.astro";
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection("posts");
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }));
 }) satisfies GetStaticPaths;
@@ -17,7 +17,7 @@ interface Props {
 
 const { slug } = Astro.params;
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 ---
 
 <ArticleLayout {...post.data} ogImage={`/og/posts/${slug}.png`} comments>

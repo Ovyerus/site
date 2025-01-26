@@ -1,13 +1,13 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection, render } from "astro:content";
 import ArticleLayout from "~layouts/ArticleLayout.astro";
 import { getWeeknoteStrings } from "~lib/weeknotes";
 
 export const getStaticPaths = (async () => {
   const weeknotes = await getCollection("weeknotes");
   return weeknotes.map((weeknote) => ({
-    params: { slug: weeknote.slug },
+    params: { slug: weeknote.id },
     props: { weeknote },
   }));
 }) satisfies GetStaticPaths;
@@ -18,8 +18,8 @@ interface Props {
 
 const { slug } = Astro.params;
 const { weeknote } = Astro.props;
-const { Content } = await weeknote.render();
-const { title, sentence } = getWeeknoteStrings(weeknote.slug);
+const { Content } = await render(weeknote);
+const { title, sentence } = getWeeknoteStrings(weeknote.id);
 const description =
   weeknote.data.description || `My weekly journal-ish entry for ${sentence}.`;
 ---

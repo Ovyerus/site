@@ -1,15 +1,11 @@
+import { glob } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
 
-const infoCollection = defineCollection({
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    navCurrent: z.string().startsWith("/"),
-    premable: z.string().optional(),
-  }),
-});
-
 const postsCollection = defineCollection({
+  loader: glob({
+    pattern: "**/[^_]*.{md,mdx}",
+    base: "./src/content/posts",
+  }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -20,6 +16,10 @@ const postsCollection = defineCollection({
 });
 
 const weeknotesCollection = defineCollection({
+  loader: glob({
+    pattern: "**/[^_]*.{md,mdx}",
+    base: "./src/content/weeknotes",
+  }),
   schema: z.object({
     subtitle: z.string().optional(),
     description: z.string().optional(),
@@ -27,7 +27,6 @@ const weeknotesCollection = defineCollection({
 });
 
 export const collections = {
-  info: infoCollection,
   posts: postsCollection,
   weeknotes: weeknotesCollection,
 };

@@ -7,7 +7,7 @@ import Layout from "../layouts/Layout.astro";
 import { getWeeknoteStrings, sortWeeknotes } from "~lib/weeknotes";
 
 let weeknotes = await getCollection("weeknotes");
-const weekRe = /^\d{4}-w\d{2}\.md$/i;
+const weekRe = /^\d{4}-w\d{2}$/i;
 const incorrectWeeknoteFilename = weeknotes.find((w) => !weekRe.test(w.id));
 
 if (incorrectWeeknoteFilename)
@@ -44,11 +44,11 @@ weeknotes = sortWeeknotes(weeknotes);
 
     <!-- TODO: decide on a better layout once I have a decent amount of entries -->
     {
-      weeknotes.map(({ slug, data: { subtitle } }) => {
-        const { title, written } = getWeeknoteStrings(slug);
+      weeknotes.map(({ id, data: { subtitle } }) => {
+        const { title, written } = getWeeknoteStrings(id);
 
         return (
-          <ArticleCard {title} {subtitle} href={`/weeknotes/${slug}`}>
+          <ArticleCard {title} {subtitle} href={`/weeknotes/${id}`}>
             {written}
           </ArticleCard>
         );

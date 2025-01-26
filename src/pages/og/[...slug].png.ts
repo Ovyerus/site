@@ -140,11 +140,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const weeknotes = await getCollection("weeknotes");
   const posts = await getCollection("posts");
 
-  const weeknoteProps = weeknotes.map(({ data, slug }) => {
-    const { createdAt, title, sentence } = getWeeknoteStrings(slug);
+  const weeknoteProps = weeknotes.map(({ data, id }) => {
+    const { createdAt, title, sentence } = getWeeknoteStrings(id);
 
     return {
-      params: { slug: `weeknotes/${slug}` } satisfies Params,
+      params: { slug: `weeknotes/${id}` } satisfies Params,
       props: {
         overline: data.subtitle
           ? `Weeknotes: ${title.replace("Weeknote", "Week")}`
@@ -157,9 +157,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
     };
   });
 
-  const postsProps = posts.map(({ data, slug }) => {
+  const postsProps = posts.map(({ data, id }) => {
     return {
-      params: { slug: `posts/${slug}` } satisfies Params,
+      params: { slug: `posts/${id}` } satisfies Params,
       props: {
         overline: data.tags.join(", "),
         title: data.title,

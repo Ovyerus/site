@@ -22,8 +22,8 @@ const posts = sortPosts(await getCollection("posts"));
     </Fragment>
 
     {
-      posts.map(({ data: { title, description, tags }, slug }) => (
-        <ArticleCard href={`/posts/${slug}`} {title} {tags}>
+      posts.map(({ data: { title, description, tags }, id }) => (
+        <ArticleCard href={`/posts/${id}`} {title} {tags}>
           {description}
         </ArticleCard>
       ))

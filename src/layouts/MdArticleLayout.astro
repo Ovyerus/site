@@ -1,0 +1,25 @@
+---
+// `./ArticleLayout.astro` but takes the props for a direct .md page.
+
+import ArticleLayout from "./ArticleLayout.astro";
+
+interface Props {
+  frontmatter: {
+    title: string;
+    createdAt?: Date;
+    modifiedAt?: Date;
+    description?: string;
+    navCurrent?: string;
+    comments?: boolean;
+    premable?: string;
+    tags?: string[];
+    ogImage?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<ArticleLayout {...frontmatter}>
+  <slot />
+</ArticleLayout>

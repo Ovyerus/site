@@ -8,9 +8,9 @@ import {
 } from "date-fns";
 
 // TODO: write tests to cover edge cases like crossing the year and shit
-export const getWeeknoteStrings = (slug: string) => {
-  const date = parseISO(slug.toUpperCase());
-  const [year, week] = slug.replace("w", "").split("-");
+export const getWeeknoteStrings = (id: string) => {
+  const date = parseISO(id.toUpperCase());
+  const [year, week] = id.replace("w", "").split("-");
   const writtenDate = lastDayOfISOWeek(date);
 
   return {
@@ -22,9 +22,9 @@ export const getWeeknoteStrings = (slug: string) => {
 };
 
 export const sortWeeknotes = (weeknotes: CollectionEntry<"weeknotes">[]) =>
-  weeknotes.toSorted(({ slug: slugA }, { slug: slugB }) => {
-    const a = parseISO(slugA.toUpperCase());
-    const b = parseISO(slugB.toUpperCase());
+  weeknotes.toSorted(({ id: idA }, { id: idB }) => {
+    const a = parseISO(idA.toUpperCase());
+    const b = parseISO(idB.toUpperCase());
 
     // Conditions reversed to make it a descending list.
     if (isAfter(a, b)) return -1;

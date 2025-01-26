@@ -11,14 +11,14 @@ export const GET = () =>
     description:
       "An attempt to force me to do some decent writing frequently, in the form of weekly journal-ish entries.",
     site: import.meta.env.SITE,
-    items: weeknotes.map(({ body, data, slug }) => {
-      const { createdAt, title } = getWeeknoteStrings(slug);
+    items: weeknotes.map(({ body, data, id }) => {
+      const { createdAt, title } = getWeeknoteStrings(id);
       const subtitle = data.subtitle ? `: ${data.subtitle}` : "";
       const content = renderMarkdownForRSS(body);
       const description = synopsisFromHtml(content);
 
       return {
-        link: `/weeknotes/${slug}`,
+        link: `/weeknotes/${id}`,
         title: `${title}${subtitle}`,
         pubDate: createdAt,
         description,
