@@ -11,10 +11,10 @@
 
   redir /rss.xml /posts/rss.xml 307
 
-  reverse_proxy /js/script.js https://stats.ovy.sh {
+  reverse_proxy /script.js https://stats.ovy.sh {
     header_up Host {upstream_hostport}
   }
-  reverse_proxy /api/event https://stats.ovy.sh {
+  reverse_proxy /api/send https://stats.ovy.sh {
     header_up Host {upstream_hostport}
   }
 
