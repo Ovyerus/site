@@ -64,7 +64,7 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
       }
     </header>
 
-    <main class="article-content prose !prose-invert">
+    <main class="article-content">
       <hr />
       <slot />
     </main>
@@ -84,13 +84,15 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
   }
 
   .article-content {
+    @apply prose !prose-invert;
     @apply mb-12 max-w-none not-italic;
-    @apply prose-headings:relative prose-headings:italic;
+    @apply prose-headings:relative prose-headings:italic prose-headings:flex prose-headings:gap-2;
+
+    --tw-prose-invert-bullets: #0ff;
+    --tw-prose-invert-counters: #0ff;
+    --tw-prose-invert-quote-borders: transparent;
 
     & :is(h1, h2, h3, h4, h5, h6) {
-      display: flex;
-      gap: 0.5rem;
-
       & > a {
         background: linear-gradient(to bottom right, #f0f, #0ff);
         background-clip: text;
@@ -110,6 +112,58 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
       }
     }
   }
+
+  hr {
+    @apply h-px border-t-0;
+    background: linear-gradient(to right, #f0f, #0ff);
+  }
+
+  a:hover {
+    background: linear-gradient(to bottom right, #f0f, #0ff);
+    @apply bg-clip-text text-transparent;
+  }
+
+  pre {
+    @apply not-italic;
+  }
+
+  code {
+    @apply relative text-base;
+  }
+
+  :not(pre) > code {
+    background: linear-gradient(to right, #f0f, #0ff);
+    @apply bg-clip-text px-1.5 py-1;
+  }
+
+  blockquote {
+    @apply relative border-none;
+
+    &::before {
+      content: "";
+      background: linear-gradient(to bottom, #f0f, #0ff);
+      @apply absolute inset-0 block w-1;
+    }
+  }
+
+  figure {
+    @apply flex flex-col items-center;
+
+    img,
+    video {
+      @apply h-full max-h-[500px] w-auto rounded-md;
+    }
+
+    video {
+      @apply m-0;
+    }
+  }
+
+  figcaption {
+    @apply w-full max-w-[500px] text-center text-white italic opacity-75;
+  }
+
+  /* Codeblocks */
 
   .astro-code,
   .shiki {

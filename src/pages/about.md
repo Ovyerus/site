@@ -43,11 +43,11 @@ I can be easily reached at [ovy@ovyerus.com](mailto:ovy@ovyerus.com), or on my
 
 **You may not contact me about anything cryptocurrency/"Web3"/NFT/AI related.**
 
----
+<!-- ---
 
 Here's some interesting points about me:
 
 - I've been using [Colemak](https://colemak.com/) as my keyboard layout for more
   than a year (and loving how comfy it is).
 - All my programming knowledge is fully self taught - I picked it up during high
-  school as a hobby.
+  school as a hobby. -->

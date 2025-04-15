@@ -4,7 +4,6 @@
 
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
-@config "../../tailwind.config.ts";
 
 @theme {
   --font-sans: "Montserrat Variable", system-ui, sans-serif;
