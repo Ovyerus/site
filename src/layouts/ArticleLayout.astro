@@ -1,8 +1,7 @@
 ---
-import "@fontsource/iosevka/400.css";
-import "@fontsource/iosevka/700.css";
 import { format } from "date-fns";
 
+import "../styles/global.css";
 import Layout from "./Layout.astro";
 import ArticleFooter from "../components/ArticleFooter.astro";
 import ArticleNav from "../components/ArticleNav.astro";
@@ -65,7 +64,7 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
       }
     </header>
 
-    <main class="article-content prose prose-invert">
+    <main class="article-content prose !prose-invert">
       <hr />
       <slot />
     </main>
@@ -77,6 +76,8 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
 </Layout>
 
 <style is:global>
+  @reference "../styles/global.css";
+
   body {
     /* TODO: find out why this happens on my desktop */
     overflow-x: hidden;
@@ -129,25 +130,11 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
       background: linear-gradient(to bottom, #f0f, #0ff);
       background-clip: text;
       padding: 0;
-      counter-reset: step;
-      counter-increment: step calc(var(--start, 1) - 1);
       color: inherit;
 
       &::before {
         content: none;
         display: none;
-      }
-
-      & .line {
-        &::before {
-          content: counter(step);
-          counter-increment: step;
-          width: 1rem;
-          margin-right: 1.5rem;
-          display: inline-block;
-          text-align: left;
-          color: transparent;
-        }
       }
     }
   }

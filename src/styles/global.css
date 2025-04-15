@@ -1,0 +1,73 @@
+@import "@fontsource/iosevka/400.css";
+@import "@fontsource/iosevka/700.css";
+@import "@fontsource-variable/montserrat/wght-italic.css";
+
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@config "../../tailwind.config.ts";
+
+@theme {
+  --font-sans: "Montserrat Variable", system-ui, sans-serif;
+  --font-mono: "Iosevka", monospace;
+}
+
+@layer base {
+  html {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content {
+    @apply flex min-h-screen flex-col gap-2.5 p-2.5 md:gap-5 md:p-5;
+  }
+}
+
+@layer components {
+  .link-list {
+    @apply flex flex-wrap gap-[10px];
+
+    & li {
+      & + li::before {
+        content: "/";
+        margin-right: 10px;
+      }
+
+      & > a {
+        @apply underline;
+      }
+    }
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 100% 50%;
+  }
+  40% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 0% 50%;
+  }
+  90% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.neon {
+  @apply from-[#f0f] to-[#0ff];
+  background-size: 500% 100%;
+  animation: gradient-shift 10s linear infinite;
+
+  &:not(.neon-right) {
+    @apply bg-gradient-to-br;
+  }
+
+  &.neon-right {
+    @apply bg-gradient-to-r;
+  }
+}

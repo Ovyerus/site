@@ -1,4 +1,3 @@
-import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 import a11yEmoji from "@fec/remark-a11y-emoji";
 import remarkFigureCaption from "@microflash/remark-figure-caption";
@@ -12,6 +11,8 @@ import rehypeSlug from "rehype-slug";
 import * as fs from "node:fs";
 
 import dolch from "./src/dolch.theme.json" assert { type: "json" };
+
+import tailwindcss from "@tailwindcss/vite";
 
 const rawFonts = (exts: string[]) => ({
   name: "vite-plugin-ovyerus-raw-fonts",
@@ -31,7 +32,6 @@ const rawFonts = (exts: string[]) => ({
 export default defineConfig({
   integrations: [
     icon(),
-    tailwind(),
     sitemap(),
     workerLinks({
       domain: "https://ovy.rs",
@@ -81,7 +81,7 @@ export default defineConfig({
     },
   },
   vite: {
-    plugins: [rawFonts([".ttf", ".woff", ".woff2"])],
+    plugins: [rawFonts([".ttf", ".woff", ".woff2"]), tailwindcss()],
     optimizeDeps: { exclude: ["@resvg/resvg-js"] },
   },
 });

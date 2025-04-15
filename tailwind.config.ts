@@ -1,16 +1,9 @@
 import type { Config } from "tailwindcss";
-import type { PluginAPI } from "tailwindcss/types/config";
-import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
-  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
-    fontFamily: {
-      sans: ["Montserrat", ...defaultTheme.fontFamily.sans],
-      mono: ["Iosevka", ...defaultTheme.fontFamily.mono],
-    },
     extend: {
-      typography: (theme: PluginAPI["theme"]) => ({
+      typography: ({ theme }) => ({
         invert: {
           css: {
             "--tw-prose-invert-bullets": "#0ff",
@@ -33,7 +26,6 @@ export default {
               position: "relative",
               background: "linear-gradient(to right, #f0f, #0ff)",
               backgroundClip: "text",
-              color: "transparent",
               paddingTop: theme("padding[1]"),
               paddingRight: theme("padding[1.5]"),
               paddingBottom: theme("padding[1]"),
@@ -84,5 +76,4 @@ export default {
       }),
     },
   },
-  plugins: [require("@tailwindcss/typography")],
 } satisfies Config;
