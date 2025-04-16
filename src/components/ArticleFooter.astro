@@ -1,22 +1,12 @@
 ---
-import { Image } from "astro:assets";
-import wordmark from "../assets/wordmark.svg";
+import Wordmark from "../assets/wordmark.svg";
 ---
 
 <footer
   class="neon relative m-2.5 flex flex-col items-center justify-center gap-2 p-2.5 text-base text-black md:m-5 md:p-5"
 >
   <a href="/" class="md:absolute md:left-5">
-    <Image
-      class="w-full max-w-[200px]"
-      alt="Ovyerus"
-      aria-label="Ovyerus"
-      src={wordmark}
-      role="heading"
-      aria-level="1"
-      aria-label="Ovyerus"
-      loading="eager"
-    />
+    <Wordmark class="w-full max-w-[200px]" aria-label="Ovyerus" />
   </a>
 
   <ul class="link-list">

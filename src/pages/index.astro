@@ -1,7 +1,5 @@
 ---
-import { Image } from "astro:assets";
-
-import wordmark from "~assets/wordmark-gradient.svg";
+import WordmarkGradient from "~assets/wordmark-gradient.svg";
 import Webring from "~components/Webring.astro";
 import Layout from "~layouts/Layout.astro";
 
@@ -18,14 +16,11 @@ const email = "ovy@ovyerus.com";
     <div
       class="flex h-full flex-grow basis-[0] flex-col gap-5 p-2.5 md:h-1/2 md:p-5"
     >
-      <Image
-        class="w-full max-w-[600px]"
-        src={wordmark}
-        alt="Ovyerus"
+      <WordmarkGradient
+        class="h-auto w-full max-w-[600px]"
         role="heading"
         aria-level="1"
         aria-label="Ovyerus"
-        loading="eager"
       />
       <p>Multifaceted creative, programmer of many things.</p>
       <nav>
