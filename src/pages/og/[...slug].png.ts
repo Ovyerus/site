@@ -7,13 +7,10 @@ import satori from "satori";
 import type { APIRoute, GetStaticPaths } from "astro";
 import { formatISO } from "date-fns";
 import { getWeeknoteStrings } from "~lib/weeknotes";
-import wordmarkData from "~assets/wordmark-gradient.svg";
+import wordmarkData from "~assets/wordmark-gradient.svg?raw";
 
 const wordmark =
-  "data:image/svg+xml;base64," +
-  Buffer.from(
-    (wordmarkData as unknown as ImageMetadata & { contents: any }).contents,
-  ).toString("base64");
+  "data:image/svg+xml;base64," + Buffer.from(wordmarkData).toString("base64");
 
 interface JSXNode {
   type: string;
