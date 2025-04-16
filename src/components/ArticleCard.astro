@@ -53,8 +53,8 @@ const { href, tags = [], title, subtitle } = Astro.props;
       --bg2 0.1s ease-out;
 
     &:hover {
-      --bg1: #f0f;
-      --bg2: #0ff;
+      --bg1: var(--color-magenta);
+      --bg2: var(--color-cyan);
     }
 
     &::before {

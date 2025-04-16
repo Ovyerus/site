@@ -1993,7 +1993,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shikijs/types@npm:3.2.2":
+"@shikijs/types@npm:3.2.2, @shikijs/types@npm:^3.2.2":
   version: 3.2.2
   resolution: "@shikijs/types@npm:3.2.2"
   dependencies:
@@ -2877,7 +2877,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro@npm:5.7.0":
+"astro@npm:^5.7.0":
   version: 5.7.0
   resolution: "astro@npm:5.7.0"
   dependencies:
@@ -4805,6 +4805,19 @@ __metadata:
     property-information: "npm:^6.0.0"
     space-separated-tokens: "npm:^2.0.0"
   checksum: 10c0/66eff826846c55482052ebbc99b6881c14aff6421526634f4c95318ba1d0d1f1bbf5aa38446f388943c0f32d5383fa38740c972b37678dd1cd0c82e6e5807fbf
+  languageName: node
+  linkType: hard
+
+"hastscript@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "hastscript@npm:9.0.1"
+  dependencies:
+    "@types/hast": "npm:^3.0.0"
+    comma-separated-tokens: "npm:^2.0.0"
+    hast-util-parse-selector: "npm:^4.0.0"
+    property-information: "npm:^7.0.0"
+    space-separated-tokens: "npm:^2.0.0"
+  checksum: 10c0/18dc8064e5c3a7a2ae862978e626b97a254e1c8a67ee9d0c9f06d373bba155ed805fc5b5ce21b990fb7bc174624889e5e1ce1cade264f1b1d58b48f994bc85ce
   languageName: node
   linkType: hard
 
@@ -7752,17 +7765,19 @@ __metadata:
     "@iconify-json/lucide": "npm:^1.2.36"
     "@microflash/remark-figure-caption": "npm:^2.0.2"
     "@resvg/resvg-js": "npm:^2.6.2"
+    "@shikijs/types": "npm:^3.2.2"
     "@tailwindcss/typography": "npm:^0.5.16"
     "@tailwindcss/vite": "npm:^4.1.4"
     "@types/markdown-it": "npm:^14.1.2"
     "@types/node": "npm:^22.14.1"
     "@types/sanitize-html": "npm:^2.15.0"
-    astro: "npm:5.7.0"
+    astro: "npm:^5.7.0"
     astro-compress: "npm:^2.3.8"
     astro-icon: "npm:^1.1.5"
     astro-seo: "npm:^0.8.4"
     astro-worker-links: "npm:^0.3.1"
     date-fns: "npm:^4.1.0"
+    hastscript: "npm:^9.0.1"
     markdown-it: "npm:^14.1.0"
     prettier: "npm:^3.5.3"
     prettier-plugin-astro: "npm:^0.14.1"

@@ -8,6 +8,11 @@
 @theme {
   --font-sans: "Montserrat Variable", system-ui, sans-serif;
   --font-mono: "Iosevka", monospace;
+  --color-cyan-*: initial;
+  --color-cyan: #0ff;
+  --color-magenta: #f0f;
+  --color-dolch-900: #101416;
+  --color-dolch-800: #212426;
 }
 
 @layer base {
@@ -58,7 +63,7 @@
 }
 
 .neon {
-  @apply from-[#f0f] to-[#0ff];
+  @apply from-magenta to-cyan;
   background-size: 500% 100%;
   animation: gradient-shift 10s linear infinite;
 

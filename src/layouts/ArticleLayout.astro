@@ -75,6 +75,11 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
   <ArticleFooter />
 </Layout>
 
+<style>
+  .foo {
+  }
+</style>
+
 <style is:global>
   @reference "../styles/global.css";
 
@@ -87,40 +92,30 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
     @apply prose !prose-invert;
     @apply mb-12 max-w-none not-italic;
     @apply prose-headings:relative prose-headings:italic prose-headings:flex prose-headings:gap-2;
+    @apply prose-pre:rounded-none prose-pre:m-0;
 
-    --tw-prose-invert-bullets: #0ff;
-    --tw-prose-invert-counters: #0ff;
+    --tw-prose-invert-bullets: var(--color-cyan);
+    --tw-prose-invert-counters: var(--color-cyan);
     --tw-prose-invert-quote-borders: transparent;
 
     & :is(h1, h2, h3, h4, h5, h6) {
       & > a {
-        background: linear-gradient(to bottom right, #f0f, #0ff);
-        background-clip: text;
-        color: transparent;
-        text-decoration: none;
-        font-style: normal;
-        opacity: 0;
+        @apply from-magenta to-cyan bg-gradient-to-br bg-clip-text text-transparent not-italic no-underline opacity-0 hover:font-bold;
         transition: opacity 0.1s ease-out;
-
-        &:hover {
-          font-weight: bold;
-        }
       }
 
       &:hover > a {
-        opacity: 1;
+        @apply opacity-100;
       }
     }
   }
 
   hr {
-    @apply h-px border-t-0;
-    background: linear-gradient(to right, #f0f, #0ff);
+    @apply from-magenta to-cyan h-px border-t-0 bg-gradient-to-r;
   }
 
   a:hover {
-    background: linear-gradient(to bottom right, #f0f, #0ff);
-    @apply bg-clip-text text-transparent;
+    @apply from-magenta to-cyan bg-gradient-to-r bg-clip-text text-transparent;
   }
 
   pre {
@@ -132,8 +127,7 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
   }
 
   :not(pre) > code {
-    background: linear-gradient(to right, #f0f, #0ff);
-    @apply bg-clip-text px-1.5 py-1;
+    @apply from-magenta to-cyan bg-gradient-to-r bg-clip-text px-1.5 py-1;
   }
 
   blockquote {
@@ -141,8 +135,7 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
 
     &::before {
       content: "";
-      background: linear-gradient(to bottom, #f0f, #0ff);
-      @apply absolute inset-0 block w-1;
+      @apply from-magenta to-cyan absolute inset-0 block w-1 bg-gradient-to-b;
     }
   }
 
@@ -165,31 +158,28 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
 
   /* Codeblocks */
 
-  .astro-code,
-  .shiki {
-    position: relative;
-    background: linear-gradient(to bottom right, #f0f, #0ff);
+  .shiki-container {
+    @apply from-magenta to-cyan relative my-5 flex flex-col items-stretch gap-2 rounded-xl bg-gradient-to-br p-1 has-[.shiki-title]:pt-2;
 
     &::before {
-      content: "";
-      display: block;
-      position: absolute;
-      inset: 1px;
-      background: #101416;
-      border-radius: inherit;
+      @apply bg-dolch-900 absolute inset-px block rounded-[inherit] content-[""];
+    }
+  }
+
+  .shiki-title {
+    @apply relative px-2 font-mono text-sm font-bold text-white italic;
+  }
+
+  .astro-code,
+  .shiki {
+    @apply from-magenta to-cyan relative rounded-lg bg-gradient-to-br;
+
+    &::before {
+      @apply bg-dolch-800 absolute inset-px block rounded-[inherit] content-[""];
     }
 
     & > code {
-      display: block;
-      background: linear-gradient(to bottom, #f0f, #0ff);
-      background-clip: text;
-      padding: 0;
-      color: inherit;
-
-      &::before {
-        content: none;
-        display: none;
-      }
+      @apply from-magenta to-cyan block bg-gradient-to-b bg-clip-text p-0 text-inherit before:hidden;
     }
   }
 
@@ -202,8 +192,8 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
     }
 
     /* TODO: how the fuck do I fix this properly??? */
-    &:last-child:has(> :empty) {
+    /* &:last-child:has(> :empty) {
       display: none;
-    }
+    } */
   }
 </style>

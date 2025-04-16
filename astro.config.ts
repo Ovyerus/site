@@ -1,6 +1,7 @@
 import sitemap from "@astrojs/sitemap";
 import a11yEmoji from "@fec/remark-a11y-emoji";
 import remarkFigureCaption from "@microflash/remark-figure-caption";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import compress from "astro-compress";
 import icon from "astro-icon";
@@ -9,10 +10,9 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeSlug from "rehype-slug";
 import * as fs from "node:fs";
+import { transformerTitle } from "./src/lib/astro/shikiTransformerTitle";
 
 import dolch from "./src/dolch.theme.json" assert { type: "json" };
-
-import tailwindcss from "@tailwindcss/vite";
 
 const rawFonts = (exts: string[]) => ({
   name: "vite-plugin-ovyerus-raw-fonts",
@@ -78,10 +78,11 @@ export default defineConfig({
         fg: "#b0b4b7",
         type: "dark",
       },
+      transformers: [transformerTitle()],
     },
   },
   vite: {
-    plugins: [rawFonts([".ttf", ".woff", ".woff2"]), tailwindcss()],
+    plugins: [rawFonts([".ttf", ".woff", ".woff2"]), tailwindcss() as any],
     optimizeDeps: { exclude: ["@resvg/resvg-js"] },
   },
 });
