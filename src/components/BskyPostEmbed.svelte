@@ -15,23 +15,49 @@
 </script>
 
 {#snippet images(images: AppBskyEmbedImages.Image[])}
-  {#if images.length === 1}
-    {@const { alt, image } = images[0]!}
-    <div class="max-h-96 max-w-96">
+  {#snippet popoverImage(
+    cid: string,
+    alt: string,
+    buttonClass: any,
+    imageClass: any,
+  )}
+    <button class={buttonClass} popovertarget={cid}>
+      <img {alt} src={getBskyCdnLink(did, cid, "jpeg")} class={imageClass} />
+    </button>
+
+    <div
+      id={cid}
+      class="fixed inset-0 m-auto bg-transparent text-white backdrop:bg-black/50"
+      popover
+    >
+      <!-- TODO: figure out better sizing so that the alt text can fit in below it as a paragraph... -->
       <img
         {alt}
-        src={getBskyCdnLink(did, image.ref.$link, "jpeg")}
-        class="rounded-lg"
+        src={getBskyCdnLink(did, cid, "png")}
+        loading="lazy"
+        class="max-h-[calc(100vh-var(--spacing)*20)] max-w-[calc(100vw-var(--spacing)*20)] object-contain object-center"
       />
     </div>
+  {/snippet}
+
+  {#if images.length === 1}
+    {@const { alt, image } = images[0]!}
+    {@render popoverImage(
+      image.ref.$link,
+      alt,
+      "max-h-96 max-w-96 cursor",
+      "rounded-lg",
+    )}
   {:else}
     <div
       class="grid h-96 grid-cols-2 grid-rows-2 gap-2 overflow-hidden rounded-lg"
     >
       {#each images as { alt, image }, i}
-        <div
-          class={[
-            "bg-dolch-900 flex items-center justify-center",
+        {@render popoverImage(
+          image.ref.$link,
+          alt,
+          [
+            "bg-dolch-900 flex cursor-pointer items-center justify-center",
             {
               // First item when 3 or less items, or the second item when 2 items.
               "row-span-2":
@@ -39,14 +65,9 @@
                 (images.length === 2 && i === 1),
               "col-span-2": images.length === 1,
             },
-          ]}
-        >
-          <img
-            {alt}
-            src={getBskyCdnLink(did, image.ref.$link, "jpeg")}
-            class="h-full w-full object-contain object-center"
-          />
-        </div>
+          ],
+          "h-full w-full object-contain object-center",
+        )}
       {/each}
     </div>
   {/if}
