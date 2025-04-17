@@ -1,6 +1,6 @@
 ---
+import ExternalLink from "@lucide/astro/icons/external-link";
 import { getCollection } from "astro:content";
-import { Icon } from "astro-icon/components";
 import ArticleIndex from "../components/ArticleIndex.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import Layout from "../layouts/Layout.astro";
@@ -36,7 +36,7 @@ weeknotes = sortWeeknotes(weeknotes);
         target="_blank"
       >
         weeknotes
-        <Icon name="lucide:external-link" size={16} />
+        <ExternalLink size={16} />
       </a>, an attempt to force me to do some decent writing more frequently, in
       the form of weekly journal-ish entries. No guarantees on quality or
       length.

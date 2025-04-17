@@ -1,5 +1,5 @@
 ---
-import { Icon } from "astro-icon/components";
+import Rss from "@lucide/astro/icons/rss";
 import ArticleFooter from "../components/ArticleFooter.astro";
 import ArticleNav from "../components/ArticleNav.astro";
 
@@ -25,7 +25,7 @@ const { title, navCurrent: current, rss } = Astro.props;
       rss && (
         <a href={rss} class="flex items-center gap-2 text-sm underline">
           RSS feed
-          <Icon name="lucide:rss" size={16} />
+          <Rss size={16} />
         </a>
       )
     }

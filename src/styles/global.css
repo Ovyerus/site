@@ -1,6 +1,6 @@
 @import "@fontsource/iosevka/400.css";
 @import "@fontsource/iosevka/700.css";
-@import "@fontsource-variable/montserrat/wght-italic.css";
+@import "@fontsource-variable/montserrat";
 
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
@@ -11,8 +11,17 @@
   --color-cyan-*: initial;
   --color-cyan: #0ff;
   --color-magenta: #f0f;
-  --color-dolch-900: #101416;
-  --color-dolch-800: #212426;
+  --color-dolch-950: #101416;
+  --color-dolch-900: #222527;
+  --color-dolch-800: #343739;
+  --color-dolch-700: #464a4c;
+  --color-dolch-600: #5a5e60;
+  --color-dolch-500: #6f7375;
+  --color-dolch-400: #84888a;
+  --color-dolch-300: #9a9ea0;
+  --color-dolch-200: #b0b4b7;
+  --color-dolch-100: #c7cbce;
+  --color-dolch-50: #dfe3e6;
 }
 
 @layer base {

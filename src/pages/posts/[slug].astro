@@ -20,6 +20,6 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<ArticleLayout {...post.data} ogImage={`/og/posts/${slug}.png`} comments>
+<ArticleLayout {...post.data} ogImage={`/og/posts/${slug}.png`}>
   <Content />
 </ArticleLayout>

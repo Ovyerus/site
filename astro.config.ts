@@ -1,10 +1,10 @@
 import sitemap from "@astrojs/sitemap";
+import svelte from "@astrojs/svelte";
 import a11yEmoji from "@fec/remark-a11y-emoji";
 import remarkFigureCaption from "@microflash/remark-figure-caption";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import compress from "astro-compress";
-import icon from "astro-icon";
 import workerLinks from "astro-worker-links";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
@@ -31,7 +31,6 @@ const rawFonts = (exts: string[]) => ({
 
 export default defineConfig({
   integrations: [
-    icon(),
     sitemap(),
     workerLinks({
       domain: "https://ovy.rs",
@@ -51,6 +50,7 @@ export default defineConfig({
       },
     }),
     compress(),
+    svelte(),
   ],
   prefetch: {
     prefetchAll: true,

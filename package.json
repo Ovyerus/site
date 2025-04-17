@@ -19,18 +19,21 @@
   "dependencies": {
     "@astrojs/rss": "4.0.11",
     "@astrojs/sitemap": "3.3.0",
+    "@astrojs/svelte": "^7.0.10",
+    "@atcute/bluesky": "^2.0.1",
+    "@atcute/client": "^3.0.1",
     "@fec/remark-a11y-emoji": "^4.0.2",
     "@fontsource-variable/montserrat": "^5.2.5",
     "@fontsource/iosevka": "^5.2.5",
     "@fontsource/montserrat": "^5.2.5",
-    "@iconify-json/lucide": "^1.2.36",
+    "@lucide/astro": "^0.488.0",
+    "@lucide/svelte": "^0.488.0",
     "@microflash/remark-figure-caption": "^2.0.2",
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.4",
     "astro": "^5.7.0",
     "astro-compress": "^2.3.8",
-    "astro-icon": "^1.1.5",
     "astro-seo": "^0.8.4",
     "astro-worker-links": "^0.3.1",
     "date-fns": "^4.1.0",
@@ -42,7 +45,9 @@
     "remark-toc": "^9.0.0",
     "sanitize-html": "^2.15.0",
     "satori": "^0.12.2",
-    "tailwindcss": "^4.1.4"
+    "svelte": "^5.27.0",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@shikijs/types": "^3.2.2",
@@ -51,6 +56,7 @@
     "@types/sanitize-html": "^2.15.0",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-svelte": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "vitest": "3.1.1"
   },

@@ -5,7 +5,8 @@ import "../styles/global.css";
 import Layout from "./Layout.astro";
 import ArticleFooter from "../components/ArticleFooter.astro";
 import ArticleNav from "../components/ArticleNav.astro";
-import Comments from "../components/Comments.astro";
+import BskyComments from "../components/BskyComments.svelte";
+import type { CommentsProp } from "~lib/types";
 
 interface Props {
   title: string;
@@ -13,7 +14,7 @@ interface Props {
   modifiedAt?: Date;
   description?: string;
   navCurrent?: string;
-  comments?: boolean;
+  comments?: CommentsProp;
   preamble?: string;
   tags?: string[];
   ogImage?: string;
@@ -25,7 +26,7 @@ const {
   title,
   description,
   navCurrent = "/posts",
-  comments = false,
+  comments,
   preamble,
   ogImage,
   createdAt: _createdAt,
@@ -69,7 +70,17 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
       <slot />
     </main>
 
-    {comments && <Comments />}
+    <hr class="from-magenta to-cyan h-px border-t-0 bg-gradient-to-r" />
+
+    {
+      comments?.bsky && (
+        <BskyComments
+          did={comments.bsky.did}
+          postCid={comments.bsky.postCid}
+          client:idle
+        />
+      )
+    }
   </section>
 
   <ArticleFooter />
@@ -108,92 +119,96 @@ const backlink = new URL(backlinkPath, "https://ovy.rs").href;
         @apply opacity-100;
       }
     }
-  }
 
-  hr {
-    @apply from-magenta to-cyan h-px border-t-0 bg-gradient-to-r;
-  }
-
-  a:hover {
-    @apply from-magenta to-cyan bg-gradient-to-r bg-clip-text text-transparent;
-  }
-
-  pre {
-    @apply not-italic;
-  }
-
-  code {
-    @apply relative text-base;
-  }
-
-  :not(pre) > code {
-    @apply from-magenta to-cyan bg-gradient-to-r bg-clip-text px-1.5 py-1;
-  }
-
-  blockquote {
-    @apply relative border-none;
-
-    &::before {
-      content: "";
-      @apply from-magenta to-cyan absolute inset-0 block w-1 bg-gradient-to-b;
-    }
-  }
-
-  figure {
-    @apply flex flex-col items-center;
-
-    img,
-    video {
-      @apply h-full max-h-[500px] w-auto rounded-md;
+    > :last-child {
+      @apply mb-0;
     }
 
-    video {
-      @apply m-0;
-    }
-  }
-
-  figcaption {
-    @apply w-full max-w-[500px] text-center text-white italic opacity-75;
-  }
-
-  /* Codeblocks */
-
-  .shiki-container {
-    @apply from-magenta to-cyan relative my-5 flex flex-col items-stretch gap-2 rounded-xl bg-gradient-to-br p-1 has-[.shiki-title]:pt-2;
-
-    &::before {
-      @apply bg-dolch-900 absolute inset-px block rounded-[inherit] content-[""];
-    }
-  }
-
-  .shiki-title {
-    @apply relative px-2 font-mono text-sm font-bold text-white italic;
-  }
-
-  .astro-code,
-  .shiki {
-    @apply from-magenta to-cyan relative rounded-lg bg-gradient-to-br;
-
-    &::before {
-      @apply bg-dolch-800 absolute inset-px block rounded-[inherit] content-[""];
+    hr {
+      @apply from-magenta to-cyan h-px border-t-0 bg-gradient-to-r;
     }
 
-    & > code {
-      @apply from-magenta to-cyan block bg-gradient-to-b bg-clip-text p-0 text-inherit before:hidden;
-    }
-  }
-
-  .line {
-    & [style*="#5CDAFC" i],
-    & [style*="#7BF2FF" i],
-    & [style*="#00ACCE" i],
-    & [style*="#3EC6C4" i] {
-      color: transparent !important;
+    a:hover {
+      @apply from-magenta to-cyan bg-gradient-to-r bg-clip-text text-transparent;
     }
 
-    /* TODO: how the fuck do I fix this properly??? */
-    /* &:last-child:has(> :empty) {
+    pre {
+      @apply not-italic;
+    }
+
+    code {
+      @apply relative text-base;
+    }
+
+    :not(pre) > code {
+      @apply from-magenta to-cyan bg-gradient-to-r bg-clip-text px-1.5 py-1;
+    }
+
+    blockquote {
+      @apply relative border-none;
+
+      &::before {
+        content: "";
+        @apply from-magenta to-cyan absolute inset-0 block w-1 bg-gradient-to-b;
+      }
+    }
+
+    figure {
+      @apply flex flex-col items-center;
+
+      img,
+      video {
+        @apply h-full max-h-[500px] w-auto rounded-md;
+      }
+
+      video {
+        @apply m-0;
+      }
+    }
+
+    figcaption {
+      @apply w-full max-w-[500px] text-center text-white italic opacity-75;
+    }
+
+    /* Codeblocks */
+
+    .shiki-container {
+      @apply from-magenta to-cyan relative my-5 flex flex-col items-stretch gap-2 rounded-xl bg-gradient-to-br p-1 has-[.shiki-title]:pt-2;
+
+      &::before {
+        @apply bg-dolch-950 absolute inset-px block rounded-[inherit] content-[""];
+      }
+    }
+
+    .shiki-title {
+      @apply relative px-2 font-mono text-sm font-bold text-white italic;
+    }
+
+    .astro-code,
+    .shiki {
+      @apply from-magenta to-cyan relative rounded-lg bg-gradient-to-br;
+
+      &::before {
+        @apply bg-dolch-900 absolute inset-px block rounded-[inherit] content-[""];
+      }
+
+      & > code {
+        @apply from-magenta to-cyan block bg-gradient-to-b bg-clip-text p-0 text-inherit before:hidden;
+      }
+    }
+
+    .line {
+      & [style*="#5CDAFC" i],
+      & [style*="#7BF2FF" i],
+      & [style*="#00ACCE" i],
+      & [style*="#3EC6C4" i] {
+        color: transparent !important;
+      }
+
+      /* TODO: how the fuck do I fix this properly??? */
+      /* &:last-child:has(> :empty) {
       display: none;
     } */
+    }
   }
 </style>
