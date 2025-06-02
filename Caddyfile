@@ -11,13 +11,6 @@
 
   redir /rss.xml /posts/rss.xml 307
 
-  reverse_proxy /script.js https://stats.ovy.sh {
-    header_up Host {upstream_hostport}
-  }
-  reverse_proxy /api/send https://stats.ovy.sh {
-    header_up Host {upstream_hostport}
-  }
-
   handle_errors {
     @404 {
       expression {http.error.status_code} == 404
