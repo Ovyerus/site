@@ -22,8 +22,11 @@
   const shouldHide = depth === 0 && hideFirst;
   const {
     post: { author, record, likeCount, repostCount, replyCount, ...post },
-    replies,
   } = thread;
+  const replies =
+    thread.replies?.filter(
+      (r) => r.$type === "app.bsky.feed.defs#threadViewPost",
+    ) || [];
   const bskyPost = isBskyPost(record) ? record : null;
   const authorLink = `https://bsky.app/profile/${author.did}`;
   const bskyLink = `https://bsky.app/profile/${author.did}/post/${post.uri.split("/").pop()}`;

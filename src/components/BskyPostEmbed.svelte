@@ -2,9 +2,10 @@
   import type {
     AppBskyEmbedExternal,
     AppBskyEmbedImages,
-  } from "@atcute/client/lexicons";
+  } from "@atcute/bluesky";
+  import type { Blob, LegacyBlob } from "@atcute/lexicons";
   import { ExternalLink } from "@lucide/svelte";
-  import { type BlueskyPost, getBskyCdnLink } from "~lib/bsky";
+  import { blobCid, type BlueskyPost, getBskyCdnLink } from "~lib/bsky";
 
   interface Props {
     did: string;
@@ -16,13 +17,14 @@
 
 {#snippet images(images: AppBskyEmbedImages.Image[])}
   {#snippet popoverImage(
-    cid: string,
+    blob: Blob<string> | LegacyBlob<string>,
     alt: string,
     buttonClass: any,
     imageClass: any,
   )}
+    {@const cid = blobCid(blob)}
     <button class={buttonClass} popovertarget={cid}>
-      <img {alt} src={getBskyCdnLink(did, cid, "jpeg")} class={imageClass} />
+      <img {alt} src={getBskyCdnLink(did, blob, "jpeg")} class={imageClass} />
     </button>
 
     <div
@@ -33,7 +35,7 @@
       <!-- TODO: figure out better sizing so that the alt text can fit in below it as a paragraph... -->
       <img
         {alt}
-        src={getBskyCdnLink(did, cid, "png")}
+        src={getBskyCdnLink(did, blob, "png")}
         loading="lazy"
         class="max-h-[calc(100vh-var(--spacing)*20)] max-w-[calc(100vw-var(--spacing)*20)] object-contain object-center"
       />
@@ -42,19 +44,14 @@
 
   {#if images.length === 1}
     {@const { alt, image } = images[0]!}
-    {@render popoverImage(
-      image.ref.$link,
-      alt,
-      "max-h-96 max-w-96 cursor",
-      "rounded-lg",
-    )}
+    {@render popoverImage(image, alt, "max-h-96 max-w-96 cursor", "rounded-lg")}
   {:else}
     <div
       class="grid h-96 grid-cols-2 grid-rows-2 gap-2 overflow-hidden rounded-lg"
     >
       {#each images as { alt, image }, i}
         {@render popoverImage(
-          image.ref.$link,
+          image,
           alt,
           [
             "bg-dolch-900 flex cursor-pointer items-center justify-center",
@@ -87,7 +84,7 @@
     {#if thumb}
       <img
         alt={title}
-        src={getBskyCdnLink(did, thumb.ref.$link, "jpeg")}
+        src={getBskyCdnLink(did, thumb, "jpeg")}
         class="mb-2 rounded"
       />
     {/if}
