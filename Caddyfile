@@ -6,8 +6,15 @@
 :8080 {
   root * {$SITE_ROOT}
   encode gzip # TODO: check options
-  file_server
   log
+
+  file_server {
+    etag_file_extensions .etag
+  }
+
+  header {
+    -Last-Modified
+  }
 
   redir /rss.xml /posts/rss.xml 307
 

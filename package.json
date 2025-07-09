@@ -11,10 +11,11 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && yarn build:etags",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "vitest"
+    "test": "vitest",
+    "build:etags": "node ./create-etags.js"
   },
   "dependencies": {
     "@astrojs/rss": "4.0.12",
