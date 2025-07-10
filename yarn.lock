@@ -2714,6 +2714,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"astro-etag@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "astro-etag@npm:1.0.2"
+  peerDependencies:
+    astro: ">=5.0.0"
+  checksum: 10c0/b45317e432d8b089584adf44543f67e0670d09b8a81726340e3d77aafdb3848bf94e394faa8a4b50ea7bc0c8e189da5875a949c5eff15cfc00d8091c68c11494
+  languageName: node
+  linkType: hard
+
 "astro-seo@npm:^0.8.4":
   version: 0.8.4
   resolution: "astro-seo@npm:0.8.4"
@@ -6462,7 +6471,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.5.5":
+"postcss@npm:^8.5.5, postcss@npm:^8.5.6":
   version: 8.5.6
   resolution: "postcss@npm:8.5.6"
   dependencies:
@@ -7427,6 +7436,7 @@ __metadata:
     "@types/sanitize-html": "npm:^2.16.0"
     astro: "npm:^5.10.0"
     astro-compress: "npm:^2.3.8"
+    astro-etag: "npm:^1.0.2"
     astro-seo: "npm:^0.8.4"
     astro-worker-links: "npm:^0.3.1"
     date-fns: "npm:^4.1.0"
@@ -7445,6 +7455,7 @@ __metadata:
     svelte: "npm:^5.34.7"
     tailwindcss: "npm:^4.1.10"
     typescript: "npm:^5.8.3"
+    vite: "npm:^7.0.4"
     vitest: "npm:3.2.4"
   languageName: unknown
   linkType: soft
@@ -8479,6 +8490,61 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 10c0/df70201659085133abffc6b88dcdb8a57ef35f742a01311fc56a4cfcda6a404202860729cc65a2c401a724f6e25f9ab40ce4339ed4946f550541531ced6fe41c
+  languageName: node
+  linkType: hard
+
+"vite@npm:^7.0.4":
+  version: 7.0.4
+  resolution: "vite@npm:7.0.4"
+  dependencies:
+    esbuild: "npm:^0.25.0"
+    fdir: "npm:^6.4.6"
+    fsevents: "npm:~2.3.3"
+    picomatch: "npm:^4.0.2"
+    postcss: "npm:^8.5.6"
+    rollup: "npm:^4.40.0"
+    tinyglobby: "npm:^0.2.14"
+  peerDependencies:
+    "@types/node": ^20.19.0 || >=22.12.0
+    jiti: ">=1.21.0"
+    less: ^4.0.0
+    lightningcss: ^1.21.0
+    sass: ^1.70.0
+    sass-embedded: ^1.70.0
+    stylus: ">=0.54.8"
+    sugarss: ^5.0.0
+    terser: ^5.16.0
+    tsx: ^4.8.1
+    yaml: ^2.4.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  peerDependenciesMeta:
+    "@types/node":
+      optional: true
+    jiti:
+      optional: true
+    less:
+      optional: true
+    lightningcss:
+      optional: true
+    sass:
+      optional: true
+    sass-embedded:
+      optional: true
+    stylus:
+      optional: true
+    sugarss:
+      optional: true
+    terser:
+      optional: true
+    tsx:
+      optional: true
+    yaml:
+      optional: true
+  bin:
+    vite: bin/vite.js
+  checksum: 10c0/2eb3572d60e8e6f0e291905e30989a52042350439c03002603d27a396652bf0484e13d5e8b15e0d7bd9988a8dc03ee712d45eb83e9dcf8aab4e8ecb28b0419b6
   languageName: node
   linkType: hard
 

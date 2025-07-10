@@ -6,6 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import compress from "astro-compress";
 import workerLinks from "astro-worker-links";
+import etag from "astro-etag";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeSlug from "rehype-slug";
@@ -31,6 +32,7 @@ const rawFonts = (exts: string[]) => ({
 
 export default defineConfig({
   integrations: [
+    svelte(),
     sitemap(),
     workerLinks({
       domain: "https://ovy.rs",
@@ -50,7 +52,7 @@ export default defineConfig({
       },
     }),
     compress(),
-    svelte(),
+    etag(),
   ],
   prefetch: {
     prefetchAll: true,
