@@ -14,10 +14,12 @@
     defaultForSystems = fn: forSystems (pkgs: {default = fn pkgs;});
   in {
     devShells = defaultForSystems (
-      pkgs:
+      pkgs: let
+        scripts = pkgs.callPackage ./scripts.nix {};
+      in
         with pkgs;
           mkShell {
-            nativeBuildInputs = [nodejs_22 yarn vips pkg-config flyctl];
+            nativeBuildInputs = [nodejs_22 yarn vips pkg-config flyctl scripts.hls scripts.mp4];
             shellHook = ''
               export LD_LIBRARY_PATH="${lib.makeLibraryPath [vips]}:$LD_LIBRARY_PATH"
             '';
