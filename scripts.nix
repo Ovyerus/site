@@ -37,4 +37,6 @@
         "''${args[0]%.*}_transcode.mp4"
     '';
   };
+
+  # TODO: script for processing images
 }
