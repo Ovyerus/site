@@ -53,7 +53,7 @@ in
       dontInstall = true;
 
       outputHashAlgo = "sha256";
-      outputHash = "sha256-TAnH9IjO65uy0KGUFS7QhfILitXquMm2CMXHR9IQekE=";
+      outputHash = "sha256-J6rr9psgTo8/15mzFoK0i+gkaUAKsw6ufKpMSaZDqI0=";
       outputHashMode = "recursive";
     };
 
