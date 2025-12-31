@@ -5,7 +5,7 @@ import remarkFigureCaption from "@microflash/remark-figure-caption";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import compress from "astro-compress";
-import workerLinks from "astro-worker-links";
+import shortlinks, { workerLinks, type PageMapping } from "astro-shortlinks";
 import etag from "astro-etag";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
@@ -34,23 +34,27 @@ export default defineConfig({
   integrations: [
     svelte(),
     sitemap(),
-    workerLinks({
-      domain: "https://ovy.rs",
-      secret: process.env.WORKER_LINKS_SECRET!,
-      getPageMapping(pages) {
-        return pages
-          .filter(
-            (url) =>
-              url.pathname !== "/posts/" && url.pathname.includes("/posts"),
-          )
-          .map((url) => {
-            return {
-              page: url.href,
-              shortlink: url.pathname.replace("/posts", ""),
-            };
-          });
+    shortlinks(
+      workerLinks({
+        domain: "https://ovy.rs",
+        secret: process.env.WORKER_LINKS_SECRET!,
+      }),
+      {
+        getPageMapping(pages) {
+          return pages
+            .filter(
+              (url) =>
+                url.pathname !== "/posts/" && url.pathname.includes("/posts"),
+            )
+            .map((url): PageMapping => {
+              return {
+                longlink: url.href,
+                shortlink: url.pathname.replace("/posts", ""),
+              };
+            });
+        },
       },
-    }),
+    ),
     compress(),
     etag(),
   ],
