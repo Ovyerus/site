@@ -1,8 +1,6 @@
 ---
-layout: ../layouts/MdArticleLayout.astro
 title: /uses
 description: What I use to get stuff done on the regular
-navCurrent: /uses
 ---
 
 Inspired by [Natalie](https://natalie.sh/uses?ref=ovyerus.com) and

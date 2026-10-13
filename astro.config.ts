@@ -1,19 +1,13 @@
-import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
-import a11yEmoji from "@fec/remark-a11y-emoji";
-import remarkFigureCaption from "@microflash/remark-figure-caption";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
-import compress from "astro-compress";
-import shortlinks, { workerLinks, type PageMapping } from "astro-shortlinks";
-import etag from "astro-etag";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeExternalLinks from "rehype-external-links";
-import rehypeSlug from "rehype-slug";
 import * as fs from "node:fs";
-import { transformerTitle } from "./src/lib/astro/shikiTransformerTitle";
-
-import dolch from "./src/dolch.theme.json" assert { type: "json" };
+import node from "@astrojs/node";
+import react from "@astrojs/react";
+import emdash, { local } from "emdash/astro";
+import { sqlite } from "emdash/db";
+import { markdownOptions } from "./src/lib/astro/markdown";
+import { unified } from "@astrojs/markdown-remark";
 
 const rawFonts = (exts: string[]) => ({
   name: "vite-plugin-ovyerus-raw-fonts",
@@ -31,61 +25,31 @@ const rawFonts = (exts: string[]) => ({
 // TODO: indieweb/microformats?
 
 export default defineConfig({
+  output: "server",
+  adapter: node({ mode: "standalone" }),
   integrations: [
     svelte(),
-    sitemap(),
-    shortlinks(
-      workerLinks({
-        domain: "https://ovy.rs",
-        secret: process.env.WORKER_LINKS_SECRET!,
+    react(),
+    emdash({
+      // Use system fonts in the admin so offline Nix builds never fetch fonts.
+      fonts: false,
+      database: sqlite({ url: "file:./data/emdash.db" }),
+      storage: local({
+        directory: "./data/uploads",
+        baseUrl: "/_emdash/api/media/file",
       }),
-      {
-        getPageMapping(pages) {
-          return pages
-            .filter(
-              (url) =>
-                url.pathname !== "/posts/" && url.pathname.includes("/posts"),
-            )
-            .map((url): PageMapping => {
-              return {
-                longlink: url.href,
-                shortlink: url.pathname.replace("/posts", ""),
-              };
-            });
-        },
-      },
-    ),
-    compress(),
-    etag(),
+    }),
   ],
   prefetch: {
     prefetchAll: true,
   },
   site: "https://ovyerus.com",
   markdown: {
-    remarkPlugins: [remarkFigureCaption, a11yEmoji],
-    rehypePlugins: [
-      rehypeSlug,
-      [
-        rehypeAutolinkHeadings,
-        { behavior: "append", content: { type: "text", value: "#" } },
-      ],
-      [
-        rehypeExternalLinks,
-        { target: "_blank", rel: ["nofollow", "noopener"] },
-      ],
-    ],
-    shikiConfig: {
-      wrap: true,
-      theme: {
-        ...dolch,
-        settings: dolch.tokenColors,
-        bg: "#101416",
-        fg: "#b0b4b7",
-        type: "dark",
-      },
-      transformers: [transformerTitle()],
-    },
+    processor: unified({
+      remarkPlugins: markdownOptions.remarkPlugins,
+      rehypePlugins: markdownOptions.rehypePlugins,
+    }),
+    shikiConfig: markdownOptions.shikiConfig,
   },
   vite: {
     plugins: [rawFonts([".ttf", ".woff", ".woff2"]), tailwindcss() as any],

@@ -1,12 +1,12 @@
 import rss from "@astrojs/rss";
-import { getCollection } from "astro:content";
+import { getArticles } from "~lib/content";
 import { renderMarkdownForRSS, synopsisFromHtml } from "~lib/rss";
 import { getWeeknoteStrings, sortWeeknotes } from "~lib/weeknotes";
 
-const weeknotes = sortWeeknotes(await getCollection("weeknotes"));
+export const GET = async () => {
+  const weeknotes = sortWeeknotes(await getArticles("weeknotes"));
 
-export const GET = () =>
-  rss({
+  return rss({
     title: "Ovyerus' weeknotes",
     description:
       "An attempt to force me to do some decent writing frequently, in the form of weekly journal-ish entries.",
@@ -26,3 +26,4 @@ export const GET = () =>
       };
     }),
   });
+};

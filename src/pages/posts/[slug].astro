@@ -1,25 +1,14 @@
 ---
-import type { GetStaticPaths } from "astro";
-import { type CollectionEntry, getCollection, render } from "astro:content";
 import ArticleLayout from "~layouts/ArticleLayout.astro";
+import MarkdownContent from "~components/MarkdownContent.astro";
+import { getArticle } from "~lib/content";
 
-export const getStaticPaths = (async () => {
-  const posts = await getCollection("posts");
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
-}) satisfies GetStaticPaths;
+const slug = Astro.params.slug;
+const post = slug ? await getArticle("posts", slug) : undefined;
 
-interface Props {
-  post: CollectionEntry<"posts">;
-}
-
-const { slug } = Astro.params;
-const { post } = Astro.props;
-const { Content } = await render(post);
+if (!post) return Astro.rewrite("/404");
 ---
 
 <ArticleLayout {...post.data} ogImage={`/og/posts/${slug}.png`}>
-  <Content />
+  <MarkdownContent body={post.body} />
 </ArticleLayout>

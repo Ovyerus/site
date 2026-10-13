@@ -1,12 +1,12 @@
 import rss from "@astrojs/rss";
-import { getCollection } from "astro:content";
+import { getArticles } from "~lib/content";
 import { sortPosts } from "~lib/posts";
 import { renderMarkdownForRSS } from "~lib/rss";
 
-const posts = sortPosts(await getCollection("posts"));
+export const GET = async () => {
+  const posts = sortPosts(await getArticles("posts"));
 
-export const GET = () =>
-  rss({
+  return rss({
     title: "Ovyerus' posts",
     description:
       "A stream of my consciousness shouted into the ether. Sometimes big posts, sometimes small posts. Depends on how I'm feeling when I write whatever.",
@@ -20,3 +20,4 @@ export const GET = () =>
       content: renderMarkdownForRSS(body),
     })),
   });
+};

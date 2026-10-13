@@ -23,3 +23,9 @@ pnpm-debug.log*
 .direnv
 result
 resources
+
+# private CMS state and generated declarations
+data/
+.emdash/
+emdash-env.d.ts
+.env.*

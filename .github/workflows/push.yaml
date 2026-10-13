@@ -1,8 +1,6 @@
-name: Push
+name: Manual deploy
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   docker:

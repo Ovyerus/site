@@ -1,0 +1,10 @@
+---
+import { markdownRenderer } from "~lib/markdown";
+
+interface Props {
+  body: string;
+}
+const { code } = await (await markdownRenderer).render(Astro.props.body);
+---
+
+<Fragment set:html={code} />

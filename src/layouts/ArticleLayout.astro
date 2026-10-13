@@ -36,9 +36,7 @@ const {
 const createdAt = _createdAt ? fmt(_createdAt) : null;
 const modifiedAt = _modifiedAt ? fmt(_modifiedAt) : null;
 
-// TODO: automate creation of this in CI.
-const backlinkPath = Astro.url.pathname.replace("/posts", "");
-const backlink = new URL(backlinkPath, "https://ovy.rs").href;
+const backlink = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <Layout title={`${title} - Ovyerus`} ogTitle={title} {description} {ogImage}>

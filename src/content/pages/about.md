@@ -1,8 +1,6 @@
 ---
-layout: ../layouts/MdArticleLayout.astro
 title: About me
 description: Who/what/why am I?
-navCurrent: /about
 ---
 
 ## Overview

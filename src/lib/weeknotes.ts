@@ -1,4 +1,4 @@
-import type { CollectionEntry } from "astro:content";
+import type { WeeknoteEntry } from "./content";
 import {
   format,
   isAfter,
@@ -21,7 +21,7 @@ export const getWeeknoteStrings = (id: string) => {
   };
 };
 
-export const sortWeeknotes = (weeknotes: CollectionEntry<"weeknotes">[]) =>
+export const sortWeeknotes = (weeknotes: WeeknoteEntry[]) =>
   weeknotes.toSorted(({ id: idA }, { id: idB }) => {
     const a = parseISO(idA.toUpperCase());
     const b = parseISO(idB.toUpperCase());

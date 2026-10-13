@@ -2,9 +2,9 @@ import Montserrat400 from "@fontsource/montserrat/files/montserrat-latin-400-nor
 import MontserratItalic400 from "@fontsource/montserrat/files/montserrat-latin-400-italic.woff";
 import MontserratItalic700 from "@fontsource/montserrat/files/montserrat-latin-700-italic.woff";
 import { Resvg } from "@resvg/resvg-js";
-import { getCollection } from "astro:content";
+import { getArticle } from "~lib/content";
 import satori from "satori";
-import type { APIRoute, GetStaticPaths } from "astro";
+import type { APIRoute } from "astro";
 import { formatISO } from "date-fns";
 import { getWeeknoteStrings } from "~lib/weeknotes";
 import wordmarkData from "~assets/wordmark-gradient.svg?raw";
@@ -42,11 +42,6 @@ const h1 = h("h1");
 const h2 = h("h2");
 const img = h("img");
 
-interface Params {
-  slug: string;
-  [key: string]: string | undefined;
-}
-
 interface Props {
   overline: string;
   title: string;
@@ -54,9 +49,41 @@ interface Props {
   createdAt: Date;
 }
 
-export const GET: APIRoute<Props, Params> = async ({
-  props: { title, overline, description, createdAt },
-}) => {
+export const GET: APIRoute = async ({ params }) => {
+  const [collection, ...slugParts] = params.slug?.split("/") ?? [];
+  const slug = slugParts.join("/");
+
+  let imageProps: Props;
+  if (collection === "posts") {
+    const post = slug ? await getArticle("posts", slug) : undefined;
+    if (!post) return new Response(null, { status: 404 });
+
+    imageProps = {
+      overline: post.data.tags.join(", "),
+      title: post.data.title,
+      description: post.data.description,
+      createdAt: post.data.createdAt,
+    };
+  } else if (collection === "weeknotes") {
+    const weeknote = slug ? await getArticle("weeknotes", slug) : undefined;
+    if (!weeknote) return new Response(null, { status: 404 });
+
+    const { createdAt, title, sentence } = getWeeknoteStrings(weeknote.id);
+    imageProps = {
+      overline: weeknote.data.subtitle
+        ? `Weeknotes: ${title.replace("Weeknote", "Week")}`
+        : "Weeknotes",
+      title: weeknote.data.subtitle || title,
+      description:
+        weeknote.data.description ||
+        `My weekly journal-ish entry for ${sentence}.`,
+      createdAt,
+    };
+  } else {
+    return new Response(null, { status: 404 });
+  }
+
+  const { title, overline, description, createdAt } = imageProps;
   const date = formatISO(createdAt, { representation: "date" });
 
   const out = div(
@@ -128,43 +155,6 @@ export const GET: APIRoute<Props, Params> = async ({
   return new Response(image.asPng(), {
     headers: {
       "Content-Type": "image/png",
-      "Cache-Control": "public, max-age=31536000, immutable",
     },
   });
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const weeknotes = await getCollection("weeknotes");
-  const posts = await getCollection("posts");
-
-  const weeknoteProps = weeknotes.map(({ data, id }) => {
-    const { createdAt, title, sentence } = getWeeknoteStrings(id);
-
-    return {
-      params: { slug: `weeknotes/${id}` } satisfies Params,
-      props: {
-        overline: data.subtitle
-          ? `Weeknotes: ${title.replace("Weeknote", "Week")}`
-          : "Weeknotes",
-        title: data.subtitle || title,
-        description:
-          data.description || `My weekly journal-ish entry for ${sentence}.`,
-        createdAt,
-      } satisfies Props,
-    };
-  });
-
-  const postsProps = posts.map(({ data, id }) => {
-    return {
-      params: { slug: `posts/${id}` } satisfies Params,
-      props: {
-        overline: data.tags.join(", "),
-        title: data.title,
-        description: data.description,
-        createdAt: data.createdAt,
-      } satisfies Props,
-    };
-  });
-
-  return [...weeknoteProps, ...postsProps];
 };

@@ -1,24 +1,14 @@
 ---
-import type { GetStaticPaths } from "astro";
-import { type CollectionEntry, getCollection, render } from "astro:content";
 import ArticleLayout from "~layouts/ArticleLayout.astro";
+import MarkdownContent from "~components/MarkdownContent.astro";
+import { getArticle } from "~lib/content";
 import { getWeeknoteStrings } from "~lib/weeknotes";
 
-export const getStaticPaths = (async () => {
-  const weeknotes = await getCollection("weeknotes");
-  return weeknotes.map((weeknote) => ({
-    params: { slug: weeknote.id },
-    props: { weeknote },
-  }));
-}) satisfies GetStaticPaths;
+const slug = Astro.params.slug;
+const weeknote = slug ? await getArticle("weeknotes", slug) : undefined;
 
-interface Props {
-  weeknote: CollectionEntry<"weeknotes">;
-}
+if (!weeknote) return Astro.rewrite("/404");
 
-const { slug } = Astro.params;
-const { weeknote } = Astro.props;
-const { Content } = await render(weeknote);
 const { title, sentence } = getWeeknoteStrings(weeknote.id);
 const description =
   weeknote.data.description || `My weekly journal-ish entry for ${sentence}.`;
@@ -32,5 +22,5 @@ const description =
   comments={weeknote.data.comments}
   ogImage={`/og/weeknotes/${slug}.png`}
 >
-  <Content />
+  <MarkdownContent body={weeknote.body} />
 </ArticleLayout>

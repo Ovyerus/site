@@ -1,12 +1,12 @@
 ---
 import ExternalLink from "@lucide/astro/icons/external-link";
-import { getCollection } from "astro:content";
 import ArticleIndex from "../components/ArticleIndex.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import Layout from "../layouts/Layout.astro";
+import { getArticles } from "~lib/content";
 import { getWeeknoteStrings, sortWeeknotes } from "~lib/weeknotes";
 
-let weeknotes = await getCollection("weeknotes");
+const weeknotes = await getArticles("weeknotes");
 const weekRe = /^\d{4}-w\d{2}$/i;
 const incorrectWeeknoteFilename = weeknotes.find((w) => !weekRe.test(w.id));
 
@@ -15,7 +15,7 @@ if (incorrectWeeknoteFilename)
     `weeknote "${incorrectWeeknoteFilename.id}" is in an invalid format! It should match the ISO week format.`,
   );
 
-weeknotes = sortWeeknotes(weeknotes);
+const sortedWeeknotes = sortWeeknotes(weeknotes);
 ---
 
 <Layout
@@ -44,7 +44,7 @@ weeknotes = sortWeeknotes(weeknotes);
 
     <!-- TODO: decide on a better layout once I have a decent amount of entries -->
     {
-      weeknotes.map(({ id, data: { subtitle } }) => {
+      sortedWeeknotes.map(({ id, data: { subtitle } }) => {
         const { title, written } = getWeeknoteStrings(id);
 
         return (

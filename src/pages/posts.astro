@@ -1,11 +1,11 @@
 ---
-import { getCollection } from "astro:content";
+import { getArticles } from "~lib/content";
 import ArticleCard from "../components/ArticleCard.astro";
 import ArticleIndex from "../components/ArticleIndex.astro";
 import Layout from "../layouts/Layout.astro";
 import { sortPosts } from "~lib/posts";
 
-const posts = sortPosts(await getCollection("posts"));
+const posts = sortPosts(await getArticles("posts"));
 ---
 
 <Layout

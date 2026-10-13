@@ -2,15 +2,24 @@
 import WordmarkGradient from "~assets/wordmark-gradient.svg";
 import Webring from "~components/Webring.astro";
 import Layout from "~layouts/Layout.astro";
+import { getEmDashEntry, sanitizeHref } from "emdash";
 
-const email = "ovy@ovyerus.com";
+interface HomeData {
+  title: string;
+  tagline: string;
+  email: string;
+  github: string;
+  mastodon: string;
+  bluesky: string;
+}
+const { entry, error } = await getEmDashEntry<"home", HomeData>("home", "home");
+if (error) throw error;
+if (!entry)
+  return new Response("Publish the Homepage entry in EmDash.", { status: 503 });
+const { title, tagline, email, github, mastodon, bluesky } = entry.data;
 ---
 
-<Layout
-  title="Home - Ovyerus"
-  ogTitle="Ovyerus"
-  description="Multifaceted creative, programmer of many things."
->
+<Layout title={`Home - ${title}`} ogTitle={title} description={tagline}>
   <main class="content">
     <div class="neon h-1/2 min-h-[100px] flex-grow basis-[0]"></div>
     <div
@@ -20,12 +29,15 @@ const email = "ovy@ovyerus.com";
         class="h-auto w-full max-w-[600px]"
         role="heading"
         aria-level="1"
-        aria-label="Ovyerus"
+        aria-label={title}
       />
-      <p>Multifaceted creative, programmer of many things.</p>
+      <p>{tagline}</p>
       <nav>
         <p>
-          Contact:&nbsp; <a class="font-bold" href={`mailto:${email}`}>
+          Contact:&nbsp; <a
+            class="font-bold"
+            href={sanitizeHref(`mailto:${email}`)}
+          >
             {email}
           </a>
         </p>
@@ -41,10 +53,10 @@ const email = "ovy@ovyerus.com";
 
       <footer class="flex flex-row flex-wrap-reverse justify-between">
         <ul class="link-list">
-          <li><a rel="me" href="https://github.com/Ovyerus">github</a></li>
-          <li><a rel="me" href="https://aus.social/@ovyerus">mastodon</a></li>
+          <li><a rel="me" href={sanitizeHref(github)}>github</a></li>
+          <li><a rel="me" href={sanitizeHref(mastodon)}>mastodon</a></li>
           <li>
-            <a rel="me" href="https://bsky.app/profile/ovyerus.com">bluesky</a>
+            <a rel="me" href={sanitizeHref(bluesky)}>bluesky</a>
           </li>
         </ul>
         <ul class="link-list justify-end">
