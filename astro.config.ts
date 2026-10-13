@@ -8,6 +8,7 @@ import emdash, { local } from "emdash/astro";
 import { sqlite } from "emdash/db";
 import { markdownOptions } from "./src/lib/astro/markdown";
 import { unified } from "@astrojs/markdown-remark";
+import { atproto } from "@emdash-cms/auth-atproto";
 
 const rawFonts = (exts: string[]) => ({
   name: "vite-plugin-ovyerus-raw-fonts",
@@ -27,12 +28,20 @@ const rawFonts = (exts: string[]) => ({
 export default defineConfig({
   output: "server",
   adapter: node({ mode: "standalone" }),
+  server: { host: "127.0.0.1" },
   integrations: [
     svelte(),
     react(),
     emdash({
       // Use system fonts in the admin so offline Nix builds never fetch fonts.
       fonts: false,
+      authProviders: [
+        atproto({
+          // ovyerus.com: keep access tied to the account, not its mutable handle.
+          allowedDIDs: ["did:plc:jrrhosrfzgjf6v4oydav6ftb"],
+          defaultRole: 50,
+        }),
+      ],
       database: sqlite({ url: "file:./data/emdash.db" }),
       storage: local({
         directory: "./data/uploads",

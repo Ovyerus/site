@@ -17,19 +17,18 @@ chmod 600 .env data/emdash.db
 pnpm dev --host 127.0.0.1
 ```
 
-Open <http://localhost:4321/> to review the site and
-<http://localhost:4321/_emdash/admin/> to edit it. Complete the setup wizard and
-register your own passkey. The initial content is already imported; the seed
-contains the original site content rather than demo posts. Keep the development
-server bound to loopback: EmDash's development-only authentication bypass is not
-suitable for a publicly accessible server.
+Open <http://127.0.0.1:4321/> to review the site and
+<http://127.0.0.1:4321/_emdash/admin/> to edit it. Complete the setup wizard and
+register your own passkey or sign in with Atmosphere. The seed contains the
+original site content rather than demo posts. Keep the development server bound
+to loopback: EmDash's development-only authentication bypass is not suitable for
+a publicly accessible server.
 
 EmDash owns published content at request time:
 
 - **Posts:** title, description, Markdown body, tags, original written/modified
-  dates, and optional Bluesky thread metadata.
-  The tag picker starts with the archive's existing tags; add new choices in
-  **Content Types → Posts → Tags**.
+  dates, and optional Bluesky thread metadata. The tag picker starts with the
+  archive's existing tags; add new choices in **Content Types → Posts → Tags**.
 - **Weeknotes:** Markdown body, subtitle, description, and Bluesky thread
   metadata. Keep slugs in `YYYY-wWW` format; public titles and dates derive from
   ISO weeks.
@@ -57,11 +56,36 @@ serve it locally with the private `.env` file. Run
 `nix build .#site` and `nix build .#container` package the server and runtime
 dependencies, excluding local data and secrets.
 
+### Atmosphere login
+
+The official `@emdash-cms/auth-atproto` provider is enabled alongside passkeys.
+Open <http://127.0.0.1:4321/_emdash/admin/login>, choose **Atmosphere**, and
+enter `ovyerus.com`. Sign in and approve OAuth at your own PDS; EmDash never
+receives your password. No app password, client secret, or OAuth-app
+registration is needed.
+
+Access is restricted to `did:plc:jrrhosrfzgjf6v4oydav6ftb`, the stable DID for
+`ovyerus.com`. That single allowed identity gets Admin access (role `50`); a
+handle change does not grant access to someone who later takes the old handle.
+The plugin creates a separate EmDash user on first Atmosphere login rather than
+automatically linking to the existing passkey account. Existing users and
+passkeys are unchanged.
+
+Use `127.0.0.1` throughout the Atmosphere flow: AT Protocol requires an
+IP-literal loopback callback. An existing passkey registered at `localhost` must
+still be used at `localhost`; passkeys are origin-bound. The existing MCP
+definition continues to use `localhost` so its approved credential binding stays
+intact.
+
+In production, the PDS must be able to fetch
+`https://ovyerus.com/.well-known/atproto-client-metadata.json`. Keep
+`EMDASH_SITE_URL` set to that HTTPS origin behind the reverse proxy.
+
 ### Local MCP connection
 
 `.omp/mcp.json` defines `emdash-local` at
-<http://localhost:4321/_emdash/api/mcp>. Keep the local server running, then
-run these commands in omp:
+<http://localhost:4321/_emdash/api/mcp>. Keep the local server running, then run
+these commands in omp:
 
 ```text
 /mcp reload
@@ -69,11 +93,11 @@ run these commands in omp:
 /mcp test emdash-local
 ```
 
-Sign in with your own EmDash passkey and approve the browser consent screen.
-The requested scopes allow content and media reading/editing (including
-publishing), plus schema and settings reading. `content:write` also permits
-taxonomy and menu management. Schema changes, settings changes, plugin tools,
-and site transfer are not requested.
+Sign in with your own EmDash passkey and approve the browser consent screen. The
+requested scopes allow content and media reading/editing (including publishing),
+plus schema and settings reading. `content:write` also permits taxonomy and menu
+management. Schema changes, settings changes, plugin tools, and site transfer
+are not requested.
 
 OAuth credentials and refresh tokens stay in omp's active-profile auth storage,
 not this repository. Each profile authorizes separately. Use

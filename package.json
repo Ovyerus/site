@@ -26,6 +26,7 @@
     "@atcute/bluesky": "^4.0.24",
     "@atcute/client": "^5.1.2",
     "@atcute/lexicons": "^2.1.1",
+    "@emdash-cms/auth-atproto": "^0.2.47",
     "@fec/remark-a11y-emoji": "^4.0.2",
     "@fontsource-variable/montserrat": "^5.2.8",
     "@fontsource/iosevka": "^5.2.5",

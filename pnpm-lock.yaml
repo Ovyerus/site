@@ -190,6 +190,9 @@ importers:
       '@atcute/lexicons':
         specifier: ^2.1.1
         version: 2.1.1
+      '@emdash-cms/auth-atproto':
+        specifier: ^0.2.47
+        version: 0.2.47(@atcute/identity@2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@atcute/lexicons@2.1.1)(astro@6.4.8(@types/node@22.18.6)(jiti@2.6.0)(lightningcss@1.30.1)(rollup@4.52.0)(terser@5.39.0)(yaml@2.9.1))(emdash@1.2.0)(react@19.3.0)(typescript@5.9.2)
       '@fec/remark-a11y-emoji':
         specifier: ^4.0.2
         version: 4.0.2
@@ -231,7 +234,7 @@ importers:
         version: 4.1.0
       emdash:
         specifier: ^1.2.0
-        version: 1.2.0(@astrojs/react@5.0.7(@types/node@22.18.6)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(jiti@2.6.0)(lightningcss@1.30.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(terser@5.39.0)(yaml@2.9.1))(@atcute/cbor@2.3.8(@atcute/cid@2.5.0))(@atcute/cid@2.5.0)(@atcute/identity@2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@date-fns/tz@1.5.0)(@floating-ui/dom@1.8.0)(@tiptap/extensions@3.31.4(@tiptap/core@3.31.4(@tiptap/pm@3.31.4))(@tiptap/pm@3.31.4))(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(astro@6.4.8(@types/node@22.18.6)(jiti@2.6.0)(lightningcss@1.30.1)(rollup@4.52.0)(terser@5.39.0)(yaml@2.9.1))(date-fns@4.1.0)(echarts@6.1.0)(prosemirror-model@1.25.12)(prosemirror-state@1.4.4)(prosemirror-view@1.42.6)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.2)
+        version: 1.2.0(@astrojs/react@5.0.7(@types/node@22.18.6)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(jiti@2.6.0)(lightningcss@1.30.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(terser@5.39.0)(yaml@2.9.1))(@atcute/cbor@2.3.8(@atcute/cid@2.5.0))(@atcute/cid@2.5.0)(@atcute/identity@2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@date-fns/tz@1.5.0)(@emdash-cms/auth-atproto@0.2.47)(@floating-ui/dom@1.8.0)(@tiptap/extensions@3.31.4(@tiptap/core@3.31.4(@tiptap/pm@3.31.4))(@tiptap/pm@3.31.4))(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(astro@6.4.8(@types/node@22.18.6)(jiti@2.6.0)(lightningcss@1.30.1)(rollup@4.52.0)(terser@5.39.0)(yaml@2.9.1))(date-fns@4.1.0)(echarts@6.1.0)(prosemirror-model@1.25.12)(prosemirror-state@1.4.4)(prosemirror-view@1.42.6)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.2)
       hastscript:
         specifier: ^9.0.1
         version: 9.0.1
@@ -440,6 +443,21 @@ packages:
 
   '@atcute/multibase@1.2.5':
     resolution: {integrity: sha512-cReTONgYpQo/VHD3ZmzPNoyBKJgSk1J4h//cvvdVVJBMar+SjlQ/sUXeTjQfuyfmDKv+TLKhmutLcvbMcQ9Rvw==}
+
+  '@atcute/oauth-crypto@1.0.1':
+    resolution: {integrity: sha512-ghC8ceFx0r6pi5X3dNoET1K6PNg8afeAOZLD4PKLhrpVYdRtRrgY4uqAe3ojtSIjoS6GXmVm063CoJ2xtg/MoQ==}
+
+  '@atcute/oauth-keyset@0.1.3':
+    resolution: {integrity: sha512-VSNUb2TLUTyntgzfn58kwNL4kp4TD+M868tyyrFWlCaDVy0pDnVFfUXa1z1W+DBWLL9ICy2qTdPitRokAZKivw==}
+
+  '@atcute/oauth-node-client@2.0.1':
+    resolution: {integrity: sha512-MgqN9Rnt5nuUH5zriETtbQrwcx/tWaELKaFVQtqggMtRI4k4IP5+ZbnG40tiJjbZfSclapA2kwOnT14kO0nAxg==}
+    peerDependencies:
+      '@atcute/identity-resolver': ^2.0.0
+      '@atcute/lexicons': ^2.0.0
+
+  '@atcute/oauth-types@1.0.1':
+    resolution: {integrity: sha512-9uFP/nK0PgPDsaNbLArzrCHvTZO1k04cSEX5jZ75W2Jh7Jxbh/CSTenSrad3CZXuX6y6hDquEtl6H/IqLtTmHw==}
 
   '@atcute/repo@1.1.1':
     resolution: {integrity: sha512-MSaIerKFLh+YFdVZ5y+dxVu49U1f+7PpkhWH5wsMy1dbJcFJ8qbIc1MZRwqjmXxyCQ9FPOVeVvbwp//BCkqU9g==}
@@ -664,6 +682,13 @@ packages:
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
+
+  '@emdash-cms/auth-atproto@0.2.47':
+    resolution: {integrity: sha512-fv9hqv1Lj4HZYlEWpJgoEyL1yjJJJaQfChRvMM/4HtG4FGyJFaIQjOGbflZ9Gl+2ymYRPolVtw8K39zQlDv9Xg==}
+    peerDependencies:
+      astro: '>=5'
+      emdash: '>=0.15.0'
+      react: '>=18'
 
   '@emdash-cms/auth@1.2.0':
     resolution: {integrity: sha512-0/8lfva4uEOQuWrHoKZcif/4fyQkQyHXXBWiUUuw5tV+s7KCPh5qCNQdGEERmd1ZD1YJKS7/5OF5QOZK0c7HgQ==}
@@ -3729,6 +3754,11 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  nanoid@5.1.16:
+    resolution: {integrity: sha512-kVrnsrJqMR8+oLJnGEmSWw9BivK5mt7H3FZatVRjrc5wGqFYuBxX1yG7+A7Gi5AefkX6t/oCkizcQgpu0cY1dQ==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+
   negotiator@1.1.0:
     resolution: {integrity: sha512-NMPBRMJgiQHjbd8phG3Vebdx4kZ1H121rbl5IkMqeOsahptB9BKo/d7oJ3zTXqTgagn2bWlNSXkh0QUGM31RYg==}
     engines: {node: '>=18'}
@@ -5404,6 +5434,45 @@ snapshots:
     dependencies:
       '@atcute/uint8array': 1.2.0
 
+  '@atcute/oauth-crypto@1.0.1(typescript@5.9.2)':
+    dependencies:
+      '@atcute/multibase': 1.2.5
+      '@atcute/uint8array': 1.2.0
+      nanoid: 5.1.16
+      valibot: 1.5.0(typescript@5.9.2)
+    transitivePeerDependencies:
+      - typescript
+
+  '@atcute/oauth-keyset@0.1.3(typescript@5.9.2)':
+    dependencies:
+      '@atcute/oauth-crypto': 1.0.1(typescript@5.9.2)
+    transitivePeerDependencies:
+      - typescript
+
+  '@atcute/oauth-node-client@2.0.1(@atcute/identity-resolver@2.0.3(@atcute/identity@2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@atcute/lexicons@2.1.1)(typescript@5.9.2)':
+    dependencies:
+      '@atcute/client': 5.1.2(@atcute/lexicons@2.1.1)(typescript@5.9.2)
+      '@atcute/identity': 2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2)
+      '@atcute/identity-resolver': 2.0.3(@atcute/identity@2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@atcute/lexicons@2.1.1)(typescript@5.9.2)
+      '@atcute/lexicons': 2.1.1
+      '@atcute/oauth-crypto': 1.0.1(typescript@5.9.2)
+      '@atcute/oauth-keyset': 0.1.3(typescript@5.9.2)
+      '@atcute/oauth-types': 1.0.1(typescript@5.9.2)
+      '@atcute/util-fetch': 2.1.0(typescript@5.9.2)
+      nanoid: 5.1.16
+      valibot: 1.5.0(typescript@5.9.2)
+    transitivePeerDependencies:
+      - typescript
+
+  '@atcute/oauth-types@1.0.1(typescript@5.9.2)':
+    dependencies:
+      '@atcute/identity': 2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2)
+      '@atcute/lexicons': 2.1.1
+      '@atcute/oauth-keyset': 0.1.3(typescript@5.9.2)
+      valibot: 1.5.0(typescript@5.9.2)
+    transitivePeerDependencies:
+      - typescript
+
   '@atcute/repo@1.1.1(@atcute/cbor@2.3.8(@atcute/cid@2.5.0))(@atcute/cid@2.5.0)(@atcute/lexicons@2.1.1)':
     dependencies:
       '@atcute/car': 6.1.0(@atcute/cbor@2.3.8(@atcute/cid@2.5.0))(@atcute/cid@2.5.0)
@@ -5794,6 +5863,20 @@ snapshots:
       - prosemirror-view
       - typescript
       - zod
+
+  '@emdash-cms/auth-atproto@0.2.47(@atcute/identity@2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@atcute/lexicons@2.1.1)(astro@6.4.8(@types/node@22.18.6)(jiti@2.6.0)(lightningcss@1.30.1)(rollup@4.52.0)(terser@5.39.0)(yaml@2.9.1))(emdash@1.2.0)(react@19.3.0)(typescript@5.9.2)':
+    dependencies:
+      '@atcute/identity-resolver': 2.0.3(@atcute/identity@2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@atcute/lexicons@2.1.1)(typescript@5.9.2)
+      '@atcute/oauth-node-client': 2.0.1(@atcute/identity-resolver@2.0.3(@atcute/identity@2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@atcute/lexicons@2.1.1)(typescript@5.9.2)
+      '@emdash-cms/auth': 1.2.0(astro@6.4.8(@types/node@22.18.6)(jiti@2.6.0)(lightningcss@1.30.1)(rollup@4.52.0)(terser@5.39.0)(yaml@2.9.1))(kysely@0.29.6)
+      astro: 6.4.8(@types/node@22.18.6)(jiti@2.6.0)(lightningcss@1.30.1)(rollup@4.52.0)(terser@5.39.0)(yaml@2.9.1)
+      emdash: 1.2.0(@astrojs/react@5.0.7(@types/node@22.18.6)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(jiti@2.6.0)(lightningcss@1.30.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(terser@5.39.0)(yaml@2.9.1))(@atcute/cbor@2.3.8(@atcute/cid@2.5.0))(@atcute/cid@2.5.0)(@atcute/identity@2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@date-fns/tz@1.5.0)(@emdash-cms/auth-atproto@0.2.47)(@floating-ui/dom@1.8.0)(@tiptap/extensions@3.31.4(@tiptap/core@3.31.4(@tiptap/pm@3.31.4))(@tiptap/pm@3.31.4))(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(astro@6.4.8(@types/node@22.18.6)(jiti@2.6.0)(lightningcss@1.30.1)(rollup@4.52.0)(terser@5.39.0)(yaml@2.9.1))(date-fns@4.1.0)(echarts@6.1.0)(prosemirror-model@1.25.12)(prosemirror-state@1.4.4)(prosemirror-view@1.42.6)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.2)
+      kysely: 0.29.6
+      react: 19.3.0
+    transitivePeerDependencies:
+      - '@atcute/identity'
+      - '@atcute/lexicons'
+      - typescript
 
   '@emdash-cms/auth@1.2.0(astro@6.4.8(@types/node@22.18.6)(jiti@2.6.0)(lightningcss@1.30.1)(rollup@4.52.0)(terser@5.39.0)(yaml@2.9.1))(kysely@0.29.6)':
     dependencies:
@@ -7800,7 +7883,7 @@ snapshots:
 
   electron-to-chromium@1.5.452: {}
 
-  emdash@1.2.0(@astrojs/react@5.0.7(@types/node@22.18.6)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(jiti@2.6.0)(lightningcss@1.30.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(terser@5.39.0)(yaml@2.9.1))(@atcute/cbor@2.3.8(@atcute/cid@2.5.0))(@atcute/cid@2.5.0)(@atcute/identity@2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@date-fns/tz@1.5.0)(@floating-ui/dom@1.8.0)(@tiptap/extensions@3.31.4(@tiptap/core@3.31.4(@tiptap/pm@3.31.4))(@tiptap/pm@3.31.4))(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(astro@6.4.8(@types/node@22.18.6)(jiti@2.6.0)(lightningcss@1.30.1)(rollup@4.52.0)(terser@5.39.0)(yaml@2.9.1))(date-fns@4.1.0)(echarts@6.1.0)(prosemirror-model@1.25.12)(prosemirror-state@1.4.4)(prosemirror-view@1.42.6)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.2):
+  emdash@1.2.0(@astrojs/react@5.0.7(@types/node@22.18.6)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(jiti@2.6.0)(lightningcss@1.30.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(terser@5.39.0)(yaml@2.9.1))(@atcute/cbor@2.3.8(@atcute/cid@2.5.0))(@atcute/cid@2.5.0)(@atcute/identity@2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@date-fns/tz@1.5.0)(@emdash-cms/auth-atproto@0.2.47)(@floating-ui/dom@1.8.0)(@tiptap/extensions@3.31.4(@tiptap/core@3.31.4(@tiptap/pm@3.31.4))(@tiptap/pm@3.31.4))(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(astro@6.4.8(@types/node@22.18.6)(jiti@2.6.0)(lightningcss@1.30.1)(rollup@4.52.0)(terser@5.39.0)(yaml@2.9.1))(date-fns@4.1.0)(echarts@6.1.0)(prosemirror-model@1.25.12)(prosemirror-state@1.4.4)(prosemirror-view@1.42.6)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.2):
     dependencies:
       '@astrojs/react': 5.0.7(@types/node@22.18.6)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(jiti@2.6.0)(lightningcss@1.30.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(terser@5.39.0)(yaml@2.9.1)
       '@atcute/client': 5.1.2(@atcute/lexicons@2.1.1)(typescript@5.9.2)
@@ -7864,6 +7947,7 @@ snapshots:
       upng-js: 2.1.0
       zod: 4.5.4
     optionalDependencies:
+      '@emdash-cms/auth-atproto': 0.2.47(@atcute/identity@2.0.2(@atcute/lexicons@2.1.1)(typescript@5.9.2))(@atcute/lexicons@2.1.1)(astro@6.4.8(@types/node@22.18.6)(jiti@2.6.0)(lightningcss@1.30.1)(rollup@4.52.0)(terser@5.39.0)(yaml@2.9.1))(emdash@1.2.0)(react@19.3.0)(typescript@5.9.2)
       '@libsql/kysely-libsql': 0.4.1(kysely@0.29.6)
       pg: 8.23.1
     transitivePeerDependencies:
@@ -9204,6 +9288,8 @@ snapshots:
   nanoid@3.3.11: {}
 
   nanoid@3.3.20: {}
+
+  nanoid@5.1.16: {}
 
   negotiator@1.1.0:
     dependencies:

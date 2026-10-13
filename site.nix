@@ -50,7 +50,7 @@ stdenv.mkDerivation (finalAttrs: {
       ];
     };
     fetcherVersion = 4;
-    hash = "sha256-/80uTunrp4Agjzy5qnfBC9Og0ewjASj6t4XVARM7wOY=";
+    hash = "sha256-GQ6sLLyM90ojhNtLjZc1Xee9u4EtqbNWOG02yfkyKtQ=";
   };
 
   buildPhase = ''
