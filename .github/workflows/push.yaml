@@ -44,8 +44,8 @@ jobs:
           purge-primary-key: never
 
       - run: nix flake check
-      - run: nix develop --command yarn install --immutable
-      - run: nix develop --command yarn test
+      - run: nix develop --command pnpm install --frozen-lockfile
+      - run: nix develop --command pnpm test --run
 
       - name: Build Docker image
         run: nix build .#container

@@ -1,83 +1,44 @@
 {
   lib,
   stdenv,
-  cacert,
-  nodejs_22,
-  yarn,
+  nodejs_24,
+  pnpm_12,
+  pnpmConfigHook,
+  fetchPnpmDeps,
   vips,
   pkg-config,
-}: let
-  fs = lib.fileset;
-in
-  stdenv.mkDerivation (finalAttrs: {
-    pname = "ovyerus-site";
-    version = "2.0.0";
-    src = lib.cleanSource ./.;
+}:
+stdenv.mkDerivation (finalAttrs: {
+  pname = "ovyerus-site";
+  version = "2.0.0";
+  src = lib.cleanSource ./.;
 
-    nativeBuildInputs = [nodejs_22 yarn vips pkg-config];
+  nativeBuildInputs = [nodejs_24 pnpm_12 pnpmConfigHook vips pkg-config];
 
-    yarnOfflineCache = stdenv.mkDerivation {
-      name = "ovyerus-site-deps";
-      src = fs.toSource {
-        root = ./.;
-        fileset = fs.unions [./package.json ./yarn.lock ./.yarn ./.yarnrc.yml];
-      };
-
-      nativeBuildInputs = [yarn];
-
-      supportedArchitectures = builtins.toJSON {
-        os = ["darwin" "linux"];
-        cpu = ["arm" "arm64" "ia32" "x64"];
-        libc = ["glibc" "musl"];
-      };
-
-      NODE_EXTRA_CA_CERTS = "${cacert}/etc/ssl/certs/ca-bundle.crt";
-
-      configurePhase = ''
-        runHook preConfigure
-        export HOME="$NIX_BUILD_TOP"
-        export YARN_ENABLE_TELEMETRY=0
-        yarn config set enableGlobalCache false
-        yarn config set cacheFolder $out
-        yarn config set supportedArchitectures --json "$supportedArchitectures"
-        runHook postConfigure
-      '';
-
-      buildPhase = ''
-        runHook preBuild
-        mkdir -p $out
-        yarn install --immutable --mode skip-build
-        runHook postBuild
-      '';
-
-      dontInstall = true;
-
-      outputHashAlgo = "sha256";
-      outputHash = "sha256-DFaXIyY5IMgb+4HAQ4Dy0NkTgIExJGUkPT1oQdn8sJc=";
-      outputHashMode = "recursive";
+  pnpmDeps = fetchPnpmDeps {
+    pnpm = pnpm_12;
+    inherit (finalAttrs) pname version;
+    src = lib.fileset.toSource {
+      root = ./.;
+      fileset = lib.fileset.unions [
+        ./package.json
+        ./pnpm-lock.yaml
+        ./pnpm-workspace.yaml
+      ];
     };
+    fetcherVersion = 4;
+    hash = "sha256-5QU9wE6oMRw251E32cfo3+0tU3ox7C8aaFFSXRqhadA=";
+  };
 
-    configurePhase = ''
-      runHook preConfigure
+  buildPhase = ''
+    runHook preBuild
+    pnpm build
+    runHook postBuild
+  '';
 
-      export HOME="$NIX_BUILD_TOP"
-      export YARN_ENABLE_TELEMETRY=0
-      yarn config set enableGlobalCache false
-      yarn config set cacheFolder $yarnOfflineCache
-
-      runHook postConfigure
-    '';
-
-    buildPhase = ''
-      runHook preBuild
-
-      yarn install --immutable --immutable-cache
-      yarn build
-
-      runHook postBuild
-    '';
-
-    installPhase = ''
-      cp -r dist $out
-    '';
-  })
+  installPhase = ''
+    runHook preInstall
+    cp -r dist $out
+    runHook postInstall
+  '';
+})

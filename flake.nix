@@ -8,7 +8,6 @@
       nixpkgs.lib.genAttrs [
         "aarch64-linux"
         "aarch64-darwin"
-        "x86_64-darwin"
         "x86_64-linux"
       ] (system: fn nixpkgs.legacyPackages.${system});
     defaultForSystems = fn: forSystems (pkgs: {default = fn pkgs;});
@@ -19,7 +18,7 @@
       in
         with pkgs;
           mkShell {
-            nativeBuildInputs = [nodejs_22 yarn vips pkg-config flyctl scripts.hls scripts.mp4];
+            nativeBuildInputs = [nodejs_24 pnpm_12 vips pkg-config flyctl scripts.hls scripts.mp4];
             shellHook = ''
               export LD_LIBRARY_PATH="${lib.makeLibraryPath [vips]}:$LD_LIBRARY_PATH"
             '';

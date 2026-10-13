@@ -53,21 +53,21 @@ are in `README.md`; preserve that distinction when editing articles.
 Run in `nix develop` or the direnv shell (`.envrc` uses `use flake`):
 
 ```sh
-yarn install --immutable                 # Install from the committed lockfile
-yarn dev                                 # Development server; yarn start is equivalent
-yarn build                               # Static production build
-yarn preview                             # Serve the built output
-yarn test                                # Vitest watch mode locally
-yarn test --run --exclude '.direnv/**'     # One-shot local suite, ignoring Nix source copies
-yarn prettier --check <paths>             # Formatting check
-yarn prettier --write <paths>             # Format changed files
+pnpm install --frozen-lockfile           # Install from the committed lockfile
+pnpm dev                                # Development server; pnpm start is equivalent
+pnpm build                              # Static production build
+pnpm preview                            # Serve the built output
+pnpm test                               # Vitest watch mode locally
+pnpm test --run --exclude '.direnv/**'    # One-shot local suite, ignoring Nix source copies
+pnpm exec prettier --check <paths>       # Formatting check
+pnpm exec prettier --write <paths>       # Format changed files
 nix flake check                          # Check flake evaluation/build checks
 nix build .#site                         # Nix static-site package
 nix build .#container                    # Caddy container image
 ```
 
 There are no lint or typecheck package scripts or corresponding CI gates. Do not
-claim `yarn build` performs a separate typecheck. The shortlink integration in
+claim `pnpm build` performs a separate typecheck. The shortlink integration in
 `astro.config.ts` reads `WORKER_LINKS_SECRET` for `https://ovy.rs`; account for
 this external integration when diagnosing builds, and never commit credentials.
 
@@ -105,24 +105,33 @@ this external integration when diagnosing builds, and never commit credentials.
 - `src/layouts/ArticleLayout.astro`: shared article presentation and hydration.
 - `astro.config.ts`: site URL, integrations, Markdown, Shiki, Tailwind, raw-font
   loading for OG images, and shortlinks.
-- `package.json`, `yarn.lock`, `.yarnrc.yml`: commands, dependencies, package
-  pins.
+- `package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`: commands, dependency
+  pins, and approved dependency build scripts.
 - `tsconfig.json`, `svelte.config.js`, `prettier.config.cjs`: language/format
   setup.
-- `flake.nix`, `site.nix`, `container.nix`: dev shell, offline dependency cache,
-  build, and image. Dependency changes may require updating the fixed-output
-  `yarnOfflineCache.outputHash` in `site.nix` as well as `yarn.lock`.
+- `flake.nix`, `site.nix`, `container.nix`: dev shell, offline dependency store,
+  build, and image. Dependency changes may require updating `pnpmDeps.hash` in
+  `site.nix` as well as `pnpm-lock.yaml`. Nix uses the standalone
+  `fetchPnpmDeps` and `pnpmConfigHook` helpers, with `fetcherVersion = 4`. The
+  hook installs dependencies offline with scripts disabled; platform binaries
+  come from the fetched store.
 - `Caddyfile`, `fly.toml`, `.github/workflows/push.yaml`: serving/deployment.
   Caddy redirects `/rss.xml` to `/posts/rss.xml` and serves the custom 404 page.
 
 ## Runtime/Tooling Preferences
 
-- Use **Node >=22 and Yarn 4.9.1**, not Bun/npm. Yarn is pinned in
-  `.yarn/releases/` and uses the `node-modules` linker.
-- `.tool-versions` still specifies Node 18.13.0, conflicting with
-  `package.json`; follow the Node 22 Nix shell instead of that stale pin.
-- The Nix shell supplies Node, Yarn, vips, pkg-config, and flyctl, and sets
+- Use **Node >=24 and pnpm 12.9.0**, not Bun/npm/Yarn. `package.json` pins pnpm
+  to the version provided by the locked Nixpkgs `pnpm_12` package. The Nix shell
+  and site build explicitly select `nodejs_24` and `pnpm_12`; outside Nix, use
+  Corepack to provision that pnpm version.
+- pnpm uses its standard isolated `node_modules` layout; declare imports as
+  direct dependencies rather than relying on transitive hoisting.
+  `pnpm-workspace.yaml` permits build scripts only for `@tailwindcss/oxide`,
+  `esbuild`, and `sharp`.
+- The Nix shell supplies Node, pnpm, vips, pkg-config, and flyctl, and sets
   `LD_LIBRARY_PATH` for vips. Prefer it on NixOS for native dependencies.
+- The flake targets Linux x86-64/ARM64 and ARM64 macOS. The locked Nixpkgs no
+  longer supports Intel macOS.
 - `scripts.nix` provides `ovy-mp4 INPUT` and `ovy-hls INPUT` FFmpeg wrappers for
   content media. HLS output directories must already exist; the wrapper does not
   create them and expects an audio stream.
@@ -138,9 +147,10 @@ this external integration when diagnosing builds, and never commit credentials.
   configured. The existing suite does not verify page rendering, feeds, OG
   images, or comments; exercise affected outputs/UI separately when changing
   those paths.
-- Bare `yarn test --run` can discover duplicate tests in `.direnv/flake-inputs/`
+- Bare `pnpm test --run` can discover duplicate tests in `.direnv/flake-inputs/`
   and fail resolving Astro from Nix store source copies. Use the exclusion shown
   above for local one-shot runs.
-- Main-branch CI runs `nix flake check`, immutable dependency installation,
-  `yarn test`, container build/push, then Fly deployment. Deployment requires
-  `FLY_API_TOKEN`; do not deploy merely to verify a local change.
+- Main-branch CI runs `nix flake check`, frozen-lockfile dependency
+  installation, `pnpm test --run`, container build/push, then Fly deployment.
+  Deployment requires `FLY_API_TOKEN`; do not deploy merely to verify a local
+  change.
