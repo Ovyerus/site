@@ -39,4 +39,11 @@ describe("getWeeknoteStrings", () => {
     expect(strings.title).toBe("Weeknote 53, 2004");
     expect(strings.sentence).toBe("week 53 of 2004");
   });
+
+  test.each(["2026-w3", "2026-W43", "2026-w00", "2026-w54", "2021-w53"])(
+    "rejects malformed or nonexistent ISO week %s rather than rolling into another week",
+    (id) => {
+      expect(() => getWeeknoteStrings(id)).toThrow("Invalid ISO week");
+    },
+  );
 });

@@ -2,6 +2,7 @@ import svelte from "@astrojs/svelte";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import * as fs from "node:fs";
+import { fileURLToPath } from "node:url";
 import node from "@astrojs/node";
 import react from "@astrojs/react";
 import emdash, { local } from "emdash/astro";
@@ -35,6 +36,17 @@ export default defineConfig({
     emdash({
       // Use system fonts in the admin so offline Nix builds never fetch fonts.
       fonts: false,
+      plugins: [
+        {
+          id: "weeknote-iso-week",
+          version: "1.0.0",
+          format: "standard",
+          capabilities: ["content:write", "hooks.content-policy:register"],
+          entrypoint: fileURLToPath(
+            new URL("./src/lib/emdash-weeknotes.ts", import.meta.url),
+          ),
+        },
+      ],
       authProviders: [
         atproto({
           // ovyerus.com: keep access tied to the account, not its mutable handle.

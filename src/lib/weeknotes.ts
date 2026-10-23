@@ -1,15 +1,9 @@
 import type { WeeknoteEntry } from "./content";
-import {
-  format,
-  isAfter,
-  isBefore,
-  lastDayOfISOWeek,
-  parseISO,
-} from "date-fns";
+import { format, lastDayOfISOWeek } from "date-fns";
+import { parseWeeknoteId } from "./iso-week";
 
-// TODO: write tests to cover edge cases like crossing the year and shit
 export const getWeeknoteStrings = (id: string) => {
-  const date = parseISO(id.toUpperCase());
+  const date = parseWeeknoteId(id);
   const [year, week] = id.replace("w", "").split("-");
   const writtenDate = lastDayOfISOWeek(date);
 
@@ -21,13 +15,9 @@ export const getWeeknoteStrings = (id: string) => {
   };
 };
 
-export const sortWeeknotes = (weeknotes: WeeknoteEntry[]) =>
-  weeknotes.toSorted(({ id: idA }, { id: idB }) => {
-    const a = parseISO(idA.toUpperCase());
-    const b = parseISO(idB.toUpperCase());
-
-    // Conditions reversed to make it a descending list.
-    if (isAfter(a, b)) return -1;
-    else if (isBefore(a, b)) return 1;
-    else return 0;
-  });
+export const sortWeeknotes = (weeknotes: WeeknoteEntry[]) => {
+  for (const { id } of weeknotes) parseWeeknoteId(id);
+  return weeknotes.toSorted(({ id: a }, { id: b }) =>
+    a < b ? 1 : a > b ? -1 : 0,
+  );
+};

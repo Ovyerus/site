@@ -1,6 +1,6 @@
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { parse } from "yaml";
-import { format, lastDayOfISOWeek, parseISO } from "date-fns";
+import { parseWeeknoteId, weeknoteIdPattern } from "../src/lib/iso-week.ts";
 
 const field = (slug, label, type = "string", extra = {}) => ({
   slug,
@@ -59,12 +59,15 @@ const seed = {
       label: "Weeknotes",
       labelSingular: "Weeknote",
       description:
-        "Use YYYY-wWW slugs, e.g. 2026-w41. Public title and date derive from the ISO week.",
+        "Weeknote slugs and admin titles use YYYY-wWW (e.g. 2026-w41); the public title and date derive from the ISO week.",
       titleField: "title",
       urlPattern: "/weeknotes/{slug}",
       supports: ["drafts", "revisions", "preview", "scheduling"],
       fields: [
-        field("title", "Admin title", "string", { required: true }),
+        field("title", "ISO week", "string", {
+          required: true,
+          validation: { pattern: weeknoteIdPattern },
+        }),
         field("subtitle", "Subtitle"),
         description,
         body,
@@ -126,12 +129,13 @@ for (const collection of ["posts", "weeknotes", "pages"]) {
   const directory = new URL(`../src/content/${collection}/`, import.meta.url);
   for (const filename of (await readdir(directory)).sort()) {
     if (!filename.endsWith(".md") || filename.startsWith("_")) continue;
+    const slug = filename.slice(0, -3);
+    if (collection === "weeknotes") parseWeeknoteId(slug);
     const source = await readFile(new URL(filename, directory), "utf8");
     const match = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)([\s\S]*)$/.exec(
       source,
     );
     const metadata = match ? (parse(match[1]) ?? {}) : {};
-    const slug = filename.slice(0, -3);
     const data = { body: match ? match[2] : source, ...metadata };
     delete data.layout;
     delete data.navCurrent;
@@ -142,9 +146,7 @@ for (const collection of ["posts", "weeknotes", "pages"]) {
       delete data.createdAt;
       delete data.modifiedAt;
     } else if (collection === "weeknotes") {
-      const date = parseISO(slug.toUpperCase());
-      const [year, week] = slug.replace("w", "").split("-");
-      data.title = `Weeknote ${week}, ${year} (${format(lastDayOfISOWeek(date), "MMMM do, yyyy")})`;
+      data.title = slug;
     }
     const allowedFields = new Set(
       seed.collections
@@ -172,6 +174,7 @@ tagField.validation = {
   ].toSorted(),
 };
 
+await mkdir(new URL("../data/", import.meta.url), { recursive: true });
 await mkdir(new URL("../seed/", import.meta.url), { recursive: true });
 await writeFile(
   new URL("../seed/seed.json", import.meta.url),

@@ -10,7 +10,6 @@ native libraries used by the build:
 ```sh
 nix develop
 pnpm install --frozen-lockfile
-mkdir -p data
 pnpm cms:import
 pnpm exec emdash secrets generate --write .env
 chmod 600 .env data/emdash.db
@@ -30,8 +29,10 @@ EmDash owns published content at request time:
   dates, and optional Bluesky thread metadata. The tag picker starts with the
   archive's existing tags; add new choices in **Content Types → Posts → Tags**.
 - **Weeknotes:** Markdown body, subtitle, description, and Bluesky thread
-  metadata. Keep slugs in `YYYY-wWW` format; public titles and dates derive from
-  ISO weeks.
+  metadata. Set both **ISO week** (the admin title) and the slug to the same
+  real ISO week, e.g. `2026-w43`. Titles are checked on save; publishing and
+  scheduling reject malformed slugs, nonexistent week 53, and mismatched titles.
+  Public titles and dates still derive from the ISO week.
 - **Pages:** About and Uses, plus new pages at `/{slug}`. Avoid reserved routes
   such as `posts`, `weeknotes`, `og`, and `_emdash`.
 - **Homepage:** tagline, contact email, title metadata, and homepage social
@@ -46,15 +47,33 @@ admin uses system fonts so Nix builds need no external font downloads.
 `data/emdash.db`, `data/uploads/`, and `.env` are private, ignored local state.
 Back up the database, uploads, and encryption key together. The original files
 under `src/content/` are import archives, not a second live content source.
-`pnpm cms:import` regenerates `seed/seed.json` and imports missing entries; its
-`skip` conflict policy does not overwrite existing CMS edits. The seed is only
-initial content, not a deployment-time synchronization mechanism.
+`pnpm cms:import` creates `data/` if needed, regenerates `seed/seed.json`, and
+initializes or migrates `data/emdash.db` before importing missing entries. Its
+`skip` conflict policy does not overwrite existing CMS article edits. It also
+runs the weeknote migration described below. The seed is only initial content,
+not a deployment-time synchronization mechanism.
 
 Run `pnpm build` for standalone Node production output, then `pnpm preview` to
 serve it locally with the private `.env` file. Run
 `pnpm test --run --exclude '.direnv/**'` for the existing test suite.
 `nix build .#site` and `nix build .#container` package the server and runtime
 dependencies, excluding local data and secrets.
+
+### Weeknote identifiers
+
+For an existing database, run `node scripts/migrate-weeknotes.mjs` before using
+the updated editor, or pass a different SQLite path as its first argument. The
+migration converts existing admin titles to their `YYYY-wWW` slugs, updates the
+current live/draft revision pointers, and installs the title format constraint
+and SQLite publication guards. Staged drafts use their staged slug. Historical
+revisions, article bodies, publication dates, and private draft edits are
+preserved; rerunning the migration makes no further content changes.
+
+The `weeknote-iso-week` EmDash plugin provides save, publish, and scheduling
+feedback. SQLite guards also reject invalid published/scheduled rows written by
+paths that bypass those hooks. Run the migration against any existing deployment
+database before starting the updated server; a code build alone does not migrate
+its private content database.
 
 ### Atmosphere login
 
@@ -73,9 +92,9 @@ passkeys are unchanged.
 
 Use `127.0.0.1` throughout the Atmosphere flow: AT Protocol requires an
 IP-literal loopback callback. An existing passkey registered at `localhost` must
-still be used at `localhost`; passkeys are origin-bound. The existing MCP
-definition continues to use `localhost` so its approved credential binding stays
-intact.
+still be used at `localhost`; passkeys are origin-bound. The MCP definition also
+uses `127.0.0.1` so Atmosphere login and MCP consent share the same browser
+session.
 
 In production, the PDS must be able to fetch
 `https://ovyerus.com/.well-known/atproto-client-metadata.json`. Keep
@@ -84,8 +103,9 @@ In production, the PDS must be able to fetch
 ### Local MCP connection
 
 `.omp/mcp.json` defines `emdash-local` at
-<http://localhost:4321/_emdash/api/mcp>. Keep the local server running, then run
-these commands in omp:
+<http://127.0.0.1:4321/_emdash/api/mcp>. Keep the local server running and sign
+in at <http://127.0.0.1:4321/_emdash/admin/> before running these commands in
+omp:
 
 ```text
 /mcp reload
@@ -93,17 +113,29 @@ these commands in omp:
 /mcp test emdash-local
 ```
 
-Sign in with your own EmDash passkey and approve the browser consent screen. The
-requested scopes allow content and media reading/editing (including publishing),
-plus schema and settings reading. `content:write` also permits taxonomy and menu
-management. Schema changes, settings changes, plugin tools, and site transfer
-are not requested.
+Approve the browser consent screen. Atmosphere currently returns to the admin
+dashboard after login instead of the pending MCP consent page; if this happens,
+run `/mcp reauth emdash-local` again after signing in.
+
+The configured scopes are `content:read`, `content:write`, `media:read`,
+`media:write`, `schema:read`, and `settings:read`. These allow content and media
+reading/editing (including publishing), plus schema and settings reading.
+`content:write` also permits taxonomy and menu management. Review the consent
+screen: OMP 18.4.6 can request all advertised scopes despite `oauth.scope`.
+Approve only the six configured scopes; leave administrative access, schema
+changes, settings changes, plugin tools, and site transfer unselected.
 
 OAuth credentials and refresh tokens stay in omp's active-profile auth storage,
 not this repository. Each profile authorizes separately. Use
 `/mcp unauth emdash-local` to remove omp's stored credentials, and revoke the
 grant in EmDash to invalidate server-side access. This connection targets only
 the local review database; production needs a separate approved connection.
+
+If EmDash rejects a stored refresh token with `INVALID_GRANT` (for example after
+replacing the local database), reauthorize rather than changing authentication
+requirements. Changing the endpoint hostname also requires a fresh
+authorization: omp binds credentials to the full server URL. Run `/mcp reload`
+in any already-open omp sessions after changing `.omp/mcp.json`.
 
 ## Review before deployment
 

@@ -3,7 +3,7 @@
   "mcpServers": {
     "emdash-local": {
       "type": "http",
-      "url": "http://localhost:4321/_emdash/api/mcp",
+      "url": "http://127.0.0.1:4321/_emdash/api/mcp",
       "oauth": {
         "scope": "content:read content:write media:read media:write schema:read settings:read"
       }

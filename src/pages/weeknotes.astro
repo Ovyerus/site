@@ -7,14 +7,6 @@ import { getArticles } from "~lib/content";
 import { getWeeknoteStrings, sortWeeknotes } from "~lib/weeknotes";
 
 const weeknotes = await getArticles("weeknotes");
-const weekRe = /^\d{4}-w\d{2}$/i;
-const incorrectWeeknoteFilename = weeknotes.find((w) => !weekRe.test(w.id));
-
-if (incorrectWeeknoteFilename)
-  throw new Error(
-    `weeknote "${incorrectWeeknoteFilename.id}" is in an invalid format! It should match the ISO week format.`,
-  );
-
 const sortedWeeknotes = sortWeeknotes(weeknotes);
 ---
 

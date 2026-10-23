@@ -20,12 +20,7 @@
       "titleField": "title",
       "dateField": "written_at",
       "urlPattern": "/posts/{slug}",
-      "supports": [
-        "drafts",
-        "revisions",
-        "preview",
-        "scheduling"
-      ],
+      "supports": ["drafts", "revisions", "preview", "scheduling"],
       "fields": [
         {
           "slug": "title",
@@ -53,13 +48,7 @@
           "type": "multiSelect",
           "defaultValue": [],
           "validation": {
-            "options": [
-              "containers",
-              "ios",
-              "long",
-              "obsidian",
-              "short"
-            ]
+            "options": ["containers", "ios", "long", "obsidian", "short"]
           }
         },
         {
@@ -85,21 +74,19 @@
       "slug": "weeknotes",
       "label": "Weeknotes",
       "labelSingular": "Weeknote",
-      "description": "Use YYYY-wWW slugs, e.g. 2026-w41. Public title and date derive from the ISO week.",
+      "description": "Weeknote slugs and admin titles use YYYY-wWW (e.g. 2026-w41); the public title and date derive from the ISO week.",
       "titleField": "title",
       "urlPattern": "/weeknotes/{slug}",
-      "supports": [
-        "drafts",
-        "revisions",
-        "preview",
-        "scheduling"
-      ],
+      "supports": ["drafts", "revisions", "preview", "scheduling"],
       "fields": [
         {
           "slug": "title",
-          "label": "Admin title",
+          "label": "ISO week",
           "type": "string",
-          "required": true
+          "required": true,
+          "validation": {
+            "pattern": "^[0-9]{4}-w(0[1-9]|[1-4][0-9]|5[0-3])$"
+          }
         },
         {
           "slug": "subtitle",
@@ -133,11 +120,7 @@
       "labelSingular": "Page",
       "titleField": "title",
       "urlPattern": "/{slug}",
-      "supports": [
-        "drafts",
-        "revisions",
-        "preview"
-      ],
+      "supports": ["drafts", "revisions", "preview"],
       "fields": [
         {
           "slug": "title",
@@ -167,10 +150,7 @@
       "labelSingular": "Homepage",
       "routable": false,
       "titleField": "title",
-      "supports": [
-        "drafts",
-        "revisions"
-      ],
+      "supports": ["drafts", "revisions"],
       "fields": [
         {
           "slug": "title",
@@ -221,11 +201,7 @@
           "body": "\n<abbr title=\"Too long; didn't read\">TL;DR</abbr>: Install the\n[Actions URI](https://github.com/czottmann/obsidian-actions-uri) extension into\nyour Obsidian vault, and add this Shortcut:\nhttps://www.icloud.com/shortcuts/7ae0a2589764489cb3cdbc8fe22d9888\n\n---\n\nI've been ~~trying to use~~ using [Obsidian](https://obsidian.md/) since the\nstart of the year for storing notes and various pieces of writing, but more\nrecently I've trying to change up how I use it, turning it into more of a proper\nsecond brain. To help with this, I stumbled upon the\n[Zettelkasten](https://en.wikipedia.org/wiki/Zettelkasten) method of taking\nnotes, which involves taking “fleeting notes” for ideas as they come, and then\nrevisiting them later in the day or week to flesh out into proper “atomic” (or\n“permanent”) notes if it's worthy.\n\n> For further reading on Zettelkasten, I highly recommend\n> [this article](https://obsidian.rocks/getting-started-with-zettelkasten-in-obsidian/)\n> on obsidian.rocks, which really helped me to understand the concept and\n> actually applying it inside of Obsidian.\n\nHowever, in the land of mobile where everything is gesture based, and we don't\nhave the luxury of superfast keyboard shortcuts, it can often be a bit\ntroublesome trying to capture our thoughts. Opening the Obsidian app is usually\nfine enough, however by default it doesn't open right into a new note, so it's a\nfew extra steps to get to writing.\n\nRecently though, I picked up an iPhone 15 Pro to replace my old phone, and Apple\nhas replaced the physical mute switch of yore with a customisable action button,\nwhich can even run Shortcuts! This gave me an idea to create a Shortcut workflow\nto pop up a text box immediately, before sending the text off to Obsidian\nafterwards.\n\n<figure>\n  <video controls>\n    <source src=\"https://cdn.ovy.cloud/blog/obsidian-shortcut-example.mp4\" type=\"video/mp4\" />\n  </video>\n  <figcaption>\n    Of course, if you don't have an iPhone with an action button, you can just put it as an\n    icon on your homescreen instead.\n  </figcaption>\n</figure>\n\nIt's nothing too fancy, but being able to get a text box summoned out of thin\nair is a big plus compared to having to navigate my way to a new note manually.\nThe Shortcut is available from\n[iCloud directly](https://www.icloud.com/shortcuts/7ae0a2589764489cb3cdbc8fe22d9888),\nand keep in mind that you will need to add the\n[Actions URI](https://github.com/czottmann/obsidian-actions-uri) extension to\nyour vault.\n\nThat link _should_ work indefinitely (at least as long as Shortcuts is still\naround), but for posterity here’s an explanation of the steps it goes through to\nwork.\n\n![Screenshot of the iOS Shortcuts app depicting an overview of the shortcut](https://cdn.ovy.cloud/blog/obsidian-shortcut-overview.png)\n\n1. Show a text box asking for the note content.\n2. URL encode the text box input.\n3. URL encode the full path & name of the destination file (in this case, it's\n   saving to `05 - Fleeting/$DATE` where `$DATE` is the Current Date variable\n   formatted using `YYYY-MM-dd+HHmm`).\n4. URL encode the name of the destination vault.\n5. Put together the variables into the\n   [`/note/create`](https://zottmann.dev/obsidian-actions-uri/routes/note/#notecreate)\n   actions URI, using the “Open URIs” action.\n   (`obsidian://actions-uri/note/create?vault=$VAULT&file=$FILE&content=$TEXTBOX`).\n\nAnd voilà! A Shortcut for stuffing your thoughts into Obsidian at a moments\nnotice.\n",
           "title": "My iOS Shortcut for Obsidian quick capture",
           "description": "How I revamped my note-taking in Obsidian with a custom iOS Shortcut, making capturing thoughts quick and effortless.",
-          "tags": [
-            "obsidian",
-            "ios",
-            "short"
-          ],
+          "tags": ["obsidian", "ios", "short"],
           "written_at": "2024-05-24T00:00:00.000Z"
         }
       },
@@ -237,10 +213,7 @@
           "body": "\nI have a dedicated server running Proxmox, which I use to provision some virtual\nmachines for myself and friends. Recently I decided to move a bunch of Docker\nservices I had running in a LXC container on the host to their own VM, mostly\nbecause I had some problems getting Tailscale working nicely on the container.\nWhile doing this, I also thought it might be a nice excuse to finally give\n[Podman](https://github.com/containers/podman) a try.\n\n## The initial move\n\nInstalling Podman is pretty simple. I'm using Ubuntu 22.04 so it was already in\nthe repos so an easy install with APT. It's probably in your distro's\nrepositories as well.\n\n```\nsudo apt install podman\n```\n\nOne of the cool things about Podman is that it uses the standard fork/exec\ntechnique seen around Unix (instead of a server/client model like Docker), and\nthe containers are run rootless by default (as the executing user instead). This\nmeans that if you're on a multi-user server, you don't need to give users access\nto `sudo docker` or to create a `docker` group for them, and it makes it more\neasily auditable if you have the tools for that.\n\nHowever because Podman is daemon-less, by default if you log out of your session\nafter starting some containers with it, you'll find that they've mysteriously\ndisappeared. This is obviously annoying coming from Docker, but thankfully it's\neasily solvable with `sudo loginctl enable-linger <username>`, which then lets\nthem stay around once you log out.\n\n### Using Podman\n\nMoving to Podman from Docker turns out to be really easy. The team has put in a\nlot of effort of making the CLI almost one-to-one with Docker, with the same\ncommands and flags. In fact, for the most part you can just alias `docker` to\n`podman`, and carry on with your muscle memory from before.\n\n```\n$ podman run --rm docker.io/library/hello-world\n\nHello from Docker!\nThis message shows that your installation appears to be working correctly.\n\n<snip>\n```\n\nYou'll notice that I'm specifying the full name for the image I want to run,\ninstead of doing the shorthand `hello-world`. By default Podman doesn't expand a\nshorthand image to a fully qualified name, but there is a config option for\nthat. In `/etc/containers/registries.conf` (or\n`~/.config/containers/registries.conf`) you can set the option\n`unqualified-search-registries` to a list of domains to search through for a\nmatching image.\n\n```toml\nunqualified-search-registries = [\"docker.io\"]\n```\n\nBesides this, Podman acts almost exactly how you would expect Docker would,\nwhich is really cool. Podman also provide their own alternative to Docker\nCompose called Podman Compose.\n\n---\n\n## Podman Compose\n\nPodman Compose is easy to get, being in distro repos alongside Podman, and takes\nafter Docker Compose v1 in the sense that it's a Python CLI script which manages\na group of containers and associated networks & volumes from a single manifest.\nFor the most common usage you would want from Compose, Podman's is a decent\nsolution.\n\nI personally have some gripes with some of Podman Compose's behaviour though,\nmainly in regards to how `up` works compared to Docker Compose. If you ever need\nto update a compose file or the image one of the containers use, usually you\nwould just run `docker-compose up` and have Compose manage recreating the\nrelated containers for you, however Podman Compose just doesn't do this. Nothing\nhappens if you try to `up` an already running config, you need to take down the\nentire deployment with `docker-compose down` and then run `up` again afterwards,\nwhich is pretty annoying.\n\nAdditionally, the logs shown given by it are pretty painful. There's a lot of\nnoise where it has lines that look like something you would only expect to see\nwith a debug option enabled. Call me a zoomer, but I much prefer how Docker\nCompose hides all that debug logging, and even gives you container labels +\ncolour coding for each different log stream. It's infinitely easier to\nunderstand what's going on - especially if it's not a service you've made\nyourself, where you can't change the log format.\n\nThankfully, however, you can actually use Docker Compose _natively with Podman_\nwithout needing any weird hacks or doing anything stupid.\n\n## Docker Compose\n\nYup, that's right! Because of Podman wanting to make it as frictionless as\npossible to migrate from Docker, they're actually compatible enough on the\nsocket to natively support running Docker Compose. I'm going to be using Docker\nCompose v2 in this because it has some niceties like `docker-compose ls` and\nbecause it's distributed as a single static Golang binary, making it easy to\ndownload.\n\nNow, Podman only added proper support for Compose v2 in\n[v4.1.0](https://github.com/containers/podman/releases/tag/v4.1.0), so let's see\nif we have that.\n\n```\n$ podman -v\npodman version 3.4.4\n\n$ apt info podman\nPackage: podman\nVersion: 3.4.4+ds1-1ubuntu1\n```\n\nOh. That's a bit of a problem.\n\n(If you're on a future version of Ubuntu (hopefully 23.04 has the right\nversion), or on a different/rolling release distro, this following section\nprobably won't apply to you.)\n\n### Getting the correct Podman version\n\nYup, it turns out Ubuntu 22.04 just missed out on getting the minimum version we\nneed in order to be able to use Docker Compose with it. Thankfully however,\nsince Ubuntu is based on Debian, we can actually yoink an updated `.deb` of the\nversion we want from their repos. Before that though, we need to install\n`libsubid4` for it. I tried with `4.13` from the Debian repos which didn't work\n(I forget the exact error I had), so instead I had to fetch `4.11.1` from\nUbuntu's repos and use that, since that's only available from >=22.10 as well.\n\n```\nwget https://security.ubuntu.com/ubuntu/pool/main/s/shadow/libsubid4_4.11.1+dfsg1-2ubuntu1.1_amd64.deb\nsudo dpkg -i ibsubid4_4.11.1dfsg1-2ubuntu1.1_amd64_1.deb\nwget http://ftp.au.debian.org/debian/pool/main/libp/libpod/podman_4.3.1+ds1-5+b1_amd64.deb\nsudo dpkg -i podman_4.3.1+ds1-5+b1_amd64.deb\n```\n\n```\n$ podman -v\npodman version 4.3.1\n```\n\nSweet!\n\nNB: after doing this method, I encountered a bit of weirdness due to not having\n`containernetworking-plugins`, some sort of packaging error I suppose, but this\nwas a simple fix by getting it via APT.\n\n### Getting Docker Compose\n\nSo now we have a compatible version of Podman, we can turn our attention to\ngetting Docker Compose. Ubuntu only ships 1.29 for some reason, so we need to v2\nmanually. Docker provides compiled executables on its\n[GitHub releases page](https://github.com/docker/compose/releases) so we can\njust pull it from the latest release there.\n\n```\nwget https://github.com/docker/compose/releases/download/v2.15.0/docker-compose-linux-x86_64\nsudo mv ./docker-compose-linux-x86_64 /usr/bin/docker-compose\n```\n\nSimple.\n\n### Using it\n\nBefore we can get started with Docker Compose, we first need to fool it into\nthinking that Docker actually exists on our system. Usually it would expect a\nDocker socket at `unix:///var/run/docker.sock`, but Podman obviously doesn't\nprovide this, but if a `$DOCKER_HOST` variable is around, Compose will instead\nprioritise using that. With this we can simply just pass our rootless Podman\nsocket as `$DOCKER_HOST` - by default this is at\n`unix://$XDG_RUNTIME_DIR/podman/podman.sock`, if you're on the first/sole user\non your system this will probably be `unix:///run/user/1000/podman/podman.sock`\nlike it was for me. Do double check though!\n\n```fish\nset -x DOCKER_HOST unix:///run/user/1000/podman/podman.sock\n```\n\n---\n\n#### Edit\n\nOne thing I didn't realise at the time of making this post originally, was that\nthis socket isn't actually created by default. You will need to have Podman\nlaunched as a service so that the socket exists, this can either be done with\nthe `podman system service` command or just by using systemd.\n\n```\nsystemctl enable --user podman\nsystemctl start --user podman\n```\n\n---\n\nAnd with this, we're all set to use Docker Compose as we would if we were just\nusing normal Docker on our system, with re-running `docker-compose up`\nrestarting only the necessary containers as we would expect!\n\n---\n\n## Keeping everything running with systemd\n\nNow we have everything running nicely with Podman & Docker Compose. However,\nthere is one small problem we have right now. When we reboot the machine, our\nservices don't get brought up on startup. What??\n\nThis is due to Podman being a _daemonless_ container runtime, so it has nothing\nthat is around at startup time which can bring our containers online for us.\nUnless we intervene.\n\nIf we were using containers we had set up manually, and didn't mind managing a\nbunch of different unit files, Podman ships with `podman generate systemd` takes\na container name or ID and spits out a unit file along these lines:\n\n```ini\n# container-postgres.service\n# autogenerated by Podman 4.3.1\n# Sun Jan  8 10:45:24 UTC 2023\n\n[Unit]\nDescription=Podman container-postgres.service\nDocumentation=man:podman-generate-systemd(1)\nWants=network-online.target\nAfter=network-online.target\nRequiresMountsFor=/run/user/1000/containers\n\n[Service]\nEnvironment=PODMAN_SYSTEMD_UNIT=%n\nRestart=on-failure\nTimeoutStopSec=60\nExecStart=/usr/bin/podman start postgres\nExecStop=/usr/bin/podman stop  \\\n\t-t 0 postgres\nExecStopPost=/usr/bin/podman stop  \\\n\t-t 0 postgres\nPIDFile=/run/user/1000/containers/overlay-containers/46d92085dcde44ec376ab13e5a55ee4ad6b87e961934bd881e9b5cbaa204692d/userdata/conmon.pid\nType=forking\n\n[Install]\nWantedBy=default.target\n```\n\nHowever, if you're using Compose configs, this can be a lot to manage depending\non how many containers you're managing in each one, and some services might need\na specific start order/conditions to be met in order to start properly. And it's\nalso just a lot to do when you're wanting to host something like\n[Plausible](https://plausible.io/) or [Sentry](https://sentry.io/). So sadly\nthis isn't much use to us, but it is useful as a head start on creating our own\nunits.\n\nWhat I ended up doing was modifying it so that all the unit ends up doing is\nstarts the `docker-compose up` process with `--detach` so that it isn't\ncontrolling it outright. I do it this way instead of owning the compose process,\nit exits after bringing anything up so that if I need to update a config or an\nimage, I can just do so with the compose CLI (it's just what I prefer). However\nif you have a service which exits at any time, by default systemd will consider\nit finished andthus run the `ExecStop` command. Thankfully they provide two\noptions that counter this, making it consider such a service \"alive\" after it's\nfinished running: `Type=oneshot` and `RemainAfterExit=yes`.\n\nKnowing this, here is the unit file I came up with to run Docker Compose on\nboot:\n\n```ini\n[Unit]\nDescription=Databases compose config\nWants=network-online.target\nAfter=network-online.target\nRequiresMountsFor=/run/user/1000/containers\n\n[Service]\nType=oneshot\nRemainAfterExit=yes\nEnvironment=\"PATH=/usr/local/bin:/usr/bin:/bin\"\nEnvironment=\"DOCKER_HOST=unix:///run/user/1000/podman/podman.sock\"\nExecStart=docker-compose -f /home/ovy/dbs/docker-compose.yml up -d\nExecStop=docker-compose -f /home/ovy/dbs/docker-compose.yml down\n\n[Install]\nWantedBy=default.target\n```\n\nI'll have this saved as `dbs-compose.service`.\n\nUnfortunately you will still need to create a unit file for each compose config\nyou have (unless you create something like a shell script which does them for\nyou), but it's still a lot better than if you had to do it for each container.\nAn additional note is that if you're using `$PWD` in your compose configs, you\nwill need to rewrite them to use relative or absolute paths instead, as it will\ninstead point to some other location - probably the FS root.\n\nTo keep in line with the idea of Podman being rootless, I have these run as user\nservices under systemd, and it also just makes managing them easier in my\nopinion. To do this you'll need to put them into `~/.config/systemd/user/` and\nthen use `systemctl --user` to enable and start them running as your user\naccount.\n\n```shell\nmkdir -p ~/.config/systemd/user\n# Copy/create all your unit files in that directory\nsystemctl --user daemon-reload\n# Now to enable & start each service\nsystemctl --user enable db-compose.service\nsystemctl --user start db-compose.service\n```\n\nNow if you run `systemctl --user status my-compose.service` you should see\nsomething like this:\n\n```\n● dbs-compose.service - Databases compose config\n     Loaded: loaded (/home/ovy/.config/systemd/user/dbs-compose.service; enabled; v>\n     Active: active (exited) since Sun 2023-01-08 02:41:08 UTC; 22h ago\n    Process: 696 ExecStart=docker-compose -f /home/ovy/dbs/docker-compose.yml up -d>\n   Main PID: 696 (code=exited, status=0/SUCCESS)\n        CPU: 78ms\n\nJan 08 02:40:57 solai systemd[648]: Starting Databases compose config...\nJan 08 02:41:06 solai docker-compose[696]: Container minio  Starting\nJan 08 02:41:06 solai docker-compose[696]: Container postgres  Starting\nJan 08 02:41:07 solai docker-compose[696]: Container minio  Started\nJan 08 02:41:08 solai docker-compose[696]: Container postgres  Started\nJan 08 02:41:08 solai systemd[648]: Finished Databases compose config.\n```\n\nEven though we can see the script has exited, it's still being considered as\nactive thanks to our use of `Type=oneshot` and `RemainAfterExit=yes`. And now\nwhen we reboot our machine, the services will come up automatically without us\nneeding to intervene!\n\nIf you have a compose setup where one config relies on containers another one\nmanages - for example, a single centralised database setup for other services -\nyou can utilise systemd's\n[`Wants`/`Requires`](https://www.freedesktop.org/software/systemd/man/systemd.unit.html#Wants=)\nand\n[`After`](https://www.freedesktop.org/software/systemd/man/systemd.unit.html#Before=)\noptions to make sure they start in the correct order.\n\n---\n\nOverall, the move to Podman was relatively painless. Besides some packaging\nunluckiness on Ubuntu's part, it was easy to get up and running coming from\nDocker, and the compatibility with existing tools like Docker Compose is a huge\nplus too. It would be nice to see Podman Compose to be improved a bit to be up\nto par with Docker Compose - at least in regards to re-`up` behaviour and logs -\nas it is a good offering, but what's there right now works.\n\nThis is the first blog post I've written ever, so let me know how it went, if\nthere's anything I can improve for future posts, etc. Thanks!\n",
           "title": "Moving to Podman from Docker & Docker Compose",
           "description": "I recently moved some personal services across machines and decided it would be a good excuse to try out Podman instead of Docker. This is a log of what I encountered in my move, as a Docker user.",
-          "tags": [
-            "containers",
-            "long"
-          ],
+          "tags": ["containers", "long"],
           "written_at": "2023-01-11T00:00:00.000Z",
           "modified_at": "2023-04-14T00:00:00.000Z"
         }
@@ -253,7 +226,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nAt the start of this week, a mutual on the fediverse shared\n[a post](https://mastodon.social/@alifeee/112747644964195117) about\n[weeknotes](https://indieweb.org/week_note), introducing me to the concept. For\nthose who don't know, they're pretty much a weekly journal entry reflecting on\nwhat occurred during the past week. Like a monthly recap, but more granular.\n\nI've been wanting to do some journalling/proper notetaking for a while now—it's\none of the main reasons I decided to pick up [Obsidian](https://obsidian.md/)\nbefore the start of the year (which is what I'm writing this in!)—but I've been\nfinding it difficult to do long(er)-form writing when it's intended just for me,\nno wider audience. I'm sure I could get it nailed down by just going at it for\nan extended period, but dealing with ADHD makes it hard to find the right\nmotivation/energy for that. So instead, I'm going to publish these weeknotes—one\nevery Sunday—to the web, in the hopes that giving myself an \"audience\" will\nmagically hack my brain into writing something like this, and that I might be\nable to later apply that to other aspects of writing. We'll see.\n\nIt also gives me an excuse to post some more here, instead of leaving the site\ncollecting dust for good periods of time.\n\n## Life\n\nI replaced my shower head this week, after it broke at the start of last week.\nThankfully it broke in a way where it was still _usable_ though not ideal, so I\nwas able to wait until payday to head out to Bunnings and buy a nice replacement\nfor it. I got my dad to come over and help install it as I don't have a wrench\nfor that kind of stuff (although I really should pick up a basic one for these\nsorts of rare occasions), and it's working great now!\n\nMy mum had her birthday this week! Not a huge milestone or anything, but we went\nout to a nice local bistro for a dinner get-together, and it was a nice night.\n\nUnfortunately I wasn't able to get any gardening done this weekend, thanks to\nthe weather being a jerk and deciding to rain on-and-off for BOTH DAYS. I'm\npraying that next weekend will be clear enough for me to get at least some\namount of weeding done, but the forecast for this coming week isn't looking too\ngood. Let's hope its wrong!\n\nI also found out that tea and coffee can have an affect on the effectiveness of\nmy ADHD medication when they're had too close together, which explains why I was\nfeeling pretty crap last week—usually I have breakfast well before taking my\nmeds due to waking up times, but the last week I was waking up pretty late so it\nreduced the time between them. This week I intentionally spaced out breakfast\nand taking my medication by about an hour and the results were great!\n\n## Programming\n\nIt's been a nice and productive week for me as a result of my ADHD meds actually\nworking properly again! Very happy with what I was able to accomplish.\n\nAt work, I made a list of (hopefully) all the features that are left before we\ncan launch a beta v2 of one of our core platform parts, and was able to make\nsome good progress on it. As the week closed in, I got a _little_ caught up in\nthe details and touched some stuff I really should've ignored for later, but\nthat happens sometimes.\n\nI picked [Bandsnatch](https://github.com/Ovyerus/bandsnatch) back up for a bit,\nadding ratelimit handling during dry runs as Bandcamp must have added them\nsometime recently (why no user API? 😢), and also adding support for some cross\ncompilation shenanigans with its Nix flake, although realistically I don't\nreally need it too bad since I have a Hetzner box that handles ARM builds for me\nin CI, but it might be useful to someone! I've got a bug to investigate from a\nfew weeks ago that I need to get around to still, perhaps next week.\n\nWhile scrounging around some package source code out of curiosity, I discovered\nthat\n[Date.UTC exists in JavaScript](https://aus.social/@ovyerus/112768181777842104),\nmaking it super easy to get a god-damn UTC time. I cannot wait for\n[Temporals](https://github.com/tc39/proposal-temporal) to finally hit Stage 4\nand be actually usable.\n\nAnd of course, I added weeknotes support to my website (you're here)! As well as\nsome general cleanup (I found out I had left a placeholder page description in\nfor the better part of a year, at least) and finally using a new logo that I\ncommissioned _aaaaaaages_ ago. It feels good to get back into stuff and polish\nit up a little.\n\n## Playing\n\nI played an interesting mix of games this week, mostly thanks to the Steam\nSummer Sale brainwashing me to get a few games that I don't really need. But I\ndid actually play what I bought, so that's something!\n\n- [ANNO: Mutationem](https://store.steampowered.com/app/1368030/ANNO_Mutationem/) -\n  A nice little cyberpunky RPG with a pixel art style mixed with a 3D world.\n  It's a little janky in some places mechanically, and the story progression\n  gets a little weird further in, but it's still been a nice experience for me.\n  I'm planning to finish it soon.\n- [Buckshot Roulette](https://store.steampowered.com/app/2835570/Buckshot_Roulette/) -\n  Russian roulette, but with a 12-gauge shotgun loaded with a mixture of live\n  and blank rounds in a random order. Sounds simple, but it can actually get\n  pretty mechanically interesting as you get into it. Good fun!\n- [Poker Night at the Inventory](https://store.steampowered.com/app/31280/Poker_Night_at_the_Inventory/) -\n  Sadly delisted from Steam ages ago due to Telltale Games shutting down. I got\n  it ages ago before that happened and did enjoy my time with it. Decided to\n  pick it back up this week as my dad did recently, aiming to get all the items\n  & achievements, and I figured I may as well try do the same. Going to be a\n  slow burn on it, a nice chill experience.\n- **Metroid Prime 2: Echoes** - This has been a regular for me for about a month\n  and half now, playing it on and off, usually when I'm out doing my laundry.\n  I've been playing it on my Steam Deck through\n  [PrimeHack](https://github.com/Kekun/primehack) and it's been great.\n  Unfortunately, right now I'm stuck trying to execute the damn Screw Attack, to\n  no avail.\n\n## Listening\n\nI've been listening to a lot of mixes from\n[f1rstpers0n](https://www.youtube.com/@f1rstpers0nmixes) this week, trying to\ncatch up some recent-ish ones that I missed somehow, as well as their back\ncatalogue. They're really nice vibes and have been great for putting on in the\nbackground while getting work done, highly recommend!\n\nOne song that stood out to me is\n[Monrroe, ft. Emily Makis - Never Too Old](https://www.youtube.com/watch?v=3ZThLev6O7E).\nSmooth liquid vibes.\n\n---\n\nAnd that's it for this week! I'm going to be aiming for these weeknotes to have\na pretty similar structure as I think this worked pretty well for me, but it'll\nalways just be whatever I feel like.\n\nIf you have any questions or comments, feel free to reach out to me on Mastodon\nat [@ovyerus@aus.social](https://aus.social/@ovyerus).\n",
-          "title": "Weeknote 28, 2024 (July 14th, 2024)"
+          "title": "2024-w28"
         }
       },
       {
@@ -262,7 +235,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nHere I am again, second weeknote. I might be feeling like crap but if nothing\nelse, I'm getting this done at the very least. The point of these is to do 'em\nweekly, and by god I'm gonna do it.\n\n## Life\n\nI've unfortunately caught some sort of bug the past few days. Dunno where/when I\ncaught it, but it certainly isn't pleasant. Hopefully not another round of\nCOVID. I had to skip out on doing laundry today because I've had pretty much no\nenergy to do so, hopefully I'll be more able tomorrow or something.\n\nOn the bright side though, I managed to reconnect with some old friends from\nhigh school out of the blue. Hoping the weather (and this bug) clears up soon so\nwe can catch up properly.\n\n## Programming\n\nUnfortunately didn't get much done outside of work this week. I did do some\ndecent progress at work at least, but I would've liked to do a bit more\notherwise.\n\n## Playing\n\nI'm still stuck in Metroid Prime 2 :(. I dunno if its a bug with the emulator or\nperhaps the Steam Deck controls, but I just cannot for the life of me get the\nScrew Attack to work! I might try plugging in a mouse and keyboard to see if I\ncan perhaps execute it that way. For tomorrow, I think.\n\n## Listening\n\nJust listening to a lot more miscellaneous mixes while I've been working,\nnothing too specific. Really helps me to get into the zone I find.\n\n---\n\nAs always, if you have any questions or comments, feel free to reach out to me\non Mastodon at [@ovyerus@aus.social](https://aus.social/@ovyerus).\n",
-          "title": "Weeknote 29, 2024 (July 21st, 2024)"
+          "title": "2024-w29"
         }
       },
       {
@@ -271,7 +244,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nI spent most of this past week sick sadly, so much of my time was spent inside,\nrot-adjacent. Thankfully it's cleared up a lot now, just dealing with remnant\nsniffles and an unpleasant cough that I'm hoping will clear up soon™️.\n\nI went on a nice long walk yesterday, taking advantage of the actual sunny\nmorning/noon before it started pouring in the afternoon and evening. Felt nice\nbeing able to get into the sun for a bit after having to seclude myself. I'm\nhoping the weather clears up this week so I can get some more walking done—I'm\nin desperate need of it.\n\nToday, I found out that ALL of the code blocks on this website have been broken\nsince I upgraded the dependencies _back at the end of May_, resulting in all of\nthem having a random blank line at the end, so everything is a bit longer for no\nreason. Seems to be something caused by Astro from what I can see, but I have\nyet to create a proper reproduction. Going to do that soon after this.\n\nI did some slight infrastructure reworking this week, moving my NixOS deployment\nto use [agenix](https://github.com/ryantm/agenix) for managing secrets, rather\nthan Colmena's slightly (IMO) janky setup. I also swapped Tailscale accounts\nafter setting up a personal OIDC thingy. Rest in peace, `axolotl-map.ts.net` 🫡.\n\nI finally got unstuck in Metroid Prime 2, after being unable to execute the\nScrew Attack for _weeks_. Apparently the controls on the Steam Deck are a bit\nweird, and I need to hold aim (L2) for it to work properly?? I can probably try\ndebug it in the Primehack configuration, but this isn't too much of a problem. I\njust wish I known about it sooner!\n\nAnd lastly, this week's song is\n[Telomic & Beloved in Love feat. Laura Brehm - Gravity Within](https://www.youtube.com/watch?v=2ZFSV1tIZmU)\n\n---\n\nFeel free to connect with me on the Fediverse,\n[@ovyerus@aus.social](https://aus.social/@ovyerus)!\n",
-          "title": "Weeknote 30, 2024 (July 28th, 2024)"
+          "title": "2024-w30"
         }
       },
       {
@@ -280,7 +253,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nIt's been a pretty chill week for me. We've finally been getting some really\nnice sunny (but chilly) days down here, so I took the opportunity to go on some\nwalks for once! Still not up to doing it everyday yet, but I'm hoping I can make\nprogress towards that this coming week. Also thanks to the weather clearing up,\nI was able to finally able to do some more gardening at my parent's place, after\nnot being able to for several weeks due to several circumstances, which sucked.\nI forgot to take some photos of how it's doing at the moment, but I'll try next\nweek—I planted some snow peas last time I was around, and they've sprouted quite\na bit!!\n\nYesterday I went and saw _Deadpool & Wolverine_ with a group of friends I\nreconnected with recently. I've never really been into superhero movies, but I\nfound it enjoyable, and it was a nice excuse to finally hang out with some nice\npeople after so long :). We had gelato afterwards even though it was a cold day,\nbut it was really really good.\n\nI made a couple of pull requests to various projects throughout the week, and\nI'm currently in the middle of working on another one. Pretty much all are just\nsmall fixes, but it's nice to actually contribute to stuff I use regularly! I\nneed to do it more.\n\nThis week's song is\n[rshand & Anita Tatlow - Stolen Heart](https://www.youtube.com/watch?v=dhP8HYlyKQg).\n",
-          "title": "Weeknote 31, 2024 (August 4th, 2024)"
+          "title": "2024-w31"
         }
       },
       {
@@ -290,7 +263,7 @@
         "data": {
           "body": "\nHello world!\n\nIt was a very active week for me for a change. I took advantage of the clear\nskies to take an afternoon walk every weekday, and while I was busy for most of\nSaturday and today, I managed to fit in some small walks where possible! It's\nreally been awesome for me mentally, and I hope I'm able to keep this up and\nturn it into a real habit.\n\nI got a new GPU this week! Since I switched to Linux on my PC a few months ago,\nI've been saving up to get a new AMD GPU to replace my RTX 3070, as supposedly\nsupport for AMD graphics is much better than NVIDIA—even though the recent 555\ndrivers seem to have improved it a lot on Wayland than it used to be. And boy\nhowdy is that ever correct. There's no slight stuttering when maximising\nwindows, amid other small changes that add up. I ended up splurging a bit on a\nRadeon 7900 XT, because while I was originally saving for the 7800 XT, I saw the\nupper model had a $200 discount and figured why not. This thing's fucking huge!\n\nOn Saturday I was invited to see\n[Wicked](<https://en.wikipedia.org/wiki/Wicked_(musical)>) in Melbourne with my\nparents! I went in without any prior knowledge of what it was about, besides\nbeing a Wizard of Oz prequel of sorts, and came out pleasantly surprised. I\nenjoyed it, and we also had a nice dinner before seeing it, so it was a really\ngood night overall.\n\nI played a few miscellaneous games after getting my GPU to test it, mainly the\n[Dead Space remake](https://store.steampowered.com/app/1693980/Dead_Space/) and\n[No Man's Sky](https://store.steampowered.com/app/275850/No_Mans_Sky/). It's\nreal fun being able to crank all the graphics settings to the maximum without\nhaving to worry. I also continued my progress in Metroid Prime 2; I think I'm\nalmost completed it, just up to a last few tasks. I reckon I'll finish it during\nthis coming week.\n\nI also got a second-hand pressure cooker from my parents that I need to find the\nmanual for online. Surely it's somewhere…\n",
           "subtitle": "AMD, Walks, & The Wicked Witch of the West",
-          "title": "Weeknote 32, 2024 (August 11th, 2024)"
+          "title": "2024-w32"
         }
       },
       {
@@ -299,7 +272,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nI kept up my regular walking this week, thanks to a continuation of the great\nweather from last week. It's been a real positive for me every day, and I hope\nthe weather this coming week will be able to keep it up. If not, I'll need to\nfind some other way of keeping myself moving… I haven't used my Quest in a fair\nbit.\n\nI did some gardening again yesterday. I planted some peas and Chinese cabbage (I\nforget exactly which type) a few weeks ago, and they've been loving the weather!\nI've also got some leeks going (which I need to spread out) and some shallots,\nbut those aren't as far along.\n\n![Various plants in soil dotted about, including some Chinese cabbages, leeks, and sprouted peas along the left of frame.](https://cdn.ovy.cloud/blog/2024-08-18-plants.webp)\n\nI got _really_ into\n[No Man's Sky](https://store.steampowered.com/app/275850/No_Mans_Sky/) this\nweek, delving deep into their \"Liquidators\" community expedition and completing\nit. I had a lot of fun with it, being more combat focused than I'm used to from\nthe game! I also started\n[Death Stranding](https://store.steampowered.com/app/1850570/DEATH_STRANDING_DIRECTORS_CUT/)\nup, which I've been meaning to for a while. It's been fun too so far.\n\nLastly, this week's song is\n[Bad Computer & imallryt - So Lost](https://www.youtube.com/watch?v=U9qcqtsuh60).\n",
-          "title": "Weeknote 33, 2024 (August 18th, 2024)"
+          "title": "2024-w33"
         }
       },
       {
@@ -308,7 +281,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nI decided to pick up iOS app development this week. I've had a few ideas\nbouncing around in my head for a while now, and finally had the spark of\nmotivation to learn Swift and SwiftUI! Coming from my frontend framework\nbackground, I actually found SwiftUI pretty easy to understand and get used\nafter the initial hurdle of learning to navigate Xcode. I might look into\nsetting up VSCode for working with Swift since I'm more comfortable with it's\ncontrols. If you've been interested in picking up SwiftUI too, I'm currently\nfollowing the\n[100 Days of SwiftUI](https://www.hackingwithswift.com/100/swiftui) course\n(albeit, going at a pace far exceeding what it recommends, due to not being a\nbeginner) and it explains the various Swift and SwiftUI concepts very well!\n\nI also added RSS feed support for these weeknotes to my website earlier in the\nweek, so if you're wanting to keep up with these for whatever reason you can\njust add [the feed](https://ovyerus.com/weeknotes/rss.xml) to whatever app you\nenjoy using, and it should Just Work™️.\n\nDespite the forecast at the start of the week looking pretty dreary, it ended up\nbeing clear just about ever day. I was able to get a walk in just about every\nday, but had to skip out on Tuesday due to it deciding to be the exception and\npouring almost all day. I hope I'm able to find time this coming week to keep\nthis going as a habit.\n\nI finally managed to secure a lease for a new place after searching for several\nmonths! Will be moving in about a month, and I already can't wait.\n\nAll I've been playing this week has been\n[No Man's Sky](https://store.steampowered.com/app/275850/No_Mans_Sky/) again,\ngoing through the main story and side content after finishing off the community\nexpedition last week. There's actually a _ton_ of content I didn't realise I was\nmissing out on because I wasn't investigating stuff properly in the past, and\nit's all pretty awesome!\n\nThis week's song is\n[Otherwise - Cruel Unusual](https://www.youtube.com/watch?v=rVHOuk8CeVE).\n",
-          "title": "Weeknote 34, 2024 (August 25th, 2024)"
+          "title": "2024-w34"
         }
       },
       {
@@ -317,7 +290,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nI decided to start a new Obsidian vault today. I've found myself having a bit of\na crisis with my ADHD and finding myself unable to effectively navigate my\nprevious setup as it ended up being rather complex and a bit bloated. Hopefully\nI'm able to find a way to utilise Obsidian in a way that works properly with my\nbrain.\n\nI've kept up with my walking this week, and there's been a bit of a change! Two\nweeks in a row where I've gone down ~0.5 kg from the previous, so it's\ndefinitely helping out! Very happy with the progress 🙂.\n\nI've also kept up with the iOS development course I picked up\n[last week](/weeknotes/2024-w24). Not much else to report apart from being\nhalfway through now, but it's been a very good time!\n\nYesterday I was able to harvest one of the bok choy I planted some time ago, and\nused it in a stir-fry for dinner tonight! Came out really really nice; I'm\nproud.\n\n<div class=\"flex gap-3 items-start\">\n<iframe src=\"https://aus.social/@ovyerus/113055864974096472/embed\" class=\"mastodon-embed\" style=\"max-width: 100%; border: 0\" width=\"400\" height=\"500\" allowfullscreen=\"allowfullscreen\" title=\"Ovyerus on aus.social: Boy choy from the garden! Going to be perfect in a stir fry tmrw night. #gardening\"></iframe>\n\n<iframe src=\"https://aus.social/@ovyerus/113061950537362903/embed\" class=\"mastodon-embed\" style=\"max-width: 100%; border: 0\" width=\"400\" height=\"500\" allowfullscreen=\"allowfullscreen\" title=\"Ovyerus on aus.social: Pork & stir-fried veggies, bok choy from the garden! #cooking\"></iframe><script src=\"https://staticcdn.aus.social/embed.js\" async=\"async\"></script>\n</div>\n\nLastly, this week's song is\n[Banaati, Dokho & MØØNE - Wildfire](https://www.youtube.com/watch?v=3EzxQicdV-E).\n",
-          "title": "Weeknote 35, 2024 (September 1st, 2024)"
+          "title": "2024-w35"
         }
       },
       {
@@ -326,7 +299,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nI got some new tech this week! I upgraded my monitors from 144Hz 1080p (AOC\n24G2) to 180Hz 1440p (AOC CQ27G2X), which also happens to be my first run in\nwith using curved monitors. My main reason for switching was wanting to check\nout bigger resolutions for the first time (the slightly faster refresh rate just\nhappened to come along with these), and I saw these at what I considered to be a\npretty good price: $249 AUD each, down from $339 at the time of purchase. So\nfar, they've been pretty good—games and text look awesome—but there's some\npretty noticeable ghosting in scenarios like fast moving targets or even just\nscrolling text in the right circumstances. It's a little annoying, but I don't\nthink it's a deal breaker for me personally.\n\nI also got a new keyboard alongside the monitors! I've been using the\n[ZSA Moonlander](https://www.zsa.io/moonlander) for the past 3 years and been\nloving it (I'm hooked on split ergonomic keyboards now), but I've been itching\nto try a low-profile keyboard for a while. So I ended up getting\n[ZSA's Voyager](https://www.zsa.io/voyager) board; a bit of a similar idea to\nthe Moonlander but using low profile keyswitches, and a slightly smaller layout.\nGetting used to it has been a bit of a challenge, as I'm really used to having\nthe dedicated modifier buttons like Shift & Control and never really messed much\nwith layers previously beyond simple stuff like arrow keys, but I'm\nexperimenting with some different stuff and slowly getting towards a layout I'm\nfully comfortable with. I definitely love the feel of the low-profile switches\ncompared to full sized Cherry style switches, and I'm going to try some\ndifferent variants to find one I love.\n\nI've kept up my walks where possible this week, although a few days had rainy\nweather so I had to change up my walking times from the early afternoon to\nsomething a little earlier, but I got them done which is the important part!\n\nI finally finished Metroid Prime 2 earlier today, after a few weeks of\nprocrastinating on it (lol). Again really good like the first game, and I can't\nwait to get into Prime 3 to prepare for when 4 launches sometime soon™️.\n\nUsually, I end these off with one song I really enjoyed during the week, however\nNERO finally released their new album \"Into the Unknown\" and I can't pick just\none song from it, so instead I'm going to be recommending the\n[whole album](https://music.youtube.com/playlist?list=OLAK5uy_kP7wzcyAdKqWEiHKSJ05M3AqOyLU5YoXw&si=3o6V4xMc8U2Y12df).\nIt's great to see new stuff from them after so long :).\n\n---\n\nAlso this week, I did a slight rework of my logo on the website. I mostly just\nredid some of the metrics to square things up & adjust the border radii. Small\nstuff to improve it just that bit more.\n",
-          "title": "Weeknote 36, 2024 (September 8th, 2024)"
+          "title": "2024-w36"
         }
       },
       {
@@ -335,7 +308,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nIt was my birthday this week! Turned 23, and had a nice dinner out with my\nfamily. A good, low key time.\n\nI've been messing around with various stuff on my keyboard since switching to\nthe ZSA Voyager last week. The main change I've done is trying out\n[home row mods](https://precondition.github.io/home-row-mods) (moving Ctrl,\nShift, Alt, & Meta from dedicated keys to instead trigger when holding down keys\non the home row); not sure if I'm super happy with it just yet, probably need to\ntweak some of my timing values to help with misfires but time will tell of\ncourse! This does mean the introduction of a dedicated gaming layer to prevent\naccidentally triggering the modifiers during gameplay, but that's not a problem\n(maybe I should take a look at the [Azeron Cyborg](https://store.azeron.eu)\ngamepad). I have some alternative switches coming in tomorrow as well, so will\nbe nice to compare their feel to the linear's I'm currently using.\n\nBaldur's Gate 3 ate up most of my free time this week. I had previously\ncompleted the first act aaages ago close to when it first came out, and then\ndropped it due to reasons™️. Some friends convinced me to finally get back in\nand it's been a blast. Finished up act 2 and just starting act 3 now, and I'm\nstill excited to see what it can offer! It's actually ended up eating into my\nsleep a little bit just because I lose track of time whilst playing it before\nbed. Definitely something I need to watch out for more.\n\nAnd this week's song is\n[Mori Calliope - Go-Getters](https://www.youtube.com/watch?v=3HXo0zEnMpU).\nYouTube Shorts fed me several clips with the song and now it's stuck in my head!\n",
-          "title": "Weeknote 37, 2024 (September 15th, 2024)"
+          "title": "2024-w37"
         }
       },
       {
@@ -344,7 +317,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nIt's been a hell of a week; I moved house! Still unpacking and organising all\nthe stuff out, but everything has been moved over to the new house, and the old\nplace has had a thorough cleaning. The new place is nice and big, has a really\nnice kitchen (albeit no dishwasher, but we can live with that), and is actually\nat ground level so bringing things in and out isn't a huge pain in the ass!\n\nBefore the move, I got new switches for my keyboard! I'm now rocking the\n**Sunset Tactile** switches on my **Voyager** and it's feeling and sounding\ngreat. Very happy with them. I'm still fiddling with my layout on the keyboard,\nnot sure if home-row mods are quite the thing for me, going to see what other\npeople have done on their own keyboards and try to find something that could\nwork better for me.\n\nDuring all the unpacking I've started watching **Dimension 20: Never Stop\nBlowing Up**, as I've run out of other things that seem interesting (at the\nmoment), and it's been awesome. I love how they're taking the cheesy 80's action\nmovie setting in stride and just going with the crazy shit that's happening.\nHighly recommend if you're into TTRPG's of any kind!\n\nDespite all the busyness this week, I was able to check out Veela's new song\nwith Øneheart and TWISTED,\n[chrysalis](https://www.youtube.com/watch?v=ihpBIMEfU6A). The vibes on the\n\"music video\" are really great so I recommend giving that a look.\n\nUntil next time.\n",
-          "title": "Weeknote 38, 2024 (September 22nd, 2024)"
+          "title": "2024-w38"
         }
       },
       {
@@ -353,7 +326,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nA more low-key week after all the bustling of moving house last week. All the\nmajor unpacking has been done, it's just trying to find spots for all the\nsmaller things now. Going to hit up IKEA sometime soon to get some shelving for\nthings to make it easier.\n\nIn other news, the peas in my garden have started growing pods! Can't wait to\nget enough from them to use them in dishes properly.\n\n![Several pea plants, with a number of pea pods shown growing from them.](https://cdn.ovy.cloud/blog/2024-w39/peas.webp)\n\nThe place I've moved to also has some garden space (I've been doing gardening at\nmy parent's place since I lived in an apartment before), and I might start\ngrowing some herbs locally to use them fresh.\n\nI ended up shifting my keyboard layout away from home-row modifiers as I found\nmyself hitting them on accident too frequently. I tried out auto shift for a few\ndays and I actually quite enjoyed it, but found out I can't enable it per-layer\nin ZSA's online configurator (as otherwise it would screw up with trying to use\nmy keyboard in games), so for now I've gone back to a standalone shift key on my\nleft thumb and that's been working well. The other modifiers are kept as\none-shot modifiers on a secondary layer and that's been good for me too.\n\nAnd today, I baked a cake with my housemates. An orange & poppyseed cake mix\nfrom Green's. Not the fanciest thing, but it came out real nice, just something\nto do together on their day off.\n",
-          "title": "Weeknote 39, 2024 (September 29th, 2024)"
+          "title": "2024-w39"
         }
       },
       {
@@ -362,7 +335,7 @@
         "status": "published",
         "data": {
           "body": "My sleep schedule's been pretty messed up this past week. Totally my fault,\nstaying up real late playing Baldurs Gate 3 when I need to be getting up\n(relatively) early for work. Has screwed up my energy as well, so while I was\ninitially intending to pick my daily walking back up this week, it didn't pan\nout that way at all.\n\nDespite a really rainy week, the weather on the weekend permitted me to do some\ngardening thankfully. This included getting my first harvest of peas!\n\n<blockquote class=\"mastodon-embed\" data-embed-url=\"https://aus.social/@ovyerus/113260278629577664/embed\" style=\"background: #FCF8FF; border-radius: 8px; border: 1px solid #C9C4DA; margin: 0; max-width: 540px; min-width: 270px; overflow: hidden; padding: 0;\"> <a href=\"https://aus.social/@ovyerus/113260278629577664\" target=\"_blank\" style=\"align-items: center; color: #1C1A25; display: flex; flex-direction: column; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Roboto, sans-serif; font-size: 14px; justify-content: center; letter-spacing: 0.25px; line-height: 20px; padding: 24px; text-decoration: none;\"> <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"32\" height=\"32\" viewBox=\"0 0 79 75\"><path d=\"M74.7135 16.6043C73.6199 8.54587 66.5351 2.19527 58.1366 0.964691C56.7196 0.756754 51.351 0 38.9148 0H38.822C26.3824 0 23.7135 0.756754 22.2966 0.964691C14.1319 2.16118 6.67571 7.86752 4.86669 16.0214C3.99657 20.0369 3.90371 24.4888 4.06535 28.5726C4.29578 34.4289 4.34049 40.275 4.877 46.1075C5.24791 49.9817 5.89495 53.8251 6.81328 57.6088C8.53288 64.5968 15.4938 70.4122 22.3138 72.7848C29.6155 75.259 37.468 75.6697 44.9919 73.971C45.8196 73.7801 46.6381 73.5586 47.4475 73.3063C49.2737 72.7302 51.4164 72.086 52.9915 70.9542C53.0131 70.9384 53.0308 70.9178 53.0433 70.8942C53.0558 70.8706 53.0628 70.8445 53.0637 70.8179V65.1661C53.0634 65.1412 53.0574 65.1167 53.0462 65.0944C53.035 65.0721 53.0189 65.0525 52.9992 65.0371C52.9794 65.0218 52.9564 65.011 52.9318 65.0056C52.9073 65.0002 52.8819 65.0003 52.8574 65.0059C48.0369 66.1472 43.0971 66.7193 38.141 66.7103C29.6118 66.7103 27.3178 62.6981 26.6609 61.0278C26.1329 59.5842 25.7976 58.0784 25.6636 56.5486C25.6622 56.5229 25.667 56.4973 25.6775 56.4738C25.688 56.4502 25.7039 56.4295 25.724 56.4132C25.7441 56.397 25.7678 56.3856 25.7931 56.3801C25.8185 56.3746 25.8448 56.3751 25.8699 56.3816C30.6101 57.5151 35.4693 58.0873 40.3455 58.086C41.5183 58.086 42.6876 58.086 43.8604 58.0553C48.7647 57.919 53.9339 57.6701 58.7591 56.7361C58.8794 56.7123 58.9998 56.6918 59.103 56.6611C66.7139 55.2124 73.9569 50.665 74.6929 39.1501C74.7204 38.6967 74.7892 34.4016 74.7892 33.9312C74.7926 32.3325 75.3085 22.5901 74.7135 16.6043ZM62.9996 45.3371H54.9966V25.9069C54.9966 21.8163 53.277 19.7302 49.7793 19.7302C45.9343 19.7302 44.0083 22.1981 44.0083 27.0727V37.7082H36.0534V27.0727C36.0534 22.1981 34.124 19.7302 30.279 19.7302C26.8019 19.7302 25.0651 21.8163 25.0617 25.9069V45.3371H17.0656V25.3172C17.0656 21.2266 18.1191 17.9769 20.2262 15.568C22.3998 13.1648 25.2509 11.9308 28.7898 11.9308C32.8859 11.9308 35.9812 13.492 38.0447 16.6111L40.036 19.9245L42.0308 16.6111C44.0943 13.492 47.1896 11.9308 51.2788 11.9308C54.8143 11.9308 57.6654 13.1648 59.8459 15.568C61.9529 17.9746 63.0065 21.2243 63.0065 25.3172L62.9996 45.3371Z\" fill=\"currentColor\"/></svg> <div style=\"color: #787588; margin-top: 16px;\">Post by @ovyerus@aus.social</div> <div style=\"font-weight: 500;\">View on Mastodon</div> </a> </blockquote> <script data-allowed-prefixes=\"https://aus.social/\" async src=\"https://staticcdn.aus.social/embed.js\"></script>\n\nI've started watching/listening to a lot of **Dimension 20** while doing various\nchores around the house. I finished the first season of **Misfits and Magic**\njust in time to start watching season 2 as it launched, and I've also picked up\n**A Starstruck Odyssey** which I had originally started sometime last year, but\nit's been so long that I'm starting over to follow the plot.\n\nI got so many I had to leave about half with my parents for them to use (and I\nam using their land for this after all) and I'm going to use some of them in\nstir fry this week, although I'll still need to find something else to put them\nin as there's so many.\n\nThis week's track is\n[Ezequiel Arias & Sebastian Sellares - Alba](https://youtu.be/W1mCK99fyJQ?si=GFr-GsVLkr_h5FS4).\n",
-          "title": "Weeknote 40, 2024 (October 6th, 2024)"
+          "title": "2024-w40"
         }
       },
       {
@@ -372,7 +345,7 @@
         "data": {
           "body": "\nI've had one hell of a weekend this week; I went to PAX Australia for the first\ntime! I found myself gravitating towards a bunch of the TTRPG/D&D related panels\nthanks to Dimension 20 giving me an itch for the scene. Bought my first sets of\ndice in a bundle while I was there, hoping to set up a few one-shots or\ncampaigns with friends sometime soon.\n\nNot much else to report on this week as I've spent most of the week up in\nMelbourne and been physically busy with PAX. I have done a lot of walking due to\nthe event, so hopefully I'm able to take that back home and build it into a\nproper habit again.\n\nThis week's song is\n[Approaching Black - Don't Look Back](https://www.youtube.com/watch?v=H5e-q8_QTjs).\n\n![A set of 8, 20-sided resin dice on a couch, in various styles.](https://cdn.ovy.cloud/blog/2024-w41/dice.webp)\n",
           "subtitle": "PAX Australia 2024",
-          "title": "Weeknote 41, 2024 (October 13th, 2024)"
+          "title": "2024-w41"
         }
       },
       {
@@ -381,7 +354,7 @@
         "status": "published",
         "data": {
           "body": "\nI got home from being in Melbourne for PAX early this week, and subsequently\nmanaged to catch a cold right after. Thankfully hasn't been too bad, but it did\nsignificantly impact my work. I'm mostly recovered now thankfully, just dealing\nwith a really snotty nose.\n\nGot back to doing gardening after missing out last weekend, had a bunch more\npeas to harvest and they were nice and big compared to last time around! I also\ntook a really nice photo of a bee exploring one of the bok choy as they've been\nflowering for a few weeks now!\n\n<blockquote class=\"mastodon-embed\" data-embed-url=\"https://aus.social/@ovyerus/113338495375778971/embed\" style=\"background: #FCF8FF; border-radius: 8px; border: 1px solid #C9C4DA; margin: 0; max-width: 540px; min-width: 270px; overflow: hidden; padding: 0;\"> <a href=\"https://aus.social/@ovyerus/113338495375778971\" target=\"_blank\" style=\"align-items: center; color: #1C1A25; display: flex; flex-direction: column; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Roboto, sans-serif; font-size: 14px; justify-content: center; letter-spacing: 0.25px; line-height: 20px; padding: 24px; text-decoration: none;\"> <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"32\" height=\"32\" viewBox=\"0 0 79 75\"><path d=\"M74.7135 16.6043C73.6199 8.54587 66.5351 2.19527 58.1366 0.964691C56.7196 0.756754 51.351 0 38.9148 0H38.822C26.3824 0 23.7135 0.756754 22.2966 0.964691C14.1319 2.16118 6.67571 7.86752 4.86669 16.0214C3.99657 20.0369 3.90371 24.4888 4.06535 28.5726C4.29578 34.4289 4.34049 40.275 4.877 46.1075C5.24791 49.9817 5.89495 53.8251 6.81328 57.6088C8.53288 64.5968 15.4938 70.4122 22.3138 72.7848C29.6155 75.259 37.468 75.6697 44.9919 73.971C45.8196 73.7801 46.6381 73.5586 47.4475 73.3063C49.2737 72.7302 51.4164 72.086 52.9915 70.9542C53.0131 70.9384 53.0308 70.9178 53.0433 70.8942C53.0558 70.8706 53.0628 70.8445 53.0637 70.8179V65.1661C53.0634 65.1412 53.0574 65.1167 53.0462 65.0944C53.035 65.0721 53.0189 65.0525 52.9992 65.0371C52.9794 65.0218 52.9564 65.011 52.9318 65.0056C52.9073 65.0002 52.8819 65.0003 52.8574 65.0059C48.0369 66.1472 43.0971 66.7193 38.141 66.7103C29.6118 66.7103 27.3178 62.6981 26.6609 61.0278C26.1329 59.5842 25.7976 58.0784 25.6636 56.5486C25.6622 56.5229 25.667 56.4973 25.6775 56.4738C25.688 56.4502 25.7039 56.4295 25.724 56.4132C25.7441 56.397 25.7678 56.3856 25.7931 56.3801C25.8185 56.3746 25.8448 56.3751 25.8699 56.3816C30.6101 57.5151 35.4693 58.0873 40.3455 58.086C41.5183 58.086 42.6876 58.086 43.8604 58.0553C48.7647 57.919 53.9339 57.6701 58.7591 56.7361C58.8794 56.7123 58.9998 56.6918 59.103 56.6611C66.7139 55.2124 73.9569 50.665 74.6929 39.1501C74.7204 38.6967 74.7892 34.4016 74.7892 33.9312C74.7926 32.3325 75.3085 22.5901 74.7135 16.6043ZM62.9996 45.3371H54.9966V25.9069C54.9966 21.8163 53.277 19.7302 49.7793 19.7302C45.9343 19.7302 44.0083 22.1981 44.0083 27.0727V37.7082H36.0534V27.0727C36.0534 22.1981 34.124 19.7302 30.279 19.7302C26.8019 19.7302 25.0651 21.8163 25.0617 25.9069V45.3371H17.0656V25.3172C17.0656 21.2266 18.1191 17.9769 20.2262 15.568C22.3998 13.1648 25.2509 11.9308 28.7898 11.9308C32.8859 11.9308 35.9812 13.492 38.0447 16.6111L40.036 19.9245L42.0308 16.6111C44.0943 13.492 47.1896 11.9308 51.2788 11.9308C54.8143 11.9308 57.6654 13.1648 59.8459 15.568C61.9529 17.9746 63.0065 21.2243 63.0065 25.3172L62.9996 45.3371Z\" fill=\"currentColor\"/></svg> <div style=\"color: #787588; margin-top: 16px;\">Post by @ovyerus@aus.social</div> <div style=\"font-weight: 500;\">View on Mastodon</div> </a> </blockquote> <script data-allowed-prefixes=\"https://aus.social/\" async src=\"https://staticcdn.aus.social/embed.js\"></script>\n\nBeen watching a lot more **Dimension 20** this week, almost finished **A\nStarstruck Odyssey**. Incredible series, can't believe I haven't touched it\nuntil recently.\n\nNo song this week, haven't listened to a lot as I've been watching a bunch of\nthings.\n",
-          "title": "Weeknote 42, 2024 (October 20th, 2024)"
+          "title": "2024-w42"
         }
       },
       {
@@ -390,7 +363,7 @@
         "status": "published",
         "data": {
           "body": "I picked up a new case for my PC this week! I've had my eye on the white variant\nof the\n[Fractal North](https://www.fractal-design.com/products/cases/north/north/chalk-white/)\nfor a long while, and after getting a little bit of extra money earlier in the\nweek I decided to finally pick it up. I got the XL variant due to buying the\nRadeon 7900 XT a few months ago, which is a _huge_ graphics card, so giving me\nthe extra space to work with was nice. It was super easy to build in, and I love\nthe way it looks. Very happy with it!\n\nI finally got over my cold from last week, and I'm feeling a lot better now.\nWent out to get my yearly eye test at the optometrist and happy to report that\nI've not changed since last year.\n\nDid a little bit of weeding at the garden, just keeping on top of stuff there.\nThe peas seem to pretty much be finished now, so I think next week I'll cut them\noff above the ground. My mum also found a rhubarb in a pot randomly, so I\ntransplanted that into the garden next to a small strawberry plant that was\nalready there, so hopefully that'll turn out nice soon.\n\nThis week's song is\n[Virtual Riot - Scorched Earth](https://www.youtube.com/watch?v=F2qiGSWEbOQ)!\n",
-          "title": "Weeknote 43, 2024 (October 27th, 2024)"
+          "title": "2024-w43"
         }
       },
       {
@@ -399,7 +372,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nIt's been a busy-ish week for me, though mostly at the tail end of it I reckon.\nI made some good progress at work finishing off a core feature for our new\nthing, and happy with how I'm progressing in general.\n\nOn Thursday, I bought a second-hand DJ kit containing 2 Pioneer CDJ-400s and a\nGemini Executioner 10 mixer (from the late 90s!!), with a nice road case for\neverything! Sadly I wasn't able to play around with it yet as the replaceable\nfuse in the mixer is blown for whatever reason, and I didn't actually check\neverything until late Saturday when all the stores where closed, so going to\nhave to wait until Monday to buy a replacement and then figure it out over the\ncoming week. Very excited for it, I've been interested in DJ stuff for quite\nsome time.\n\n<blockquote class=\"mastodon-embed\" data-embed-url=\"https://aus.social/@ovyerus/113404857119548790/embed\" style=\"background: #FCF8FF; border-radius: 8px; border: 1px solid #C9C4DA; margin: 0; max-width: 540px; min-width: 270px; overflow: hidden; padding: 0;\"> <a href=\"https://aus.social/@ovyerus/113404857119548790\" target=\"_blank\" style=\"align-items: center; color: #1C1A25; display: flex; flex-direction: column; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Roboto, sans-serif; font-size: 14px; justify-content: center; letter-spacing: 0.25px; line-height: 20px; padding: 24px; text-decoration: none;\"> <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"32\" height=\"32\" viewBox=\"0 0 79 75\"><path d=\"M74.7135 16.6043C73.6199 8.54587 66.5351 2.19527 58.1366 0.964691C56.7196 0.756754 51.351 0 38.9148 0H38.822C26.3824 0 23.7135 0.756754 22.2966 0.964691C14.1319 2.16118 6.67571 7.86752 4.86669 16.0214C3.99657 20.0369 3.90371 24.4888 4.06535 28.5726C4.29578 34.4289 4.34049 40.275 4.877 46.1075C5.24791 49.9817 5.89495 53.8251 6.81328 57.6088C8.53288 64.5968 15.4938 70.4122 22.3138 72.7848C29.6155 75.259 37.468 75.6697 44.9919 73.971C45.8196 73.7801 46.6381 73.5586 47.4475 73.3063C49.2737 72.7302 51.4164 72.086 52.9915 70.9542C53.0131 70.9384 53.0308 70.9178 53.0433 70.8942C53.0558 70.8706 53.0628 70.8445 53.0637 70.8179V65.1661C53.0634 65.1412 53.0574 65.1167 53.0462 65.0944C53.035 65.0721 53.0189 65.0525 52.9992 65.0371C52.9794 65.0218 52.9564 65.011 52.9318 65.0056C52.9073 65.0002 52.8819 65.0003 52.8574 65.0059C48.0369 66.1472 43.0971 66.7193 38.141 66.7103C29.6118 66.7103 27.3178 62.6981 26.6609 61.0278C26.1329 59.5842 25.7976 58.0784 25.6636 56.5486C25.6622 56.5229 25.667 56.4973 25.6775 56.4738C25.688 56.4502 25.7039 56.4295 25.724 56.4132C25.7441 56.397 25.7678 56.3856 25.7931 56.3801C25.8185 56.3746 25.8448 56.3751 25.8699 56.3816C30.6101 57.5151 35.4693 58.0873 40.3455 58.086C41.5183 58.086 42.6876 58.086 43.8604 58.0553C48.7647 57.919 53.9339 57.6701 58.7591 56.7361C58.8794 56.7123 58.9998 56.6918 59.103 56.6611C66.7139 55.2124 73.9569 50.665 74.6929 39.1501C74.7204 38.6967 74.7892 34.4016 74.7892 33.9312C74.7926 32.3325 75.3085 22.5901 74.7135 16.6043ZM62.9996 45.3371H54.9966V25.9069C54.9966 21.8163 53.277 19.7302 49.7793 19.7302C45.9343 19.7302 44.0083 22.1981 44.0083 27.0727V37.7082H36.0534V27.0727C36.0534 22.1981 34.124 19.7302 30.279 19.7302C26.8019 19.7302 25.0651 21.8163 25.0617 25.9069V45.3371H17.0656V25.3172C17.0656 21.2266 18.1191 17.9769 20.2262 15.568C22.3998 13.1648 25.2509 11.9308 28.7898 11.9308C32.8859 11.9308 35.9812 13.492 38.0447 16.6111L40.036 19.9245L42.0308 16.6111C44.0943 13.492 47.1896 11.9308 51.2788 11.9308C54.8143 11.9308 57.6654 13.1648 59.8459 15.568C61.9529 17.9746 63.0065 21.2243 63.0065 25.3172L62.9996 45.3371Z\" fill=\"currentColor\"/></svg> <div style=\"color: #787588; margin-top: 16px;\">Post by @ovyerus@aus.social</div> <div style=\"font-weight: 500;\">View on Mastodon</div> </a> </blockquote> <script data-allowed-prefixes=\"https://aus.social/\" async src=\"https://staticcdn.aus.social/embed.js\"></script>\n\nI did some small behind-the-scenes changes for this website to prepare it for\neventually moving to my dedicated server rather than relying on Vercel for\neverything. Figuring I may as well actually put the thing to use, and in the\nnear future I want to add some nice features to the site, such as\nreplacing/supplementing the comment system with\n[Webmentions](https://indieweb.org/Webmention), among others.\n\nIn terms of gardening, the peas and bok choy were all finally finished\nproducing, so I pulled them out (my parents' chickens should love it) and put in\nsome new plants for the summer season. Got some tomatoes, lettuce, and a chilli\ncurrently (alongside the leeks that are still growing), and probably will put\nsome more things in soon.\n\n <blockquote class=\"mastodon-embed\" data-embed-url=\"https://aus.social/@ovyerus/113415457639993118/embed\" style=\"background: #FCF8FF; border-radius: 8px; border: 1px solid #C9C4DA; margin: 0; max-width: 540px; min-width: 270px; overflow: hidden; padding: 0;\"> <a href=\"https://aus.social/@ovyerus/113415457639993118\" target=\"_blank\" style=\"align-items: center; color: #1C1A25; display: flex; flex-direction: column; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Roboto, sans-serif; font-size: 14px; justify-content: center; letter-spacing: 0.25px; line-height: 20px; padding: 24px; text-decoration: none;\"> <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"32\" height=\"32\" viewBox=\"0 0 79 75\"><path d=\"M74.7135 16.6043C73.6199 8.54587 66.5351 2.19527 58.1366 0.964691C56.7196 0.756754 51.351 0 38.9148 0H38.822C26.3824 0 23.7135 0.756754 22.2966 0.964691C14.1319 2.16118 6.67571 7.86752 4.86669 16.0214C3.99657 20.0369 3.90371 24.4888 4.06535 28.5726C4.29578 34.4289 4.34049 40.275 4.877 46.1075C5.24791 49.9817 5.89495 53.8251 6.81328 57.6088C8.53288 64.5968 15.4938 70.4122 22.3138 72.7848C29.6155 75.259 37.468 75.6697 44.9919 73.971C45.8196 73.7801 46.6381 73.5586 47.4475 73.3063C49.2737 72.7302 51.4164 72.086 52.9915 70.9542C53.0131 70.9384 53.0308 70.9178 53.0433 70.8942C53.0558 70.8706 53.0628 70.8445 53.0637 70.8179V65.1661C53.0634 65.1412 53.0574 65.1167 53.0462 65.0944C53.035 65.0721 53.0189 65.0525 52.9992 65.0371C52.9794 65.0218 52.9564 65.011 52.9318 65.0056C52.9073 65.0002 52.8819 65.0003 52.8574 65.0059C48.0369 66.1472 43.0971 66.7193 38.141 66.7103C29.6118 66.7103 27.3178 62.6981 26.6609 61.0278C26.1329 59.5842 25.7976 58.0784 25.6636 56.5486C25.6622 56.5229 25.667 56.4973 25.6775 56.4738C25.688 56.4502 25.7039 56.4295 25.724 56.4132C25.7441 56.397 25.7678 56.3856 25.7931 56.3801C25.8185 56.3746 25.8448 56.3751 25.8699 56.3816C30.6101 57.5151 35.4693 58.0873 40.3455 58.086C41.5183 58.086 42.6876 58.086 43.8604 58.0553C48.7647 57.919 53.9339 57.6701 58.7591 56.7361C58.8794 56.7123 58.9998 56.6918 59.103 56.6611C66.7139 55.2124 73.9569 50.665 74.6929 39.1501C74.7204 38.6967 74.7892 34.4016 74.7892 33.9312C74.7926 32.3325 75.3085 22.5901 74.7135 16.6043ZM62.9996 45.3371H54.9966V25.9069C54.9966 21.8163 53.277 19.7302 49.7793 19.7302C45.9343 19.7302 44.0083 22.1981 44.0083 27.0727V37.7082H36.0534V27.0727C36.0534 22.1981 34.124 19.7302 30.279 19.7302C26.8019 19.7302 25.0651 21.8163 25.0617 25.9069V45.3371H17.0656V25.3172C17.0656 21.2266 18.1191 17.9769 20.2262 15.568C22.3998 13.1648 25.2509 11.9308 28.7898 11.9308C32.8859 11.9308 35.9812 13.492 38.0447 16.6111L40.036 19.9245L42.0308 16.6111C44.0943 13.492 47.1896 11.9308 51.2788 11.9308C54.8143 11.9308 57.6654 13.1648 59.8459 15.568C61.9529 17.9746 63.0065 21.2243 63.0065 25.3172L62.9996 45.3371Z\" fill=\"currentColor\"/></svg> <div style=\"color: #787588; margin-top: 16px;\">Post by @ovyerus@aus.social</div> <div style=\"font-weight: 500;\">View on Mastodon</div> </a> </blockquote>\n\nThis week's song is\n[Sublab & Dyson - Remedy](https://www.youtube.com/watch?v=HLimW32p6mg).\n",
-          "title": "Weeknote 44, 2024 (November 3rd, 2024)"
+          "title": "2024-w44"
         }
       },
       {
@@ -408,7 +381,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nI did a bunch of on-and-off experimenting with my DJ gear this week, getting a\nfeel for the various controls and whatnot. I started off trying it out fully\nstandalone, playing music off of the USB & CD inputs, but eventually decided to\ndo a bunch of practising with software running on my Macbook\n([Mixxx](https://mixxx.org) if you're interested) as the built-in BPM detection\non the CDJ-400s is apparently not that reliable as it doesn't do the whole track\nat once, so that makes matching the BPM of different songs a little tricky.\nHoping to do some training at some point to be able to pull that off.\n\nEarlier in the week I finally got around to moving my website off of Vercel and\nonto [Fly.io](https://fly.io). Not exactly self-hosting as I was thinking of\ninitially, but I figured I would give it a shot since I have some free\nallowances on there anyway, and they make scaling across regions really easy\n(not that my personal website would ever really _need_ that :P). At the moment\nit's still a fully static site now being served by\n[Caddy](https://caddyserver.com), but that'll change as I add some of the\nfeatures I've been wanting which will need an actual runtime behind the website.\nAll in due time!\n\nGardening this week was mostly just some simple weeding to clear space for more\nplants down the line, but I did buy some sunflower seeds and sprinkled them\naround in some of the empty spots, mainly to help with pollinators down the\nline, as it was a big shame I had to get rid of the bok choy.\n\nAnd last, but certainly not least, I decided to bake some cookies yesterday!\nWe've ended up with a few too many eggs since someone bought a whole bunch while\nwe already had some, so I needed an excuse to use some of them. It didn't\nactually use that many eggs, so I'm possibly going to make another batch or so,\nand maybe even a cake at some point!\n\n<blockquote class=\"mastodon-embed\" data-embed-url=\"https://aus.social/@ovyerus/113458748044825122/embed\" style=\"background: #FCF8FF; border-radius: 8px; border: 1px solid #C9C4DA; margin: 0; max-width: 540px; min-width: 270px; overflow: hidden; padding: 0;\"> <a href=\"https://aus.social/@ovyerus/113458748044825122\" target=\"_blank\" style=\"align-items: center; color: #1C1A25; display: flex; flex-direction: column; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Roboto, sans-serif; font-size: 14px; justify-content: center; letter-spacing: 0.25px; line-height: 20px; padding: 24px; text-decoration: none;\"> <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"32\" height=\"32\" viewBox=\"0 0 79 75\"><path d=\"M74.7135 16.6043C73.6199 8.54587 66.5351 2.19527 58.1366 0.964691C56.7196 0.756754 51.351 0 38.9148 0H38.822C26.3824 0 23.7135 0.756754 22.2966 0.964691C14.1319 2.16118 6.67571 7.86752 4.86669 16.0214C3.99657 20.0369 3.90371 24.4888 4.06535 28.5726C4.29578 34.4289 4.34049 40.275 4.877 46.1075C5.24791 49.9817 5.89495 53.8251 6.81328 57.6088C8.53288 64.5968 15.4938 70.4122 22.3138 72.7848C29.6155 75.259 37.468 75.6697 44.9919 73.971C45.8196 73.7801 46.6381 73.5586 47.4475 73.3063C49.2737 72.7302 51.4164 72.086 52.9915 70.9542C53.0131 70.9384 53.0308 70.9178 53.0433 70.8942C53.0558 70.8706 53.0628 70.8445 53.0637 70.8179V65.1661C53.0634 65.1412 53.0574 65.1167 53.0462 65.0944C53.035 65.0721 53.0189 65.0525 52.9992 65.0371C52.9794 65.0218 52.9564 65.011 52.9318 65.0056C52.9073 65.0002 52.8819 65.0003 52.8574 65.0059C48.0369 66.1472 43.0971 66.7193 38.141 66.7103C29.6118 66.7103 27.3178 62.6981 26.6609 61.0278C26.1329 59.5842 25.7976 58.0784 25.6636 56.5486C25.6622 56.5229 25.667 56.4973 25.6775 56.4738C25.688 56.4502 25.7039 56.4295 25.724 56.4132C25.7441 56.397 25.7678 56.3856 25.7931 56.3801C25.8185 56.3746 25.8448 56.3751 25.8699 56.3816C30.6101 57.5151 35.4693 58.0873 40.3455 58.086C41.5183 58.086 42.6876 58.086 43.8604 58.0553C48.7647 57.919 53.9339 57.6701 58.7591 56.7361C58.8794 56.7123 58.9998 56.6918 59.103 56.6611C66.7139 55.2124 73.9569 50.665 74.6929 39.1501C74.7204 38.6967 74.7892 34.4016 74.7892 33.9312C74.7926 32.3325 75.3085 22.5901 74.7135 16.6043ZM62.9996 45.3371H54.9966V25.9069C54.9966 21.8163 53.277 19.7302 49.7793 19.7302C45.9343 19.7302 44.0083 22.1981 44.0083 27.0727V37.7082H36.0534V27.0727C36.0534 22.1981 34.124 19.7302 30.279 19.7302C26.8019 19.7302 25.0651 21.8163 25.0617 25.9069V45.3371H17.0656V25.3172C17.0656 21.2266 18.1191 17.9769 20.2262 15.568C22.3998 13.1648 25.2509 11.9308 28.7898 11.9308C32.8859 11.9308 35.9812 13.492 38.0447 16.6111L40.036 19.9245L42.0308 16.6111C44.0943 13.492 47.1896 11.9308 51.2788 11.9308C54.8143 11.9308 57.6654 13.1648 59.8459 15.568C61.9529 17.9746 63.0065 21.2243 63.0065 25.3172L62.9996 45.3371Z\" fill=\"currentColor\"/></svg> <div style=\"color: #787588; margin-top: 16px;\">Post by @ovyerus@aus.social</div> <div style=\"font-weight: 500;\">View on Mastodon</div> </a> </blockquote> <script data-allowed-prefixes=\"https://aus.social/\" async src=\"https://staticcdn.aus.social/embed.js\"></script>\n\nThis week's song is\n[ORACLE & MØØNE – Tether](https://www.youtube.com/watch?v=G3-8xTDo68w).\n",
-          "title": "Weeknote 45, 2024 (November 10th, 2024)"
+          "title": "2024-w45"
         }
       },
       {
@@ -417,7 +390,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nI took a proper walk this week, after not having done so for almost two months\n(since I move in September)! I'm not sure what exactly motivated me to finally\ndo it, but I'm glad I did as I felt pretty good afterwards. Hopefully I'm able\nto keep it up going forward, and the weather won't be too bad to make me dread\ndoing so. 🤞\n\nI didn't get around to doing any gardening this week sadly; Saturday was a bit\ntoo hot for my liking (though I really could have gone in the evening once it\nwas starting to cool a bit), and today rained pretty much all day until the\nevening, at which point I was taking a pretty hefty nap as I slept poorly last\nnight. I'm planning on doing some in the middle of this coming week to make up\nfor it, now that the days are long enough for me to be able to do stuff after\nwork with it still being light out.\n\nOn the bright side, I did end up baking more cookies using the same recipe from\n[last week](./2024-w45), but adjusted the time in the oven and the temperature a\nlittle bit to get them more to my liking. Still not fully perfect but very very\ngood nonetheless! It also occurs to me that I never actually mentioned which\nrecipe I used for them, it's this\n[chewy chocolate chip cookies recipe from Sally's Baking Recipes](https://sallysbakingaddiction.com/chewy-chocolate-chip-cookies/).\nAnd granted, I haven't actually followed the recipe exactly as I don't have any\nbrown sugar or cornstarch in my pantry, but they still came out really nice\nregardless. Perhaps I'll pick those up in my shopping this week and see if they\nturn out any more to my preference once I'm following the recipe properly.\n\nAnd lastly, it's a bit of a hard choice for me as I listened to a bunch of\nMonstercat Silk Showcase because I had gotten behind, but this week's song is\n[dwelyr - Something About You](https://www.youtube.com/watch?v=PO9ia9NP8dw).\n",
-          "title": "Weeknote 46, 2024 (November 17th, 2024)"
+          "title": "2024-w46"
         }
       },
       {
@@ -426,7 +399,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nNot much of significance to report on this week. It felt like it whizzed by\nsuper fast and I didn't have the time to really do things. Plus the weather has\nstarted getting stupid (hot one day and raining the next) so I wasn't able to\nget outside to do any walks, and it looks like that's going to be the case for\nthis coming week as well 🙁.\n\nI did however, play through Half-Life 2 again, thanks to the recent 20th\nanniversary update it got. They added a retrospective developer commentary mode\nthroughout the game, and it was cool listening to them talk about how features\nevolved, and how they were seen back in 2004. I'm also going through aiming to\nget all the achievements that I never got around to after all these years.\n\nAnd my housemates dragged me into playing World of Warcraft Classic, with it\nalso being WoW's 20th anniversary they've launched another branch that is\nstarting from the vanilla game, like they did originally 5 years ago. Currently\nI'm a bit on the fence about it, I'm not really into grindy games, but probably\nwill stick with it for the 1 month that I bought and then see how I feel about\nit then.\n\nThis week's song is\n[Braxton & Lauren L'aimant - Holding On](https://www.youtube.com/watch?v=gjTy-Y__bxA).\n",
-          "title": "Weeknote 47, 2024 (November 24th, 2024)"
+          "title": "2024-w47"
         }
       },
       {
@@ -436,7 +409,7 @@
         "data": {
           "body": "\nHello world, happy December!\n\nWorld of Warcraft really fucked with my sleep schedule this week. It's been\nextremely shitty, as a result of my brain _latching_ onto something within and\nmaking it hard to quit. Thankfully it hasn't been interrupting my work, but I\nneed to be more diligent about going to bed at a reasonable time as the\nfollowing mornings have been _rough_.\n\nIt was a mixture of rainy, hot, and generally humid all this week, so\nunfortunately was not able to find the opportunity to go on any walks (I should\nprobably look into picking up VR again so I can do some form of exercise at\nleast), but it did let up during the day today, so I was able to get some much\nneeded gardening done: cleaning up the weeds that sprung up over the past few\nweeks of no gardening, and picking some of the leeks that started budding, which\nis actually a lot so I'm going to need to find a good use for them at some\npoint. Thankfully, looks like there's going to be a nice clear spot in the\nmiddle of the coming week so I'll be able to get some more gardening done - and\neven get some more stuff planted - even if the weekend turns out a bit sour.\n\nMy obsession this past week has been\n[Kooma, Miyoki, Veela - Reason](https://www.youtube.com/watch?v=llVXSV_Slk0).\nBeen listening to it a ton while playing WoW, and YouTube keeps serving it back\nup to me, not that I'm complaining.\n",
           "subtitle": "The (World of) War(craft) on My Sleep",
-          "title": "Weeknote 48, 2024 (December 1st, 2024)"
+          "title": "2024-w48"
         }
       },
       {
@@ -446,7 +419,7 @@
         "data": {
           "body": "\nHello world!\n\nThis week I did something pretty cool to this website: I've added proper social\nmedia images to all my posts here, so that when posted to somewhere like\nMastodon or Discord, it'll show some information about the post instead of the\nplain gradient it had before! And since this website is still a static Astro\nproject, all the images are generated at build time & can be cached by CDNs\npretty much indefinitely (though I need to actually set that up in Caddy\nsometime soon). Whether this actually adds any useful information is an exercise\nleft to the reader.\n\nWhile starting a new project to do with a friend a few days ago, I learnt about\nthe\n[`popover` and `popovertarget`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/popover)\nattributes in HTML, which basically lets you turn any element into displaying\nlike a dialog over everything else on the page, and you can even toggle it with\na button with no JavaScript! Unfortunately as of writing you still do need some\nJS if you want to position a popover element relative to its trigger (although\nwith a proper bundler, the [Floating UI](https://floating-ui.com/docs/tutorial)\nlibrary can get cut down to ~3.5kB (minified + gzip) in it's most simple\nusecase, and up to about 6kB with the features to auto update as the screen\nchanges and reposition itself to avoid going offscreen), but there is the\n[CSS anchor positioning](https://www.w3.org/TR/css-anchor-position-1/) proposal.\nCurrently it is only available in Chrome based browsers with an experimental\nflag, but hopefully it'll get accepted properly sometime soon and we'll finally\nbe able to have cool zero-JS stuff!\n\nTech bullshit aside; I was able to do gardening in the middle of the week thanks\nto a clear spot in the weather. Got some much needed weeding done as a bunch had\nsprung up thanks to all the rain, and some tiny tomatoes have started appearing\non the plants which is great! Hopefully the larger tomatoes turn out better\ncompared to last time round; I actually bought proper stakes for them so it\nshould be good! The lettuces are getting nice and big too, might be time to\nharvest at least one of them soon!\n\nNo featured song this week, but I have been rewatching (_again_)\n[Citation Needed](https://www.youtube.com/playlist?list=PL96C35uN7xGIo2odDuuPeYtb7BtQ1kBhp)\nwhile doing things, so I'll leave you all with that.\n",
           "subtitle": "Embed images, HTML popovers, and weed whacking",
-          "title": "Weeknote 49, 2024 (December 8th, 2024)"
+          "title": "2024-w49"
         }
       },
       {
@@ -455,7 +428,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nQuite a late weeknote this time around; had a very busy day yesterday (Sunday)\nhelping out my local church with an annual community event. Was out in the sun\npretty much all morning & evening (i remembered to apply sunscreen at least!)\nrunning the sound system for it. I had a lot of fun helping out, but I was quite\nexhausted at the end of the day and had to cook dinner as well, so made the\ndecision to delay writing this entry.\n\nThe weather last week was sunny but not too bad in terms of temperature, so I\nwas able to do more gardening. It was the typical weeding as usual (I didn't get\nany more seedlings during the week, although I reckon I should have), but I also\nhad to re-stake the tomato plants as they've been growing all over the place\nlike crazy, and one stake wasn't enough for them! They've also started fruiting,\nso I'll have some more home-grown tomatoes very soon. Hopefully all the larger\ntomatoes don't get eaten by bugs like last time around!\n\n![A close-up, almost top-down photo of a tomato plant, dotted with several tiny green tomatoes growing along its vine. A thin bamboo stake comes up in the middle of the photo, with a bit of twine attaching the plant to it.](https://cdn.ovy.cloud/blog/2024-w50/tomatoes.webp)\n\nI also picked one of the lettuces that have gotten quite big, going to try it\nout this week.\n\nThis week's song was\n[Notaker feat. Eric Lumiere - Speed of Light](https://www.youtube.com/watch?v=3SULP9av9SY).\n",
-          "title": "Weeknote 50, 2024 (December 15th, 2024)"
+          "title": "2024-w50"
         }
       },
       {
@@ -466,7 +439,7 @@
           "body": "\nHello world!\n\nI visited my extended family this Christmas weekend for lunch. It was sort of a\npotluck style this time around, where everyone brought their own meat to cook\nand have themselves, rather than having a few roasts done as usual. We also\nplayed \"Bad Santa\" (or \"Dirty Santa\", apparently?) for handing out gifts this\nyear, and I got a moka pot and some pre-ground coffee out of it. Excited to try\nit out. Sadly I had to leave a bit early, but it was a nice get together and we\nhad a good time.\n\nIt was also the last work week of the year for me, mostly spent wrapping up some\nof the stuff I'm currently working on to be in a good spot for me to return to\nin the new year. I need to make sure I use the break well instead of just\nplaying games all the time, I'm sure I'll find some things to do (really I\nshould get some cleaning done around the house lol).\n\nI didn't do any gardening this week, although I probably should've, but now that\nI have some time off during the next few weeks, I'm going to try and get it done\na bit more frequently, mainly to keep clearing out weeds but also to water my\nplants since it's getting pretty dry here. The tomatoes are still coming along\nstrong though! Very excited to see how they turn out.\n\nThis week's song is\n[Toby Hedges - Images](https://www.youtube.com/watch?v=1NPpdvz0KaU), from 2013!\n",
           "subtitle": "A Bad Santa Finishing Up Work",
           "description": "I finish up work for 2024, and visit the family for a pre-Christmas lunch/party.",
-          "title": "Weeknote 51, 2024 (December 22nd, 2024)"
+          "title": "2024-w51"
         }
       },
       {
@@ -476,7 +449,7 @@
         "data": {
           "body": "\nHello world!\n\nI hope you all have had a good holiday season, spending it with your loved ones\nand having a good time. I spent Christmas day mostly at home as usual, but I had\ndinner at my parent's house and it was nice. I got a few plushies from them\nwhich I'm going to need to find a good place for, and I gave them boxes of\nchocolates in return which I hope they enjoy thoroughly.\n\nI ordered myself a Quest 3 at the start of the week, as an upgrade from my Quest\n2 which I've had for the past few years. It's coming in tomorrow as of writing,\nso I'm excited for it and will leave my thoughts on it compared to its\npredecessor for the next weeknote. I also bought myself a new CPU & cooler combo\nfor my PC a few weeks ago - an AMD Ryzen 9 5900XT and the Thermalright Peerless\nAssassin 120 SE - but never actually got around to installing it due to good ol'\nexecutive dysfunction. I finally got the brain power to install it just a few\nhours before writing this, and so far it's looking like a great change. The PC\nis basically dead silent now under normal light loads while hanging around 40°C,\nand hitting 60°C while running\n[stress-ng](https://github.com/ColinIanKing/stress-ng) on all 32 threads, and\nall while still being whisper quiet. I love it. Going to do some better testing\nduring the week, namely some compilation and software video encoding (VP9) to\ntruly see how it fares against the Ryzen 5600X and stock cooler that it is\nreplacing.\n\nThis marks the last weeknote for 2024. It's been a good run and I've enjoyed\nwriting these every week, I think it was definitely a good practice to pick up.\nI might experiment with the format a little bit in the first few weeks of 2025,\npossibly copying some things I've seen from other blogs, see how they feel\ncompared to this paragraphic semi-rambling I've been doing this year.\n\nSee you round the corner 🫡.\n",
           "subtitle": "Christmas 2024",
-          "title": "Weeknote 52, 2024 (December 29th, 2024)"
+          "title": "2024-w52"
         }
       },
       {
@@ -485,7 +458,7 @@
         "status": "published",
         "data": {
           "body": "Hello world, happy new year!\n\nCuriously, no new year's fireworks going off in my area when midnight hit, when\nthey have done previous years. I _was_ taking a shower at the time so maybe I\ncould've missed them, but I did hear a few isolated pops while in there so I'm\npretty sure there wasn't any big show. A shame IMO.\n\nMy Quest 3 arrived on Tuesday, and so far the experience has been really great.\nThe optical clarity compared to the Quest 2 is really impressive, and so is the\nfull-colour passthrough (compared to the black-and-white cameras of its\npredecessor). I forgot how bad the default head strap on the Quest 2 was though,\nand this comes with pretty much an identical design sadly; I've ordered a\nthird-party strap so my usage is probably going to be pretty light until that\narrives, as it will be a much more comfortable experience.\n\nSome real stinkers weather wise today and yesterday here in Victoria, almost\nhitting 40°C both days. Thankfully expecting rain on Monday, but the rest of the\nweek looks like it'll be pretty warm, but nowhere near how bad it was.\n\nThis week's song is\n[Kooma - blue tint](https://www.youtube.com/watch?v=5eCFUSGfUPo).\n",
-          "title": "Weeknote 01, 2025 (January 5th, 2025)"
+          "title": "2025-w01"
         }
       },
       {
@@ -494,7 +467,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nWork started back up this week, after a few weeks off for the holidays. Lots of\nstuff being a little fiddly after the break but we're getting warmed up and back\ninto the groove of things slowly!\n\nI did some light weeding in the middle of the week for the garden, and harvested\n4 of the cherry tomatoes that had ripened. They turned out really good and I\ncan't wait for more to be ready soon; definitely going to be planting more this\nvariety next season. I also need to go to Bunnings at some point and pick out\nsome new seedlings to plant as I've got more space to fill in the garden.\n\n![A closeup of a \"black cherry\" tomato vine, focusing on 3 ripe cherry tomatoes. They're not really black, just a dark red with some, mottled brown.](https://cdn.ovy.cloud/blog/2025-w02/tomatoes01.webp)\n\n![Some unripe cherry tomatoes on a vine. A few are half yellowish, ready to be ripe soon.](https://cdn.ovy.cloud/blog/2025-w02/tomatoes03.webp)\n\nI think next week I'm going to start experimenting with this format a little\nbit, but for now I'll leave you off with this week's song which is\n[Elliot Vast - Awake](https://www.youtube.com/watch?v=xgue5ClMxt0).\n",
-          "title": "Weeknote 02, 2025 (January 12th, 2025)"
+          "title": "2025-w02"
         }
       },
       {
@@ -504,7 +477,7 @@
         "data": {
           "body": "\n📝 This is the first of (hopefully) a few format experiments I'll be doing here\nalong the next few weeks, trying some different ideas out to see if there's\nanything that jives with me a little better than the pure paragraph dumps I've\nbeen doing since I started weeknotes a few months ago. This week I'm taking\ninspiration from [Kerri Krueger](https://notes.krueger.ink)'s weeknotes, with\nsome short emoji dot points of what's been going on.\n\n🌿 I cleared a huge section of the garden of tall weeds using the whipper\nsnipper this week, mostly to tidy up that part so it looked more tended to\noverall, but also to eventually fully clear it to have some more growing room\nfor new plants!\n\n💅 Finally got a new set of nail polish after not being able to find my old\nstash last week (which is a huge shame, hopefully it'll pop up again at some\npoint) and painted my nails for the first time in a while :).\n\n## 🎮 Games\n\n- [World of Warcraft Classic](https://us.shop.battle.net/en-us/family/world-of-warcraft-classic)\n- [Euro Truck Simulator 2](https://eurotrucksimulator2.com) (My brother got a\n  steering wheel peripheral this week and I borrowed it for this. It's oddly\n  fun.)\n- [Disco Elysium](https://discoelysium.com)\n\n## 🎵 Music\n\n- [Dusqk - Gaia/RAE](https://www.youtube.com/watch?v=yU_EpBtqiRk)\n- [mad routine - disappear](https://www.youtube.com/watch?v=MkDi8L6a5K8)\n",
           "subtitle": "Experiments #1 - Emoji Dot Points",
-          "title": "Weeknote 03, 2025 (January 19th, 2025)"
+          "title": "2025-w03"
         }
       },
       {
@@ -514,7 +487,7 @@
         "data": {
           "body": "\nThis week I'm going to be trying out a \"\\<x> things that happened\" format. I\nthink this may help me to cut down some fluff with what I did, we'll see.\n\n**One.** My sleep this week has again been absolutely atrocious, save for\nyesterday but that was because I was able to sleep in until quite late. I need\nto seriously put in some concerted effort into fixing this in the coming weeks,\nas I almost missed a few work meetings due to sleeping in just a _bit_ too long.\nHopefully with the public holiday tomorrow I'll be able to get a start on that\n🤞.\n\n**Two.** I did some substantial changes to my butchers order this week in order\nto accomodate one of my housemates, who doesn't enjoy picking around bone for\nmeat. We tried out their beef schnitzels for the first time the other night and\nthey were really nice! I need to come up with some more cool sides for stuff\nlike that though, at some point.\n\n**Three.** I got around to doing some minor maintenance on a few projects. For\n[bandsnatch](https://github.com/Ovyerus/bandsnatch) I reverted a bunch of the\nstupid stuff I was doing trying to wrangle cross-compilation into the Nix flake,\nas I found it rather complex for very little benefit for me personally, as well\nas up one of the more complex data fetching functions a little bit, to prepare\nfor some more major refactoring around how it works there.\n\nI cleaned up my NixOS/nix-darwin dotfiles a little bit and finally updated the\n[public repository](https://github.com/Ovyerus/dotfiles) with my new content\n(previously it was just a Home Manager configuration) to act as a public example\nof a daily driver NixOS desktop. Do check it out if you're interested!\n\nI also did some light cleanup on\n[my personal website](https://github.com/Ovyerus/site) (where you are reading\nthis, hopefully!) as it turns out I missed some changes that occurred when I\nupgraded to Astro v5.\n\n**Four.** Alongside that maintenance, I've been exploring more self-hosted stuff\nafter seeing the Tailscale folk do a blog post/video on\n[Beszel](https://github.com/henrygd/beszel) which I decided to set up myself.\nand it's been very nice! I also found out about\n[Pocket ID](https://github.com/stonith404/pocket-id), a simple Passkey based\nOIDC provider, and replaced my [Zitadel](https://github.com/zitadel/zitadel)\ninstance with it. Zitadel is nice as an identity provider, however I found it a\nlittle too complex for my needs (it seems to be very aimed at organisations,\nwhich isn't a bad thing) and Pocket ID feels really good so far.\n\n**Five.** I ended up cutting the pad on my right index finger pretty badly\nearlier in the week, while trying to open a bag of potato gems with a bread\nknife. Don't know how I managed that, will teach me to just use scissors in the\nfuture I suppose. At least the cut wasn't super deep, just bled a lot.\n",
           "subtitle": "Experiments #2 - 5 Things That Happened",
-          "title": "Weeknote 04, 2025 (January 26th, 2025)"
+          "title": "2025-w04"
         }
       },
       {
@@ -524,7 +497,7 @@
         "data": {
           "body": "\n## The Good\n\nOn Tuesday I got a foam blaster I had eyed up at the start of the year, the\n[HC Diana](https://www.frontlinefoam.com/product/haretech-diana-brushless-pistol).\nIt's an injection moulded pistol-style flywheel blaster that shoots extremely\nhard, but I primarily got it because I love the form factor, and just sliding\nthe magazines in and out has been really fun on its own. Perhaps at some point\nin the future I'll look at joining any local games, but for now I'm happy as I\nam, and will probably do some mods on it to trick it out a little bit.\n\n<blockquote class=\"mastodon-embed\" data-embed-url=\"https://aus.social/@ovyerus/113903336689317934/embed\" style=\"background: #FCF8FF; border-radius: 8px; border: 1px solid #C9C4DA; margin: 0; max-width: 540px; min-width: 270px; overflow: hidden; padding: 0;\"> <a href=\"https://aus.social/@ovyerus/113903336689317934\" target=\"_blank\" style=\"align-items: center; color: #1C1A25; display: flex; flex-direction: column; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Roboto, sans-serif; font-size: 14px; justify-content: center; letter-spacing: 0.25px; line-height: 20px; padding: 24px; text-decoration: none;\"> <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"32\" height=\"32\" viewBox=\"0 0 79 75\"><path d=\"M74.7135 16.6043C73.6199 8.54587 66.5351 2.19527 58.1366 0.964691C56.7196 0.756754 51.351 0 38.9148 0H38.822C26.3824 0 23.7135 0.756754 22.2966 0.964691C14.1319 2.16118 6.67571 7.86752 4.86669 16.0214C3.99657 20.0369 3.90371 24.4888 4.06535 28.5726C4.29578 34.4289 4.34049 40.275 4.877 46.1075C5.24791 49.9817 5.89495 53.8251 6.81328 57.6088C8.53288 64.5968 15.4938 70.4122 22.3138 72.7848C29.6155 75.259 37.468 75.6697 44.9919 73.971C45.8196 73.7801 46.6381 73.5586 47.4475 73.3063C49.2737 72.7302 51.4164 72.086 52.9915 70.9542C53.0131 70.9384 53.0308 70.9178 53.0433 70.8942C53.0558 70.8706 53.0628 70.8445 53.0637 70.8179V65.1661C53.0634 65.1412 53.0574 65.1167 53.0462 65.0944C53.035 65.0721 53.0189 65.0525 52.9992 65.0371C52.9794 65.0218 52.9564 65.011 52.9318 65.0056C52.9073 65.0002 52.8819 65.0003 52.8574 65.0059C48.0369 66.1472 43.0971 66.7193 38.141 66.7103C29.6118 66.7103 27.3178 62.6981 26.6609 61.0278C26.1329 59.5842 25.7976 58.0784 25.6636 56.5486C25.6622 56.5229 25.667 56.4973 25.6775 56.4738C25.688 56.4502 25.7039 56.4295 25.724 56.4132C25.7441 56.397 25.7678 56.3856 25.7931 56.3801C25.8185 56.3746 25.8448 56.3751 25.8699 56.3816C30.6101 57.5151 35.4693 58.0873 40.3455 58.086C41.5183 58.086 42.6876 58.086 43.8604 58.0553C48.7647 57.919 53.9339 57.6701 58.7591 56.7361C58.8794 56.7123 58.9998 56.6918 59.103 56.6611C66.7139 55.2124 73.9569 50.665 74.6929 39.1501C74.7204 38.6967 74.7892 34.4016 74.7892 33.9312C74.7926 32.3325 75.3085 22.5901 74.7135 16.6043ZM62.9996 45.3371H54.9966V25.9069C54.9966 21.8163 53.277 19.7302 49.7793 19.7302C45.9343 19.7302 44.0083 22.1981 44.0083 27.0727V37.7082H36.0534V27.0727C36.0534 22.1981 34.124 19.7302 30.279 19.7302C26.8019 19.7302 25.0651 21.8163 25.0617 25.9069V45.3371H17.0656V25.3172C17.0656 21.2266 18.1191 17.9769 20.2262 15.568C22.3998 13.1648 25.2509 11.9308 28.7898 11.9308C32.8859 11.9308 35.9812 13.492 38.0447 16.6111L40.036 19.9245L42.0308 16.6111C44.0943 13.492 47.1896 11.9308 51.2788 11.9308C54.8143 11.9308 57.6654 13.1648 59.8459 15.568C61.9529 17.9746 63.0065 21.2243 63.0065 25.3172L62.9996 45.3371Z\" fill=\"currentColor\"/></svg> <div style=\"color: #787588; margin-top: 16px;\">Post by @ovyerus@aus.social</div> <div style=\"font-weight: 500;\">View on Mastodon</div> </a> </blockquote> <script data-allowed-prefixes=\"https://aus.social/\" async src=\"https://staticcdn.aus.social/embed.js\"></script>\n\nI did some more maintenance on my services this week: set up an instance of\n[Uptime Kuma](https://github.com/louislam/uptime-kuma) for keeping track of\n[my uptime](https://status.ovy.sh), not that I expect anything to go down (or\neven have alerting set up), but a nice way to experiment with it in case I want\nto use it properly in the future; finally set up Borgmatic backups for some\nimportant services in case something goes wrong; and moved my\n[Snikket](https://snikket.org) instance to be configured through\n[Arion](https://docs.hercules-ci.com/arion/) to bring it alongside the few other\nservices I did the other week.\n\nAnd I wrote up a [/uses page](/uses) for my website yesterday, inspired by what\nI saw on [my girlfriend's website](https://natalie.sh/uses) while I was bored\nand poking around, figured I would give it a shot as it was good way to take\nstock of what I have and actually use; might end up being useful for me in the\nfuture in some way.\n\n## The Bad\n\nMy sleep didn't get any better this week unfortunately. I'm purely to blame of\ncourse, but it still sucks big time. I need to stop procrastinating on my PC\ndoing nothing of value instead of just going to bed at an earlier time and being\nable to get some sort of decent sleep. Hopefully I'll be able to do that this\nweek.\n\nThe week started and ended with scorchers of days, hitting a bit above 35°C (I\nthink Monday may have even hit 40). Thankfully Monday was a public holiday so\ndidn't have work, and today's Sunday so no work either, but trying to get\nanything done for myself has been a bit of an extra chore thanks to the heat.\nAnd the next few days are looking to be more of the same sadly, hopefully I'll\nsurvive.\n\n## The Something Else\n\nI don't actually have much else to add here like some other users of this format\ndo; this week was fairly standard for me and nothing of note really pops out at\nme that would fit (i.e. new things learned, what I've been working on). I need\nto pick up some way of writing daily notes to myself on my thoughts and feelings\nthroughout the week to make the weeknote process easier, but I've tried a few\nthings in the past that haven't really worked out. I should probably do some\nresearch in the coming days for that.\n",
           "subtitle": "Experiments #3 - The Good, the Bad, and the Something Else",
-          "title": "Weeknote 05, 2025 (February 2nd, 2025)"
+          "title": "2025-w05"
         }
       },
       {
@@ -534,7 +507,7 @@
         "data": {
           "body": "\nHello world!\n\nTaking a break from the experiments for this week to go back to my usual style,\nas I've been leaving the format choosing very last minute and that has backfired\non me today and as such I haven't found one that would for this week. Hopefully\nI'll fix that up next week!\n\nI got around to installing Windows on my PC again, but this time on a completely\nseparate drive from everything else to keep it isolated. Why? To finally be able\nto play some PCVR again, as I'm frankly tired of waiting for Valve to get Steam\nLink VR working on Linux (apparently there's only like one person actively\nworking on it, so fair enough) and I don't want to tinker with other solutions\nso this was the easy way out. As a result I've been playing a bunch of\n[H3VR](https://h3vr.com), screwing around with all its guns is much fun. Will\nend up going through a bunch of other games in my library (like Blade & Sorcery)\nin the coming weeks.\n\nSadly wasn't able to get around to any gardening this week as it was super hot\nand then rainy right after, all week. So I'm going to try and pop around in the\nmiddle of next week to get it done as there's gonna be a lot of weeds that have\npopped up again with all this time and rain.\n\nOn the other hand, I've finally picked up an old, private project of mine that I\ndropped early last year thanks to ✨brain magic✨, but now I've gotten bored\nfrom lack of motivation on other projects so I'm going to pick it up under a new\nname and probably start from scratch with some actual darn planning around it as\nit's pretty huge. Hopefully I won't drop it this time around and I'll have\nsomething to talk about in a few months!\n\nAnd lastly, my sleep this week was still crap, but I started work on it\n(somewhat) this weekend, forcing myself into bed early, mostly because I\nactually realised I was bored with nothing to actually do and was just\nprocrastinating. Hoping I'll be able to continue this and turn it into a proper\nhabit 🙏.\n",
           "subtitle": "A Break From the Experiments",
-          "title": "Weeknote 06, 2025 (February 9th, 2025)"
+          "title": "2025-w06"
         }
       },
       {
@@ -544,7 +517,7 @@
         "data": {
           "body": "\nHello world!\n\nIt was a little short, but I think the formats experimentation worked out pretty\nwell. I was able to explore a bit more with my writing here, and read a bit more\nabout how other people do their own weeknotes. Overall, I don't think I'm going\nto adopt any one style as a new permanent way of doing weeknotes here, instead\nI'm just going to write however I feel is appropriate for the given week rather\nthan being strict.\n\n---\n\nA cool change has been rolling in down here this past week, bringing with it a\nbunch of rain which quickly abated. As a result, I was finally able to get back\ninto my parent's garden and do some much needed weeding, as a ton had grown back\nthanks to all the rain and time being unattended. I was also able to finally\npick a bunch of the cherry tomatoes, which has grown quite big since I was last\nin the garden! Sadly still no viable fruit from the heirloom tomatoes, but there\nare a lot of stuff growing on it, so hopefully I'll be able to get _something_\nfrom it this time around. I might need to buy some longer stakes to get them off\nthe ground better and maybe that'll work.\n\n<blockquote class=\"mastodon-embed\" data-embed-url=\"https://aus.social/@ovyerus/113983965217610024/embed\" style=\"background: #FCF8FF; border-radius: 8px; border: 1px solid #C9C4DA; margin: 0; max-width: 540px; min-width: 270px; overflow: hidden; padding: 0;\"> <a href=\"https://aus.social/@ovyerus/113983965217610024\" target=\"_blank\" style=\"align-items: center; color: #1C1A25; display: flex; flex-direction: column; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Roboto, sans-serif; font-size: 14px; justify-content: center; letter-spacing: 0.25px; line-height: 20px; padding: 24px; text-decoration: none;\"> <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"32\" height=\"32\" viewBox=\"0 0 79 75\"><path d=\"M74.7135 16.6043C73.6199 8.54587 66.5351 2.19527 58.1366 0.964691C56.7196 0.756754 51.351 0 38.9148 0H38.822C26.3824 0 23.7135 0.756754 22.2966 0.964691C14.1319 2.16118 6.67571 7.86752 4.86669 16.0214C3.99657 20.0369 3.90371 24.4888 4.06535 28.5726C4.29578 34.4289 4.34049 40.275 4.877 46.1075C5.24791 49.9817 5.89495 53.8251 6.81328 57.6088C8.53288 64.5968 15.4938 70.4122 22.3138 72.7848C29.6155 75.259 37.468 75.6697 44.9919 73.971C45.8196 73.7801 46.6381 73.5586 47.4475 73.3063C49.2737 72.7302 51.4164 72.086 52.9915 70.9542C53.0131 70.9384 53.0308 70.9178 53.0433 70.8942C53.0558 70.8706 53.0628 70.8445 53.0637 70.8179V65.1661C53.0634 65.1412 53.0574 65.1167 53.0462 65.0944C53.035 65.0721 53.0189 65.0525 52.9992 65.0371C52.9794 65.0218 52.9564 65.011 52.9318 65.0056C52.9073 65.0002 52.8819 65.0003 52.8574 65.0059C48.0369 66.1472 43.0971 66.7193 38.141 66.7103C29.6118 66.7103 27.3178 62.6981 26.6609 61.0278C26.1329 59.5842 25.7976 58.0784 25.6636 56.5486C25.6622 56.5229 25.667 56.4973 25.6775 56.4738C25.688 56.4502 25.7039 56.4295 25.724 56.4132C25.7441 56.397 25.7678 56.3856 25.7931 56.3801C25.8185 56.3746 25.8448 56.3751 25.8699 56.3816C30.6101 57.5151 35.4693 58.0873 40.3455 58.086C41.5183 58.086 42.6876 58.086 43.8604 58.0553C48.7647 57.919 53.9339 57.6701 58.7591 56.7361C58.8794 56.7123 58.9998 56.6918 59.103 56.6611C66.7139 55.2124 73.9569 50.665 74.6929 39.1501C74.7204 38.6967 74.7892 34.4016 74.7892 33.9312C74.7926 32.3325 75.3085 22.5901 74.7135 16.6043ZM62.9996 45.3371H54.9966V25.9069C54.9966 21.8163 53.277 19.7302 49.7793 19.7302C45.9343 19.7302 44.0083 22.1981 44.0083 27.0727V37.7082H36.0534V27.0727C36.0534 22.1981 34.124 19.7302 30.279 19.7302C26.8019 19.7302 25.0651 21.8163 25.0617 25.9069V45.3371H17.0656V25.3172C17.0656 21.2266 18.1191 17.9769 20.2262 15.568C22.3998 13.1648 25.2509 11.9308 28.7898 11.9308C32.8859 11.9308 35.9812 13.492 38.0447 16.6111L40.036 19.9245L42.0308 16.6111C44.0943 13.492 47.1896 11.9308 51.2788 11.9308C54.8143 11.9308 57.6654 13.1648 59.8459 15.568C61.9529 17.9746 63.0065 21.2243 63.0065 25.3172L62.9996 45.3371Z\" fill=\"currentColor\"/></svg> <div style=\"color: #787588; margin-top: 16px;\">Post by @ovyerus@aus.social</div> <div style=\"font-weight: 500;\">View on Mastodon</div> </a> </blockquote> <script data-allowed-prefixes=\"https://aus.social/\" async src=\"https://staticcdn.aus.social/embed.js\"></script>\n\nThose cherry tomatoes got used a few days later as a roasted side to some beef\nschnitzels alongside a cucumber salad, and it was _awesome_. The tomatoes were\nsoft, sweet, and pretty rich, and they paired really nice with the cucumber\nsalad which was a real refreshing contrast. And the tomatoes being home grown\nmade it even better!\n\n<blockquote class=\"mastodon-embed\" data-embed-url=\"https://aus.social/@ovyerus/114001957250261311/embed\" style=\"background: #FCF8FF; border-radius: 8px; border: 1px solid #C9C4DA; margin: 0; max-width: 540px; min-width: 270px; overflow: hidden; padding: 0;\"> <a href=\"https://aus.social/@ovyerus/114001957250261311\" target=\"_blank\" style=\"align-items: center; color: #1C1A25; display: flex; flex-direction: column; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Roboto, sans-serif; font-size: 14px; justify-content: center; letter-spacing: 0.25px; line-height: 20px; padding: 24px; text-decoration: none;\"> <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"32\" height=\"32\" viewBox=\"0 0 79 75\"><path d=\"M74.7135 16.6043C73.6199 8.54587 66.5351 2.19527 58.1366 0.964691C56.7196 0.756754 51.351 0 38.9148 0H38.822C26.3824 0 23.7135 0.756754 22.2966 0.964691C14.1319 2.16118 6.67571 7.86752 4.86669 16.0214C3.99657 20.0369 3.90371 24.4888 4.06535 28.5726C4.29578 34.4289 4.34049 40.275 4.877 46.1075C5.24791 49.9817 5.89495 53.8251 6.81328 57.6088C8.53288 64.5968 15.4938 70.4122 22.3138 72.7848C29.6155 75.259 37.468 75.6697 44.9919 73.971C45.8196 73.7801 46.6381 73.5586 47.4475 73.3063C49.2737 72.7302 51.4164 72.086 52.9915 70.9542C53.0131 70.9384 53.0308 70.9178 53.0433 70.8942C53.0558 70.8706 53.0628 70.8445 53.0637 70.8179V65.1661C53.0634 65.1412 53.0574 65.1167 53.0462 65.0944C53.035 65.0721 53.0189 65.0525 52.9992 65.0371C52.9794 65.0218 52.9564 65.011 52.9318 65.0056C52.9073 65.0002 52.8819 65.0003 52.8574 65.0059C48.0369 66.1472 43.0971 66.7193 38.141 66.7103C29.6118 66.7103 27.3178 62.6981 26.6609 61.0278C26.1329 59.5842 25.7976 58.0784 25.6636 56.5486C25.6622 56.5229 25.667 56.4973 25.6775 56.4738C25.688 56.4502 25.7039 56.4295 25.724 56.4132C25.7441 56.397 25.7678 56.3856 25.7931 56.3801C25.8185 56.3746 25.8448 56.3751 25.8699 56.3816C30.6101 57.5151 35.4693 58.0873 40.3455 58.086C41.5183 58.086 42.6876 58.086 43.8604 58.0553C48.7647 57.919 53.9339 57.6701 58.7591 56.7361C58.8794 56.7123 58.9998 56.6918 59.103 56.6611C66.7139 55.2124 73.9569 50.665 74.6929 39.1501C74.7204 38.6967 74.7892 34.4016 74.7892 33.9312C74.7926 32.3325 75.3085 22.5901 74.7135 16.6043ZM62.9996 45.3371H54.9966V25.9069C54.9966 21.8163 53.277 19.7302 49.7793 19.7302C45.9343 19.7302 44.0083 22.1981 44.0083 27.0727V37.7082H36.0534V27.0727C36.0534 22.1981 34.124 19.7302 30.279 19.7302C26.8019 19.7302 25.0651 21.8163 25.0617 25.9069V45.3371H17.0656V25.3172C17.0656 21.2266 18.1191 17.9769 20.2262 15.568C22.3998 13.1648 25.2509 11.9308 28.7898 11.9308C32.8859 11.9308 35.9812 13.492 38.0447 16.6111L40.036 19.9245L42.0308 16.6111C44.0943 13.492 47.1896 11.9308 51.2788 11.9308C54.8143 11.9308 57.6654 13.1648 59.8459 15.568C61.9529 17.9746 63.0065 21.2243 63.0065 25.3172L62.9996 45.3371Z\" fill=\"currentColor\"/></svg> <div style=\"color: #787588; margin-top: 16px;\">Post by @ovyerus@aus.social</div> <div style=\"font-weight: 500;\">View on Mastodon</div> </a> </blockquote>\n\nGreen thumb aside, I've been fighting against my 3D printer trying to get prints\nsticking properly to the print bed but it seems like it's just wanting to stick\nto the nozzle no matter what. I might need to swap out the nozzle for a cleaner\none, but that means going through a big box of stuff to try and find my spares\nwhich is a huge task I don't really want to undertake. Perhaps I'll be able to\nfind the mental energy this coming week.\n\nI'll leave you off with\n[Puppet feat. distant - Who's Haunting You?](https://www.youtube.com/watch?v=4_RuFmr0S4M).\n",
           "subtitle": "Experiments Review",
-          "title": "Weeknote 07, 2025 (February 16th, 2025)"
+          "title": "2025-w07"
         }
       },
       {
@@ -553,7 +526,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nI did a little bit of daily logging this week, trying to keep track of some of\nthe littler things that occurred. It wasn't super extensive (and logging every\nsingle thing done would be counterproductive IMO), but it's definitely helped me\nwhile writing this; I hope it'll develop into a proper habit.\n\nI took a few walks during the week (which is where I had the logging idea pop up\ninitially), as a response to realising that I was procrastinating at work or\nstuck on a particularly strange problem. Thankfully the weather for the weekdays\nwas actually welcoming for such an activity, all in the low 20's, and I would\nlike to keep it up should the weather cooperate in the future, as I found it did\nhelp me when I was stuck in those circumstances.\n\nDid some more gardening as well this week, but not really any weeding. I got\nsome longer bamboo stakes from Bunnings to help lift some of the tomato vines up\noff the ground more, and while I was there I saw a tray of habanero peppers\nwhich were marked for clearance down to $3!!! Figured I may as well buy them at\nthat price, it'll be interesting to see how they compare to the other cultivar I\ngot a while back with the tomatoes.\n\nAnd finally for this week, I ordered some new components for a new home server\nbuild that I'm planning, as the current thing has been randomly restarting\nitself for a while now which is concerning. Going to be reusing my old CPU &\ncase, as well as the current server's power supply, so just waiting on a\nmotherboard and RAM and then it'll be good to go!\n\nThis week's song is\n[Sound Quelle x Deagon x MØØNE - Risk It All](https://www.youtube.com/watch?v=a5LHml9dvRo).\nAnd an honourable mention to\n[Amtrac - Generator](https://www.youtube.com/watch?v=Qopu7cTwplI), the EP of\nwhich was randomly recommended by me earlier today by YouTube Music!\n",
-          "title": "Weeknote 08, 2025 (February 23rd, 2025)"
+          "title": "2025-w08"
         }
       },
       {
@@ -562,7 +535,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nOf course after all I said last week about wishing to make daily logging & more\nfrequent walks a habit, I did no such things this week. In the case of the lack\nof walks I would make some excuse based on the weather, but this past week was\nactually rather pleasant, I just found some days a little too warm which in\nreality isn't a problem that should have stopped me. In terms of daily logging,\nI just feel like I had a rather uneventful week for me to keep note of things,\nbut perhaps I should look into keeping track of the smaller things, what I had\nto eat on a particular day maybe.\n\nRegardless, this week wasn't completely lost to my job. I ordered some new PC\ncomponents the other week to build a new home server utilising my old CPU (see\n[2024-W52](/weeknotes/2024-w52)), as my existing server has been experiencing\nrandom restarts increasingly frequently, suspecting a hardware fault somewhere.\nThese new components arrived this week and I spent some time putting it together\nand setting it up. This time around it's running raw NixOS instead of Proxmox,\nas I found that I didn't really utilise the VM functionality, just ended up\nhaving one that I treated as a main machine. This way, the system will be able\nto use its resources more easily, and means I don't have to faff about with\nforwarding hardware devices like a GPU. It's taken some time but it's finally in\na spot that I'm happy with at the moment, and is in parity with what I was\nrunning on the old server!\n\nI didn't get around to doing anything non-technical this week, sadly, however I\ndid have dinner with my parents on Saturday which was a nice little thing.\n",
-          "title": "Weeknote 09, 2025 (March 2nd, 2025)"
+          "title": "2025-w09"
         }
       },
       {
@@ -571,7 +544,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nShort entry for this week because my brain is dumb and empty rn.\n\nI decided to finally pull out the heirloom tomato vine this week. It's been\nlooking really unhealthy for the past while and the fruit weren't faring any\nbetter, so I decided to just cut my losses. This is the second time I haven't\ngotten any success out of heirloom tomatoes, so I think next season I'm going to\njust try a regular variety and hope they're more resistant. In brighter news,\nthe \"mustard\" habaneros I planted alongside the tomatoes is finally starting to\nbear fruit! Can't wait for them to mature and see how it turns out.\n\nI found out about NixOS'\n[specialisations](https://wiki.nixos.org/wiki/Specialisation) feature this week,\nand so I've taken this as an excuse to finally experiment with a Niri setup,\nwithout needing to completely remove my current KDE environment. Haven't done\nmuch with it yet but hoping to have some good progress in the coming weeks.\n\nThis week's song is\n[Massane & Thandi - Lose My Head](https://www.youtube.com/watch?v=mFCG30aqAvE).\n",
-          "title": "Weeknote 10, 2025 (March 9th, 2025)"
+          "title": "2025-w10"
         }
       },
       {
@@ -580,7 +553,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nBit of a downer week for me, personally. The weather has been less than ideal,\nso I didn't go on any walks or do any gardening sadly. And the last few days\nhave been less than ideal, but I'm making it through. It wasn't all bad though.\n\nOn two of the milder days during the week, I decided to some intense VR\nsessions, playing through new [Synth Riders](https://synthridersvr.com/) maps\nand progressing through [Until You Fall](https://untilyoufall.schellgames.com/).\nI hope to try and keep this up as an alternative to walking for exercise,\nespecially on days where I can't/don't want to go walking.\n\nI set up [Immich](https://immich.app/) on my home server as an experiment. Going\nto go through and sort some of the media into albums and whatnot just to see how\nit is. It's also good to have a backup that isn't just tied to Apple (I do need\nto set up Borg backups for it though). I also installed a drive bay for the\nserver to clean up the birds nest that was the drives just being scattered all\nover the insides of the case. I also had a case where two drives weren't\nconnected properly for some reason so had dropped out of the ZFS pool, but\nputting everything into the bay has fixed that and it's all working normally\nnow!\n\nThis week's song is\n[MOTSA, Jody Wisternoff & James Grant - Feel This Way](https://www.youtube.com/watch?v=a3P_Gjf8eUg).\n",
-          "title": "Weeknote 11, 2025 (March 16th, 2025)"
+          "title": "2025-w11"
         }
       },
       {
@@ -589,7 +562,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nI'm doing better this week, thanks to some help from my friends, and taking time\noff work for a few days. Here's some things that happened over the course of the\nweek.\n\n- My housemate's SSD died early in the week so we got a new one for her and she\n  wanted to switch to Linux Mint instead of Windows! Had a few initial pains\n  with it at first but it seems to be stable for her now!\n- I set up [Hoarder](https://hoarder.app) on my home server to see how it\n  compares to [Linkwarden](https://linkwarden.app). So far, Linkwarden appears\n  to be more oriented towards archival and backups of internet resources,\n  whereas Hoarder is more link, note, and image aggregation. Kinda like a\n  selfhosted Pinterest. Hoarder also displays images in a better way than\n  Linkwarden, so I think I'm going to keep both around and have them for their\n  different uses. My main goal for using Hoarder at the current moment is to put\n  together some lists for outfit ideas that interest me.\n- While I was setting up Hoarder, I figured I would use it as an excuse to fool\n  around with [Ollama](https://ollama.com) as it has support for tag inference\n  from saved items. It actually works surprisingly well for the task, although\n  of course comes with the fuzziness that is inherent with generative machine\n  learning.\n- My housemates and I started a play through of Borderlands out of the blue a\n  few days ago. I've always really enjoyed the series, but never had anyone\n  consistent to play it with so never actually completed any of the games except\n  for Borderlands 3 a year or so ago. Hoping to get through all the games with\n  them, and possibly even a bunch of the end game content and DLCs. We'll see.\n- I also did VR exercise a few times this week, getting into the grove of it\n  from inactivity. Really having a blast with it so I hope I'm able to keep it\n  up properly and start losing some weight.\n\nThis week's release is\n[Vanilla - Time Goes By Pt. I](https://www.youtube.com/watch?v=uApM4TvvxNc).\n",
-          "title": "Weeknote 12, 2025 (March 23rd, 2025)"
+          "title": "2025-w12"
         }
       },
       {
@@ -598,7 +571,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nMy weekend has been very very slow. Slept in a bunch and didn't do a whole lot.\nSame as the weather, frankly. I've been in the progress of reshuffling some of\nmy self-hosted apps around, with the goals of eventually decommissioning the\ndedicated server I'm currently renting since my home server is much more\npowerful now. I've been a little inspired since\n[Xe Iaso's Recent talk on their cool homelab setup](https://xeiaso.net/talks/2025/surreal-joy-homelab/?ref=ovyerus.com),\nperhaps I'll do a little write up of my own afterwards; I really should use\n[the blog](/posts) more often.\n\nWork is having our dev team try out the LLM-integrated editor Cursor for a\nwhile. In the interest of being unbiased I have been giving it a fair shot,\nusing it to help author some of my commits of the last week to varying degrees.\nThe autocomplete on tab has been a little nice but can get in the way\noccasionally as it's also my key to complete IntelliSense suggestions, and I\nthink it's actually been sneakily deleting code that is actually used, somehow.\nI've caught it 3 times so far. The chat system is interesting but I haven't\nfound much use in its results for the problems that I face at work. I'm going to\nkeep with it for a while longer, see if there's anything redeeming about it\nfurther on.\n\nAlso it's _locked_ to using cloud AI shit like OpenAI & Claude, sadly. Would\nlike to be able to try it out with my local Ollama instance, but I suppose\nthere's other extensions that would allow me to do so.\n\nI've been a little better at being healthier this week, trying to reduce my\nsnacking frequency and what it is I'm snacking on, as well as easing into more\nfrequent exercising. I've found that the VR exercise has been working really\nwell for me, especially in terms of motivation, so that's going to be my go-to\nfrom now on where possible.\n\nThis week's song is\n[PRAANA - Zilker Gardens Echo](https://www.youtube.com/watch?v=wm7JQG8VptI)\n",
-          "title": "Weeknote 13, 2025 (March 30th, 2025)"
+          "title": "2025-w13"
         }
       },
       {
@@ -607,7 +580,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nSleep has tried its best to elude me this week. I have scratched at its heels\nand managed to catch it yesterday night, but it still wasn't enough. I suppose I\nshould make this quick, so that I may perhaps catch up.\n\n- I started watching\n  [Severance](<https://en.wikipedia.org/wiki/Severance_(TV_series)>) this week,\n  after encouragement from a few friends who have seen it. Halfway through\n  season 1 at the moment; I think it's pretty good so far. It feels in a similar\n  vein to Netflix's [Dark](<https://en.wikipedia.org/wiki/Dark_(TV_series)>)\n  which I really enjoyed, so I'm looking forward to continuing with this.\n- I planted a bunch of carrot seeds (multi-colour variety so they're gonna be\n  pretty!) and also harvested some the mustard habaneros that were ripe finally!\n  <https://aus.social/@ovyerus/114287597581790316> (no embed this time around,\n  sorry).\n- Started a new project as a semi-toy to learn about how the\n  [ATProto](https://atproto.com) works, and potentially build it out into a real\n  app/service. No information on it just yet because I don't want to hype up\n  anything that is this early and could be easily dropped by me.\n- I finally set up proper backups for my home server! Only doing the important\n  data stuff, for the services that need it, as everything else is controlled by\n  NixOS in a Git repository so it's not a problem.\n\nThis week's song is the \"10 Years On\" remake of\n[Oh Wonder - Midnight Moon](https://youtu.be/LTcfT-w_WZk?si=bcOFP_hC9WmPnCx-).\n",
-          "title": "Weeknote 14, 2025 (April 6th, 2025)"
+          "title": "2025-w14"
         }
       },
       {
@@ -616,7 +589,7 @@
         "status": "published",
         "data": {
           "body": "Hello world!\n\nThis edition's a little late because I was a little busy last night and earlier\ntoday. I caught a cold this past week. Not sure exactly where I caught it from,\nbut thankfully I've mostly gotten over it now as it was just rather mild. Still\nwaiting for my sinuses to fully recover.\n\nI did quite a bit of gaming this week. I got my third ever win in\n[Balatro](https://www.playbalatro.com) _finally_, and started playing\n[Stellaris](https://www.paradoxinteractive.com/games/stellaris/about) for the\nfirst time, with my housemates. I was a little resistant to it at first but as\nwe've gotten further into the game I've warmed up a bit and I'm finding it\nrather enjoyable now.\n\nI didn't really get up to much else noteworthy this week sadly, in part due to\nthe cold. However this coming week is going to be relatively big for me and I'm\nvery excited, but I'm going to leave that for next-week me to write about.\n\nThis week's song is\n[Pendulum & Armin van Buuren & Rob Swire - Sound of You](https://www.youtube.com/watch?v=UkALtin4Lf4).\n",
-          "title": "Weeknote 15, 2025 (April 13th, 2025)"
+          "title": "2025-w15"
         }
       },
       {
@@ -632,7 +605,7 @@
               "postCid": "3lncql7gjnc2l"
             }
           },
-          "title": "Weeknote 16, 2025 (April 20th, 2025)"
+          "title": "2025-w16"
         }
       },
       {
@@ -647,7 +620,7 @@
               "postCid": "3lnunbcyic22b"
             }
           },
-          "title": "Weeknote 17, 2025 (April 27th, 2025)"
+          "title": "2025-w17"
         }
       },
       {
@@ -662,7 +635,7 @@
               "postCid": "3logkc3vi2c2m"
             }
           },
-          "title": "Weeknote 18, 2025 (May 4th, 2025)"
+          "title": "2025-w18"
         }
       },
       {
@@ -677,7 +650,7 @@
               "postCid": "3lovrmgupos2v"
             }
           },
-          "title": "Weeknote 19, 2025 (May 11th, 2025)"
+          "title": "2025-w19"
         }
       },
       {
@@ -692,7 +665,7 @@
               "postCid": "3lpyuvdz4s22x"
             }
           },
-          "title": "Weeknote 21, 2025 (May 25th, 2025)"
+          "title": "2025-w21"
         }
       },
       {
@@ -707,7 +680,7 @@
               "postCid": "3lqlujzdnsc2c"
             }
           },
-          "title": "Weeknote 22, 2025 (June 1st, 2025)"
+          "title": "2025-w22"
         }
       },
       {
@@ -722,7 +695,7 @@
               "postCid": "3lr653mq7nk2m"
             }
           },
-          "title": "Weeknote 23, 2025 (June 8th, 2025)"
+          "title": "2025-w23"
         }
       },
       {
@@ -737,7 +710,7 @@
               "postCid": "3lrp3ctec5c2u"
             }
           },
-          "title": "Weeknote 24, 2025 (June 15th, 2025)"
+          "title": "2025-w24"
         }
       },
       {
@@ -752,7 +725,7 @@
               "postCid": "3lsbb4vi6222o"
             }
           },
-          "title": "Weeknote 25, 2025 (June 22nd, 2025)"
+          "title": "2025-w25"
         }
       },
       {
@@ -767,7 +740,7 @@
               "postCid": "3lsugq62lxc2g"
             }
           },
-          "title": "Weeknote 26, 2025 (June 29th, 2025)"
+          "title": "2025-w26"
         }
       },
       {
@@ -782,7 +755,7 @@
               "postCid": "3ltdjycvvak2i"
             }
           },
-          "title": "Weeknote 27, 2025 (July 6th, 2025)"
+          "title": "2025-w27"
         }
       },
       {
@@ -799,7 +772,7 @@
               "postCid": "3ltw57ri3vc26"
             }
           },
-          "title": "Weeknote 28, 2025 (July 13th, 2025)"
+          "title": "2025-w28"
         }
       },
       {
@@ -814,7 +787,7 @@
               "postCid": "3luhpsko5xs2h"
             }
           },
-          "title": "Weeknote 29, 2025 (July 20th, 2025)"
+          "title": "2025-w29"
         }
       },
       {
@@ -829,7 +802,7 @@
               "postCid": "3luygs7ec2c2z"
             }
           },
-          "title": "Weeknote 30, 2025 (July 27th, 2025)"
+          "title": "2025-w30"
         }
       },
       {
@@ -844,7 +817,7 @@
               "postCid": "3lvlfuloeek23"
             }
           },
-          "title": "Weeknote 31, 2025 (August 3rd, 2025)"
+          "title": "2025-w31"
         }
       },
       {
@@ -859,7 +832,7 @@
               "postCid": "3lw2d5ya5u22k"
             }
           },
-          "title": "Weeknote 32, 2025 (August 10th, 2025)"
+          "title": "2025-w32"
         }
       },
       {
@@ -874,7 +847,7 @@
               "postCid": "3lwoifpmwcc27"
             }
           },
-          "title": "Weeknote 33, 2025 (August 17th, 2025)"
+          "title": "2025-w33"
         }
       },
       {
@@ -889,7 +862,7 @@
               "postCid": "3lx7w5kchuk2k"
             }
           },
-          "title": "Weeknote 34, 2025 (August 24th, 2025)"
+          "title": "2025-w34"
         }
       },
       {
@@ -904,7 +877,7 @@
               "postCid": "3lxrsbrybzk25"
             }
           },
-          "title": "Weeknote 35, 2025 (August 31st, 2025)"
+          "title": "2025-w35"
         }
       },
       {
@@ -919,7 +892,7 @@
               "postCid": "3lycx7wcs5c2g"
             }
           },
-          "title": "Weeknote 36, 2025 (September 7th, 2025)"
+          "title": "2025-w36"
         }
       },
       {
@@ -935,7 +908,7 @@
               "postCid": "3lyupl5j3ik2j"
             }
           },
-          "title": "Weeknote 37, 2025 (September 14th, 2025)"
+          "title": "2025-w37"
         }
       },
       {
@@ -950,7 +923,7 @@
               "postCid": "3lzgirkump22g"
             }
           },
-          "title": "Weeknote 38, 2025 (September 21st, 2025)"
+          "title": "2025-w38"
         }
       },
       {
@@ -965,7 +938,7 @@
               "postCid": "3lzx52qv2nk2y"
             }
           },
-          "title": "Weeknote 39, 2025 (September 28th, 2025)"
+          "title": "2025-w39"
         }
       },
       {
@@ -980,7 +953,7 @@
               "postCid": "3m2jhqgs7ac2v"
             }
           },
-          "title": "Weeknote 40, 2025 (October 5th, 2025)"
+          "title": "2025-w40"
         }
       },
       {
@@ -995,7 +968,7 @@
               "postCid": "3m34ealmnys2j"
             }
           },
-          "title": "Weeknote 41, 2025 (October 12th, 2025)"
+          "title": "2025-w41"
         }
       },
       {
@@ -1010,7 +983,7 @@
               "postCid": "3m3mmufr2xc2p"
             }
           },
-          "title": "Weeknote 42, 2025 (October 19th, 2025)"
+          "title": "2025-w42"
         }
       },
       {
@@ -1025,7 +998,7 @@
               "postCid": "3m45iidshbc2y"
             }
           },
-          "title": "Weeknote 43, 2025 (October 26th, 2025)"
+          "title": "2025-w43"
         }
       },
       {
@@ -1040,7 +1013,7 @@
               "postCid": "3m4rnehxwyk2l"
             }
           },
-          "title": "Weeknote 44, 2025 (November 2nd, 2025)"
+          "title": "2025-w44"
         }
       },
       {
@@ -1055,7 +1028,7 @@
               "postCid": "3m5ay7ppkfs22"
             }
           },
-          "title": "Weeknote 45, 2025 (November 9th, 2025)"
+          "title": "2025-w45"
         }
       },
       {
@@ -1071,7 +1044,7 @@
               "postCid": "3m5s7f7fiq22i"
             }
           },
-          "title": "Weeknote 46, 2025 (November 16th, 2025)"
+          "title": "2025-w46"
         }
       },
       {
@@ -1086,7 +1059,7 @@
               "postCid": "3m6dm5qc4z22p"
             }
           },
-          "title": "Weeknote 47, 2025 (November 23rd, 2025)"
+          "title": "2025-w47"
         }
       },
       {
@@ -1101,7 +1074,7 @@
               "postCid": "3m6vmbip7a22x"
             }
           },
-          "title": "Weeknote 48, 2025 (November 30th, 2025)"
+          "title": "2025-w48"
         }
       },
       {
@@ -1116,7 +1089,7 @@
               "postCid": "3m7j7xgh5g22d"
             }
           },
-          "title": "Weeknote 49, 2025 (December 7th, 2025)"
+          "title": "2025-w49"
         }
       },
       {
@@ -1131,7 +1104,7 @@
               "postCid": "3ma3y2wgymk2g"
             }
           },
-          "title": "Weeknote 50, 2025 (December 14th, 2025)"
+          "title": "2025-w50"
         }
       },
       {
@@ -1146,7 +1119,7 @@
               "postCid": "3mans2bvczs2e"
             }
           },
-          "title": "Weeknote 51, 2025 (December 21st, 2025)"
+          "title": "2025-w51"
         }
       },
       {
@@ -1162,7 +1135,7 @@
               "postCid": "3mb674vmwik2j"
             }
           },
-          "title": "Weeknote 52, 2025 (December 28th, 2025)"
+          "title": "2025-w52"
         }
       },
       {
@@ -1177,7 +1150,7 @@
               "postCid": "3mblzhidahk2i"
             }
           },
-          "title": "Weeknote 01, 2026 (January 4th, 2026)"
+          "title": "2026-w01"
         }
       },
       {
@@ -1192,7 +1165,7 @@
               "postCid": "3mcazsz7j2k2y"
             }
           },
-          "title": "Weeknote 02, 2026 (January 11th, 2026)"
+          "title": "2026-w02"
         }
       },
       {
@@ -1207,7 +1180,7 @@
               "postCid": "3mcrioaf2oc2o"
             }
           },
-          "title": "Weeknote 03, 2026 (January 18th, 2026)"
+          "title": "2026-w03"
         }
       },
       {
@@ -1222,7 +1195,7 @@
               "postCid": "3mdfuqt55os2f"
             }
           },
-          "title": "Weeknote 04, 2026 (January 25th, 2026)"
+          "title": "2026-w04"
         }
       },
       {
@@ -1237,7 +1210,7 @@
               "postCid": "3mdxj22gul22p"
             }
           },
-          "title": "Weeknote 05, 2026 (February 1st, 2026)"
+          "title": "2026-w05"
         }
       },
       {
@@ -1252,7 +1225,7 @@
               "postCid": "3mega2vsqs223"
             }
           },
-          "title": "Weeknote 06, 2026 (February 8th, 2026)"
+          "title": "2026-w06"
         }
       },
       {
@@ -1267,7 +1240,7 @@
               "postCid": "3mexeyegelc2b"
             }
           },
-          "title": "Weeknote 07, 2026 (February 15th, 2026)"
+          "title": "2026-w07"
         }
       },
       {
@@ -1282,7 +1255,7 @@
               "postCid": "3mfj3mxtjj226"
             }
           },
-          "title": "Weeknote 08, 2026 (February 22nd, 2026)"
+          "title": "2026-w08"
         }
       },
       {
@@ -1297,7 +1270,7 @@
               "postCid": "33mg3ct2wapc2a6"
             }
           },
-          "title": "Weeknote 09, 2026 (March 1st, 2026)"
+          "title": "2026-w09"
         }
       },
       {
@@ -1312,7 +1285,7 @@
               "postCid": "3mgo6plhkac25"
             }
           },
-          "title": "Weeknote 10, 2026 (March 8th, 2026)"
+          "title": "2026-w10"
         }
       },
       {
@@ -1327,7 +1300,7 @@
               "postCid": "3mh3x2ww3gc25"
             }
           },
-          "title": "Weeknote 11, 2026 (March 15th, 2026)"
+          "title": "2026-w11"
         }
       },
       {
@@ -1342,7 +1315,7 @@
               "postCid": "3mhnop7hohc25"
             }
           },
-          "title": "Weeknote 12, 2026 (March 22nd, 2026)"
+          "title": "2026-w12"
         }
       },
       {
@@ -1359,7 +1332,7 @@
               "postCid": "3mif3qudqrc2a"
             }
           },
-          "title": "Weeknote 13, 2026 (March 29th, 2026)"
+          "title": "2026-w13"
         }
       },
       {
@@ -1374,7 +1347,7 @@
               "postCid": "3mjgxc7boc22s"
             }
           },
-          "title": "Weeknote 15, 2026 (April 12th, 2026)"
+          "title": "2026-w15"
         }
       },
       {
@@ -1389,7 +1362,7 @@
               "postCid": "3mjyuge3hck2i"
             }
           },
-          "title": "Weeknote 16, 2026 (April 19th, 2026)"
+          "title": "2026-w16"
         }
       },
       {
@@ -1404,7 +1377,7 @@
               "postCid": "3mkhxvrm3l227"
             }
           },
-          "title": "Weeknote 17, 2026 (April 26th, 2026)"
+          "title": "2026-w17"
         }
       },
       {
@@ -1419,7 +1392,7 @@
               "postCid": "3mkznuxk7m22d"
             }
           },
-          "title": "Weeknote 18, 2026 (May 3rd, 2026)"
+          "title": "2026-w18"
         }
       },
       {
@@ -1434,7 +1407,7 @@
               "postCid": "3mlo27wbkt22j"
             }
           },
-          "title": "Weeknote 19, 2026 (May 10th, 2026)"
+          "title": "2026-w19"
         }
       },
       {
@@ -1449,7 +1422,7 @@
               "postCid": "3mmdzpubhuc2b"
             }
           },
-          "title": "Weeknote 20, 2026 (May 17th, 2026)"
+          "title": "2026-w20"
         }
       },
       {
@@ -1464,7 +1437,7 @@
               "postCid": "3mmookrnlhk2d"
             }
           },
-          "title": "Weeknote 21, 2026 (May 24th, 2026)"
+          "title": "2026-w21"
         }
       },
       {
@@ -1479,7 +1452,7 @@
               "postCid": "3mna2tklquk2r"
             }
           },
-          "title": "Weeknote 22, 2026 (May 31st, 2026)"
+          "title": "2026-w22"
         }
       },
       {
@@ -1494,7 +1467,7 @@
               "postCid": "3mntg5szo7227"
             }
           },
-          "title": "Weeknote 23, 2026 (June 7th, 2026)"
+          "title": "2026-w23"
         }
       },
       {
@@ -1509,7 +1482,7 @@
               "postCid": "3moesdyvk6c2y"
             }
           },
-          "title": "Weeknote 24, 2026 (June 14th, 2026)"
+          "title": "2026-w24"
         }
       },
       {
@@ -1524,7 +1497,7 @@
               "postCid": "3mp2bsk456k2c"
             }
           },
-          "title": "Weeknote 25, 2026 (June 21st, 2026)"
+          "title": "2026-w25"
         }
       },
       {
@@ -1539,7 +1512,7 @@
               "postCid": "3mpg2lokxuc2j"
             }
           },
-          "title": "Weeknote 26, 2026 (June 28th, 2026)"
+          "title": "2026-w26"
         }
       },
       {
@@ -1554,7 +1527,7 @@
               "postCid": "3mpy6yzw4gk2z"
             }
           },
-          "title": "Weeknote 27, 2026 (July 5th, 2026)"
+          "title": "2026-w27"
         }
       },
       {
@@ -1569,7 +1542,7 @@
               "postCid": "3mqisp7xb2c2u"
             }
           },
-          "title": "Weeknote 28, 2026 (July 12th, 2026)"
+          "title": "2026-w28"
         }
       },
       {
@@ -1584,7 +1557,7 @@
               "postCid": "3mr3bbrlwh22a"
             }
           },
-          "title": "Weeknote 29, 2026 (July 19th, 2026)"
+          "title": "2026-w29"
         }
       },
       {
@@ -1599,7 +1572,7 @@
               "postCid": "3mrovscwwss2u"
             }
           },
-          "title": "Weeknote 30, 2026 (July 26th, 2026)"
+          "title": "2026-w30"
         }
       },
       {
@@ -1614,7 +1587,7 @@
               "postCid": "3msacykct3s27"
             }
           },
-          "title": "Weeknote 31, 2026 (August 2nd, 2026)"
+          "title": "2026-w31"
         }
       },
       {
@@ -1629,7 +1602,7 @@
               "postCid": "3mty7dfuyx22s"
             }
           },
-          "title": "Weeknote 34, 2026 (August 23rd, 2026)"
+          "title": "2026-w34"
         }
       },
       {
@@ -1644,7 +1617,7 @@
               "postCid": "3mutu4h6qoc2t"
             }
           },
-          "title": "Weeknote 36, 2026 (September 6th, 2026)"
+          "title": "2026-w36"
         }
       },
       {
@@ -1659,7 +1632,7 @@
               "postCid": "3mwkafqgwkk2f"
             }
           },
-          "title": "Weeknote 39, 2026 (September 27th, 2026)"
+          "title": "2026-w39"
         }
       },
       {
@@ -1674,7 +1647,7 @@
               "postCid": "3mx4zgbafkk24"
             }
           },
-          "title": "Weeknote 40, 2026 (October 4th, 2026)"
+          "title": "2026-w40"
         }
       },
       {
@@ -1689,7 +1662,22 @@
               "postCid": "3mxomil4f422k"
             }
           },
-          "title": "Weeknote 41, 2026 (October 11th, 2026)"
+          "title": "2026-w41"
+        }
+      },
+      {
+        "id": "weeknotes-2026-w42",
+        "slug": "2026-w42",
+        "status": "published",
+        "data": {
+          "body": "\nI had a pretty fun week. Sleep schedule is still quite shit, haven't done much\nto improve it, which I really do need to do.\n\nOn Monday I went out to Centrelink to clear up some problems with my JobSeeker.\nIrritating that I had to go in person to get anything done but I did get it\nsorted thankfully. To make the trip into town worth it I decided to meet up with\na friend for lunch, and to also get a Pixel 3a XL from him, which I'm going to\nbe using as a dev device for a few ideas I'm trying out. I've got plain\nLineageOS installed on it now, without any Google apps for the time being. The\nlast time I used Android was in 2020 so a lot of the current styling stuff is\nquite new to me, I rather enjoy it. Though I still prefer Apple's current design\nsystem.\n\nI set up a Vintage Story server for a group of friends on request. We got a few\nmods to add a bunch of extra food, races, classes, and some general prettiness.\nNothing too major. We've gotten to our first winter and are actually doing quite\nwell! I might end up sharing some pictures of our progress soon.\n\nFor the weekend I'm down visiting family & friends since it's been a hot minute,\nas I wasn't able to go down on my birthday last month due to getting sick. It'll\nmostly be chilling as usual, but a nice change of pace.\n",
+          "comments": {
+            "bsky": {
+              "did": "ovyerus.com",
+              "postCid": "3mybnzczrkk24"
+            }
+          },
+          "title": "2026-w42"
         }
       }
     ],
