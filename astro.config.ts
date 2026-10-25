@@ -46,6 +46,15 @@ export default defineConfig({
             new URL("./src/lib/emdash-weeknotes.ts", import.meta.url),
           ),
         },
+        {
+          id: "weeknote-bluesky",
+          version: "1.0.0",
+          format: "standard",
+          capabilities: ["content:write"],
+          entrypoint: fileURLToPath(
+            new URL("./src/lib/emdash-bluesky.ts", import.meta.url),
+          ),
+        },
       ],
       authProviders: [
         atproto({

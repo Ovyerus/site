@@ -108,6 +108,11 @@
           }
         },
         {
+          "slug": "bluesky_announcement",
+          "label": "Bluesky announcement (plain-text teaser)",
+          "type": "text"
+        },
+        {
           "slug": "comments",
           "label": "Bluesky thread (bsky: did, postCid)",
           "type": "json"

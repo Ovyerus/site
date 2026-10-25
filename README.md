@@ -28,11 +28,12 @@ EmDash owns published content at request time:
 - **Posts:** title, description, Markdown body, tags, original written/modified
   dates, and optional Bluesky thread metadata. The tag picker starts with the
   archive's existing tags; add new choices in **Content Types → Posts → Tags**.
-- **Weeknotes:** Markdown body, subtitle, description, and Bluesky thread
-  metadata. Set both **ISO week** (the admin title) and the slug to the same
-  real ISO week, e.g. `2026-w43`. Titles are checked on save; publishing and
-  scheduling reject malformed slugs, nonexistent week 53, and mismatched titles.
-  Public titles and dates still derive from the ISO week.
+- **Weeknotes:** Markdown body, subtitle, description, Bluesky thread metadata,
+  and an optional Bluesky announcement teaser. Set both **ISO week** (the admin
+  title) and the slug to the same real ISO week, e.g. `2026-w43`. Titles are
+  checked on save; publishing and scheduling reject malformed slugs, nonexistent
+  week 53, and mismatched titles. Public titles and dates still derive from the
+  ISO week.
 - **Pages:** About and Uses, plus new pages at `/{slug}`. Avoid reserved routes
   such as `posts`, `weeknotes`, `og`, and `_emdash`.
 - **Homepage:** tagline, contact email, title metadata, and homepage social
@@ -49,9 +50,52 @@ Back up the database, uploads, and encryption key together. The original files
 under `src/content/` are import archives, not a second live content source.
 `pnpm cms:import` creates `data/` if needed, regenerates `seed/seed.json`, and
 initializes or migrates `data/emdash.db` before importing missing entries. Its
-`skip` conflict policy does not overwrite existing CMS article edits. It also
-runs the weeknote migration described below. The seed is only initial content,
-not a deployment-time synchronization mechanism.
+`skip` conflict policy does not overwrite existing CMS article edits. It runs
+both the weeknote and Bluesky announcement schema migrations. The seed is only
+initial content, not a deployment-time synchronization mechanism.
+
+### Bluesky weeknote announcements
+
+Weeknote announcements are opt-in per entry: fill **Bluesky announcement** with
+the plain-text teaser only; leave it blank to skip. Markdown is not interpreted.
+The complete post must fit Bluesky's 300-grapheme and 3000-byte limits,
+including the generated tag and link; oversized teasers are rejected on save. On
+publish, the site adds `#weeknotes` and the weeknote link, and builds the rich
+card from the existing title, description, and Open Graph data. The generated
+post is attached to the entry's existing `comments` JSON metadata. Existing
+manual Bluesky threads are preserved, and each eligible weeknote is announced at
+most once; failed posts are retried using persistent job state. Private drafts
+are never announced or overwritten: automation operates on the published entry
+and preserves private draft content and status.
+
+The worker handles one queued entry per minute. Publishing ensures the recurring
+task exists and reconciles published weeknotes. With no backlog, an announcement
+normally appears on the next run. Enabling the worker also picks up
+already-published entries with a teaser and no existing thread; imported archive
+entries start with no teaser. Failures retry with exponential backoff. After a
+process crash, EmDash's scheduler lock can delay recovery for about ten minutes.
+
+The `comments.bsky.postCid` field keeps its existing name but contains the
+post's record key, not its `bafyre…` CID. The job stores the actual CID
+separately.
+
+Outgoing Bluesky requests require all runtime gates: set `NODE_ENV=production`,
+`BLUESKY_ANNOUNCE_ENABLED=true`, a dedicated `BLUESKY_APP_PASSWORD`, and
+`BLUESKY_PDS_URL` to the account's actual PDS (`https://pds.ovy.cloud`). The
+allowed author is fixed to `did:plc:jrrhosrfzgjf6v4oydav6ftb`; use credentials
+for that account. Store the app password only in the production runtime's secret
+manager; never commit it. Development is not allowed to post. This app password
+is separate from Atmosphere login, and OAuth login does not grant permission to
+create announcements.
+
+For each existing database, deploy the updated `weeknotes` schema before
+starting the new runtime. `pnpm cms:import` runs the
+`migrate-bluesky-announcements.mjs` migration automatically; on a deployment
+database, run `node scripts/migrate-bluesky-announcements.mjs` against that
+database before starting the updated server. This migration only adds the
+nullable field and its editor schema; it does not rewrite entries or historical
+revisions. The updated runtime cannot store announcement teasers on an
+unmigrated database.
 
 Run `pnpm build` for standalone Node production output, then `pnpm preview` to
 serve it locally with the private `.env` file. Run
@@ -61,13 +105,14 @@ dependencies, excluding local data and secrets.
 
 ### Weeknote identifiers
 
-For an existing database, run `node scripts/migrate-weeknotes.mjs` before using
-the updated editor, or pass a different SQLite path as its first argument. The
-migration converts existing admin titles to their `YYYY-wWW` slugs, updates the
-current live/draft revision pointers, and installs the title format constraint
-and SQLite publication guards. Staged drafts use their staged slug. Historical
-revisions, article bodies, publication dates, and private draft edits are
-preserved; rerunning the migration makes no further content changes.
+For an existing database, run `node scripts/migrate-weeknotes.mjs` and
+`node scripts/migrate-bluesky-announcements.mjs` before using the updated
+editor, or pass a different SQLite path as the first argument to each script.
+The migration converts existing admin titles to their `YYYY-wWW` slugs, updates
+the current live/draft revision pointers, and installs the title format
+constraint and SQLite publication guards. Staged drafts use their staged slug.
+Historical revisions, article bodies, publication dates, and private draft edits
+are preserved; rerunning the migration makes no further content changes.
 
 The `weeknote-iso-week` EmDash plugin provides save, publish, and scheduling
 feedback. SQLite guards also reject invalid published/scheduled rows written by

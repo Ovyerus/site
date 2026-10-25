@@ -13,6 +13,12 @@ const body = field("body", "Body (Markdown)", "text", {
   options: { rows: 24 },
 });
 const description = field("description", "Description", "text");
+
+const announcement = field(
+  "bluesky_announcement",
+  "Bluesky announcement (plain-text teaser)",
+  "text",
+);
 const comments = field(
   "comments",
   "Bluesky thread (bsky: did, postCid)",
@@ -71,6 +77,7 @@ const seed = {
         field("subtitle", "Subtitle"),
         description,
         body,
+        announcement,
         comments,
       ],
     },

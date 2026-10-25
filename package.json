@@ -15,7 +15,7 @@
     "preview": "node --env-file=.env dist/server/entry.mjs",
     "astro": "astro",
     "test": "vitest",
-    "cms:import": "node scripts/import-content.mjs && emdash seed seed/seed.json --database ./data/emdash.db --on-conflict skip && node scripts/migrate-weeknotes.mjs"
+    "cms:import": "node scripts/import-content.mjs && emdash seed seed/seed.json --database ./data/emdash.db --on-conflict skip && node scripts/migrate-weeknotes.mjs && node scripts/migrate-bluesky-announcements.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.2",

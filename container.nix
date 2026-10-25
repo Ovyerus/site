@@ -11,7 +11,7 @@ dockerTools.buildLayeredImage {
 
   config = {
     Cmd = ["${nodejs_24}/bin/node" "${site}/dist/server/entry.mjs"];
-    Env = ["HOST=0.0.0.0" "PORT=8080"];
+    Env = ["HOST=0.0.0.0" "PORT=8080" "NODE_ENV=production"];
     WorkingDir = "/";
   };
 }
