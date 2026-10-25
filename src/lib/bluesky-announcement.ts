@@ -1,4 +1,5 @@
 import { getWeeknoteStrings } from "./weeknotes";
+import { isReadOnlyReplica } from "./deployment";
 import type { AnnouncementJob } from "./bluesky-announcement-store";
 
 export const announcementDid = "did:plc:jrrhosrfzgjf6v4oydav6ftb";
@@ -13,6 +14,7 @@ export interface AnnouncementConfig {
 
 export function announcementConfig(): AnnouncementConfig | null {
   if (
+    isReadOnlyReplica() ||
     process.env.NODE_ENV !== "production" ||
     process.env.BLUESKY_ANNOUNCE_ENABLED !== "true"
   ) {

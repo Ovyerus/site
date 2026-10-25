@@ -7,10 +7,12 @@ import {
   publishAnnouncement,
 } from "./bluesky-announcement";
 import { AnnouncementStore } from "./bluesky-announcement-store";
+import { isReadOnlyReplica } from "./deployment";
 
 const taskName = "announce-weeknotes";
 
 async function schedule(ctx: PluginContext) {
+  if (isReadOnlyReplica()) return;
   if (!ctx.cron)
     throw new Error("Bluesky announcements require EmDash's cron scheduler.");
   if (!(await ctx.cron.list()).some((task) => task.name === taskName)) {

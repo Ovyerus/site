@@ -35,7 +35,7 @@ EmDash owns published content at request time:
   week 53, and mismatched titles. Public titles and dates still derive from the
   ISO week.
 - **Pages:** About and Uses, plus new pages at `/{slug}`. Avoid reserved routes
-  such as `posts`, `weeknotes`, `og`, and `_emdash`.
+  such as `posts`, `weeknotes`, `og`, `healthz`, and `_emdash`.
 - **Homepage:** tagline, contact email, title metadata, and homepage social
   URLs. Layout, wordmark artwork, navigation, and article-footer links remain
   code.
@@ -184,19 +184,32 @@ in any already-open omp sessions after changing `.omp/mcp.json`.
 
 ## Review before deployment
 
-The deployment workflow is manual (`workflow_dispatch`); pushing to main no
-longer publishes an image or deploys. Nothing is deployed by local development.
-The old static Caddy runtime has been replaced by Node on port 8080. The
-container runs from `/`, so the configured relative data paths resolve to
-`/data/emdash.db` and `/data/uploads`.
+Pushing to `main` builds, tests, and deploys the site automatically. Manual runs
+remain available through `workflow_dispatch` on `main`. Deployments are
+serialized and an active rollout is never cancelled by a newer push. Nothing is
+deployed by local development. The container now runs LiteFS in front of Node: a
+fixed Sydney writer and two regional read replicas. Shared media stays in public
+`ovy-cdn/blog/` behind Bunny; backups and transfer staging use a separate
+private B2 bucket. Missing private-bucket configuration fails closed rather than
+falling back to public storage. No extra CDN configuration is needed for the
+private bucket. The application reads `/litefs/emdash.db`; `/data` holds each
+Machine's private LiteFS files and primary-only sessions. Local development
+still defaults to `data/emdash.db`, `data/uploads`, and `data/sessions`.
 
-Before an approved Fly deployment, create a persistent volume named `data` in
-`syd`, provide `EMDASH_ENCRYPTION_KEY` through runtime secrets, set
-`EMDASH_SITE_URL=https://ovyerus.com`, and arrange database/media backups.
-Transfer the reviewed local content using EmDash's site export/import workflow
-or a consistent database/uploads backup; do not bake private state into the
-image. Fly is configured to keep the server running for scheduled publication.
-The manual GitHub deployment also needs its existing `FLY_API_TOKEN`.
+Follow the [Fly deployment runbook](docs/fly-deployment.md) for required runtime
+secrets, per-region volumes, explicit one-time seed bootstrap, primary-first
+rollout, B2 CORS, verification, backups, and manual failover. No deployment is
+performed by local development. The GitHub deployment needs its existing
+`FLY_API_TOKEN` secret and the `FLY_PRIMARY_MACHINE_ID` /
+`FLY_REPLICA_MACHINE_IDS` repository variables, naming the three volume-backed
+targets. It deploys the primary first, then replicas, using the same image
+digest and explicit targets. The initial volume migration/bootstrap is a
+separate, manually verified rollout.
+
+EmDash is pinned to 1.2.0 with a maintained replica-safety patch. Replicas
+enforce read-only SQLite and do not run migrations, maintenance, telemetry
+writes, or announcement jobs. Changing the dependency version requires
+updating/re-auditing the patch and running the replica smoke tests.
 
 The sitemap is generated from published CMS entries at `/sitemap.xml`;
 `/rss.xml` still redirects to `/posts/rss.xml`. The static-build shortlink

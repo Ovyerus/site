@@ -26,6 +26,8 @@
     "@atcute/bluesky": "^4.0.24",
     "@atcute/client": "^5.1.2",
     "@atcute/lexicons": "^2.1.1",
+    "@aws-sdk/client-s3": "^3.1156.0",
+    "@aws-sdk/s3-request-presigner": "^3.1156.0",
     "@emdash-cms/auth-atproto": "^0.2.47",
     "@fec/remark-a11y-emoji": "^4.0.2",
     "@fontsource-variable/montserrat": "^5.2.8",
@@ -40,7 +42,7 @@
     "astro": "^6.4.8",
     "astro-seo": "^0.8.4",
     "date-fns": "^4.1.0",
-    "emdash": "^1.2.0",
+    "emdash": "1.2.0",
     "hastscript": "^9.0.1",
     "markdown-it": "^14.1.0",
     "react": "^19.3.0",
@@ -54,6 +56,7 @@
     "svelte": "^5.57.2",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2",
+    "unstorage": "^1.17.5",
     "yaml": "^2.9.1"
   },
   "devDependencies": {

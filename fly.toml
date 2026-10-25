@@ -13,12 +13,37 @@ primary_region = 'syd'
   internal_port = 8080
   force_https = true
   auto_stop_machines = 'off'
-  auto_start_machines = true
-  min_machines_running = 1
+  auto_start_machines = false
+  min_machines_running = 0
   processes = ['app']
+
+  [[http_service.checks]]
+    grace_period = "30s"
+    interval = "15s"
+    timeout = "5s"
+    method = "GET"
+    path = "/healthz"
+
+  [[http_service.checks]]
+    grace_period = "30s"
+    interval = "15s"
+    timeout = "5s"
+    method = "GET"
+    path = "/litefs/health"
+
+[env]
+  EMDASH_STORAGE = "s3"
+  S3_ENDPOINT = "https://s3.us-west-004.backblazeb2.com"
+  S3_REGION = "us-west-004"
+  S3_BUCKET = "ovy-cdn"
+  PRIVATE_S3_BUCKET = "ovy-site-priv"
+  S3_PUBLIC_URL = "https://cdn.ovy.cloud"
+  EMDASH_DATABASE_URL = "file:/litefs/emdash.db"
+  EMDASH_MIGRATIONS_MODE = "check"
 [[mounts]]
   source = 'data'
   destination = '/data'
 
 [[vm]]
   size = 'shared-cpu-1x'
+  memory = '512mb'

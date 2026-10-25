@@ -47,10 +47,11 @@ stdenv.mkDerivation (finalAttrs: {
         ./package.json
         ./pnpm-lock.yaml
         ./pnpm-workspace.yaml
+        ./patches
       ];
     };
     fetcherVersion = 4;
-    hash = "sha256-GQ6sLLyM90ojhNtLjZc1Xee9u4EtqbNWOG02yfkyKtQ=";
+    hash = "sha256-tDAQEiKh5YysTuWf+KM1iYcHiRy7aM9r6v09DTX83nY=";
   };
 
   buildPhase = ''
@@ -63,9 +64,17 @@ stdenv.mkDerivation (finalAttrs: {
     runHook preInstall
     mkdir -p "$out"
     cp -r dist "$out/dist"
+    mkdir -p "$out/scripts" "$out/seed" "$out/.emdash"
+    cp scripts/start-fly.mjs scripts/prepare-database.mjs scripts/migrate-weeknotes.mjs scripts/migrate-bluesky-announcements.mjs "$out/scripts/"
+    mkdir -p "$out/src/lib"
+    cp src/lib/iso-week.ts "$out/src/lib/"
+    cp seed/seed.json "$out/seed/"
+    cp .emdash/migrations.json "$out/.emdash/"
     cp package.json pnpm-lock.yaml pnpm-workspace.yaml "$out/"
+    cp -r patches "$out/patches"
     pnpm install --prod --offline --frozen-lockfile --frozen-store --ignore-scripts --dir "$out"
     rm "$out/pnpm-lock.yaml" "$out/pnpm-workspace.yaml"
+    rm -r "$out/patches"
     runHook postInstall
   '';
 })

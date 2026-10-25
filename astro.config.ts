@@ -5,11 +5,12 @@ import * as fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import node from "@astrojs/node";
 import react from "@astrojs/react";
-import emdash, { local } from "emdash/astro";
+import emdash from "emdash/astro";
 import { sqlite } from "emdash/db";
 import { markdownOptions } from "./src/lib/astro/markdown";
 import { unified } from "@astrojs/markdown-remark";
 import { atproto } from "@emdash-cms/auth-atproto";
+import { proxySecurity } from "./src/lib/deployment";
 
 const rawFonts = (exts: string[]) => ({
   name: "vite-plugin-ovyerus-raw-fonts",
@@ -30,10 +31,20 @@ export default defineConfig({
   output: "server",
   adapter: node({ mode: "standalone" }),
   server: { host: "127.0.0.1" },
+  security: proxySecurity,
+  session: {
+    driver: {
+      entrypoint: new URL("./src/lib/session-driver.ts", import.meta.url),
+      config: {},
+    },
+  },
   integrations: [
     svelte(),
     react(),
     emdash({
+      middleware: {
+        outer: new URL("./src/lib/fly-middleware.ts", import.meta.url),
+      },
       // Use system fonts in the admin so offline Nix builds never fetch fonts.
       fonts: false,
       plugins: [
@@ -63,11 +74,16 @@ export default defineConfig({
           defaultRole: 50,
         }),
       ],
-      database: sqlite({ url: "file:./data/emdash.db" }),
-      storage: local({
-        directory: "./data/uploads",
-        baseUrl: "/_emdash/api/media/file",
+      database: sqlite({
+        url: "file:./data/emdash.db",
+        urlEnv: "EMDASH_DATABASE_URL",
       }),
+      storage: {
+        entrypoint: fileURLToPath(
+          new URL("./src/lib/emdash-storage.ts", import.meta.url),
+        ),
+        config: {},
+      },
     }),
   ],
   prefetch: {

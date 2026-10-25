@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
 import { invalidateCollectionCache } from "emdash";
+import { databasePath, isReadOnlyReplica } from "./deployment";
 
 export interface AnnouncementJob {
   entryId: string;
@@ -150,7 +151,10 @@ export class AnnouncementStore {
   readonly #db: DatabaseSync;
   readonly #activeClaims = new Map<string, string>();
 
-  constructor(path = "./data/emdash.db") {
+  constructor(path = databasePath()) {
+    if (isReadOnlyReplica()) {
+      throw new Error("Bluesky announcement jobs can only run on the primary.");
+    }
     this.#db = new DatabaseSync(path);
     this.#db.exec("PRAGMA busy_timeout = 5000");
     this.#db.exec("PRAGMA journal_mode = WAL");

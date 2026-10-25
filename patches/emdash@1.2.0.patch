@@ -1,0 +1,531 @@
+diff --git a/dist/adapters-B4-nbElt.d.mts b/dist/adapters-B4-nbElt.d.mts
+index 8da6ac758d40134c3ed53ccdfecc384411af20db..cfd6914bebdb453c73a67b22eb3e203dcaf690af 100644
+--- a/dist/adapters-B4-nbElt.d.mts
++++ b/dist/adapters-B4-nbElt.d.mts
+@@ -97,6 +97,8 @@ interface DatabaseDescriptor {
+   supportsCollectionDeletionGuard?: boolean;
+ }
+ interface SqliteConfig {
++  /** Optional runtime environment variable overriding url. */
++  urlEnv?: string;
+   /**
+    * Database URL (e.g., "file:./data.db")
+    */
+diff --git a/dist/artifacts-D-O-qj9C.mjs b/dist/artifacts-D-O-qj9C.mjs
+index 09f95b79c652149817c0348f614ed85130141d0b..8f8bdc36f8b9f7fda0a0f3fd31a062c232896ac9 100644
+--- a/dist/artifacts-D-O-qj9C.mjs
++++ b/dist/artifacts-D-O-qj9C.mjs
+@@ -1,3 +1,4 @@
++import { isReadOnly } from "./read-only.mjs";
+ import { d as __exportAll } from "./runner-wqt4BrIW.mjs";
+ import { n as isMissingTableError } from "./db-errors-CBD5yMro.mjs";
+ import { t as after } from "./after-PcEvMY_6.mjs";
+@@ -258,6 +259,7 @@ async function repairRedirectArtifacts(db) {
+ 	}
+ }
+ function scheduleRedirectRepair(db) {
++	if (isReadOnly()) return;
+ 	const now = Date.now();
+ 	if (repairState.runningUntil > now) return;
+ 	const runningUntil = now + REPAIR_LEASE_MS;
+diff --git a/dist/astro/middleware/redirect.mjs b/dist/astro/middleware/redirect.mjs
+index 7b9964a28ca15e919f25e6d3dd178299e3d4429d..d280bedbbf26568d081ace9289f38cb74c66afb0 100644
+--- a/dist/astro/middleware/redirect.mjs
++++ b/dist/astro/middleware/redirect.mjs
+@@ -1,3 +1,4 @@
++import { isReadOnly } from "../../read-only.mjs";
+ import "../../dialect-helpers-7_IqPdh9.mjs";
+ import "../../config-CvmjJcVw.mjs";
+ import { t as after } from "../../after-PcEvMY_6.mjs";
+@@ -25,6 +26,7 @@ function warnUnsafeDestination(id) {
+ 	console.warn(`[emdash:redirects] Skipping redirect ${id}: destination is not a site-relative path`);
+ }
+ function recordHitInBackground(repo, id) {
++	if (isReadOnly()) return;
+ 	after(async () => {
+ 		try {
+ 			await repo.recordHit(id);
+@@ -84,7 +86,7 @@ const onRequest = defineMiddleware(async (context, next) => {
+ 		if (response.status === 404) context.cache?.set(false);
+ 		const location = response.headers.get("location");
+ 		const missedByRedirect = isRedirectCode(response.status) && (location === "/404" || location === "/404/");
+-		if (response.status === 404 && pathname !== "/404" && pathname !== "/404/" || missedByRedirect) {
++		if (!isReadOnly() && (response.status === 404 && pathname !== "/404" && pathname !== "/404/" || missedByRedirect)) {
+ 			const referrer = context.request.headers.get("referer") ?? null;
+ 			const userAgent = context.request.headers.get("user-agent") ?? null;
+ 			after(async () => {
+diff --git a/dist/astro/middleware.mjs b/dist/astro/middleware.mjs
+index 1b145f65d556578015f96e7c91455f59e493e96f..8415d0ba141a273b9ed40630be17bf67aa94f561 100644
+--- a/dist/astro/middleware.mjs
++++ b/dist/astro/middleware.mjs
+@@ -1,3 +1,4 @@
++import { isReadOnly } from "../read-only.mjs";
+ import "../runner-wqt4BrIW.mjs";
+ import { n as isMissingTableError } from "../db-errors-CBD5yMro.mjs";
+ import "../dialect-helpers-7_IqPdh9.mjs";
+@@ -707,6 +708,7 @@ const NOOP_COOKIE_JAR = {
+ */
+ const CRON_EVENT_URL = new URL("https://cron.emdash.internal/");
+ function resolveConfiguredMigrationMode(config) {
++	if (isReadOnly()) return "check";
+ 	const processOverride = typeof process !== "undefined" && process.env ? process.env.EMDASH_MIGRATIONS_MODE : void 0;
+ 	const importMetaOverride = import.meta.env.EMDASH_MIGRATIONS_MODE;
+ 	return resolveRuntimeMigrationMode(config.migrations, {
+diff --git a/dist/db/index.mjs b/dist/db/index.mjs
+index 426e2ae0390cc28df92e82e9af9093283e630731..dccbfb91e4215ca64833e6cbbfd12ccb7d8b0e30 100644
+--- a/dist/db/index.mjs
++++ b/dist/db/index.mjs
+@@ -27,7 +27,7 @@ function sqlite(config) {
+ 		type: "sqlite",
+ 		migrations: {
+ 			entrypoint: "emdash/internal/db/sqlite-migrations",
+-			manifestConfig: { url: config.url }
++			manifestConfig: { url: config.url, ...(config.urlEnv ? { urlEnv: config.urlEnv } : {}) }
+ 		}
+ 	};
+ }
+diff --git a/dist/db/sqlite-migrations.d.mts b/dist/db/sqlite-migrations.d.mts
+index a02066193c643c106457f79e36093838f4860b9b..10e5aa4c649673e2eb756a49b4cae69e8f42915a 100644
+--- a/dist/db/sqlite-migrations.d.mts
++++ b/dist/db/sqlite-migrations.d.mts
+@@ -2,6 +2,7 @@ import { i as MigrationExecutorFactoryContext, n as MigrationExecutor } from "..
+ 
+ //#region src/db/sqlite-migrations.d.ts
+ interface SqliteMigrationManifestConfig {
++  urlEnv?: string;
+   url: string;
+ }
+ declare function createMigrationExecutor(manifestConfig: SqliteMigrationManifestConfig, context: MigrationExecutorFactoryContext): Promise<MigrationExecutor>;
+diff --git a/dist/db/sqlite-migrations.mjs b/dist/db/sqlite-migrations.mjs
+index b7f3744ea936184a3948f5dbc1d3e2ff57fd7b53..0fa8f6ddcef46b87c4102d5555c4c00652d92944 100644
+--- a/dist/db/sqlite-migrations.mjs
++++ b/dist/db/sqlite-migrations.mjs
+@@ -10,7 +10,8 @@ import { isAbsolute, resolve } from "node:path";
+ 
+ //#region src/db/sqlite-migrations.ts
+ function resolveDatabasePath(manifestConfig, context) {
+-	const configuredUrl = context.overrides?.database ?? manifestConfig.url;
++	const configuredUrl = context.overrides?.database ??
++		(manifestConfig.urlEnv ? context.env[manifestConfig.urlEnv] : undefined) ?? manifestConfig.url;
+ 	if (typeof configuredUrl !== "string" || configuredUrl.length === 0) throw new Error("SQLite migration database path is missing.");
+ 	const path = configuredUrl.startsWith("file:") ? configuredUrl.slice(5) : configuredUrl;
+ 	if (path.length === 0) throw new Error("SQLite migration database path is missing.");
+diff --git a/dist/db/sqlite.mjs b/dist/db/sqlite.mjs
+index 74c0157b367c076e593b47b12f51fec1ef3de9bc..0ba95f83dfab2e08187c31d11c8a56be952b99b7 100644
+--- a/dist/db/sqlite.mjs
++++ b/dist/db/sqlite.mjs
+@@ -1,3 +1,4 @@
++import { isReadOnly } from "../read-only.mjs";
+ import { t as openNodeSqliteDatabase } from "../node-sqlite-compat-VuyzJw1b.mjs";
+ import { SqliteDialect } from "kysely";
+ 
+@@ -12,8 +13,8 @@ import { SqliteDialect } from "kysely";
+ * Create a SQLite dialect from config
+ */
+ function createDialect(config) {
+-	const url = config.url;
+-	return new SqliteDialect({ database: openNodeSqliteDatabase(url.startsWith("file:") ? url.slice(5) : url, { journalMode: "wal" }) });
++	const url = (config.urlEnv ? process.env[config.urlEnv] : undefined) ?? config.url;
++	return new SqliteDialect({ database: openNodeSqliteDatabase(url.startsWith("file:") ? url.slice(5) : url, { journalMode: "wal", readOnly: isReadOnly() }) });
+ }
+ 
+ //#endregion
+diff --git a/dist/emdash-runtime-C4oFeVpN.mjs b/dist/emdash-runtime-C4oFeVpN.mjs
+index aa2147dfcfeaa96fd712e460098920a9a2bc432b..553352452dcae59ac368e06afcd56dbf0033d405 100644
+--- a/dist/emdash-runtime-C4oFeVpN.mjs
++++ b/dist/emdash-runtime-C4oFeVpN.mjs
+@@ -1,3 +1,4 @@
++import { isReadOnly, assertWritable } from "./read-only.mjs";
+ import { i as MigrationLockHeldError, n as MIGRATION_RACE_WAIT_MS, r as MigrationFailedError } from "./runner-wqt4BrIW.mjs";
+ import { n as isMissingTableError } from "./db-errors-CBD5yMro.mjs";
+ import { d as isSqlite, m as listTablesLike } from "./dialect-helpers-7_IqPdh9.mjs";
+@@ -1189,6 +1190,7 @@ var EmDashRuntime = class EmDashRuntime {
+ 		return { published };
+ 	}
+ 	async runScheduledTasksWithStats(options = {}) {
++		assertWritable();
+ 		if (options.invalidateContentCache) this.pluginContentCacheInvalidator = options.invalidateContentCache;
+ 		let processed = 0;
+ 		if (this.cronExecutor) {
+@@ -1761,11 +1763,11 @@ var EmDashRuntime = class EmDashRuntime {
+ 			await disposeReadDb();
+ 			throw missingManualSchemaError;
+ 		}
+-		if (localeCasingRepairVersion && (configuredLocales.some((locale) => locale.includes("-") || locale !== locale.toLowerCase()) || storedLocaleCasingRepairVersion !== void 0) && storedLocaleCasingRepairVersion !== localeCasingRepairVersion) await phase("rt.locale", "Repair locale casing", async () => {
++		if (!isReadOnly() && localeCasingRepairVersion && (configuredLocales.some((locale) => locale.includes("-") || locale !== locale.toLowerCase()) || storedLocaleCasingRepairVersion !== void 0) && storedLocaleCasingRepairVersion !== localeCasingRepairVersion) await phase("rt.locale", "Repair locale casing", async () => {
+ 			await repairLocaleCasing(db, configuredLocales);
+ 			await new OptionsRepository(db).set(LOCALE_CASING_REPAIR_OPTION, localeCasingRepairVersion);
+ 		});
+-		if (seedCollectionsReadable && !seedComplete && !setupDone) {
++		if (!isReadOnly() && seedCollectionsReadable && !seedComplete && !setupDone) {
+ 			try {
+ 				if ((await activateMediaUsageCapture(db, { writersDrained: true })).outcome !== "active") throw new Error("Fresh-site media usage activation did not complete");
+ 			} catch (error) {
+@@ -1932,6 +1934,7 @@ var EmDashRuntime = class EmDashRuntime {
+ 		let cronExecutor = null;
+ 		let cronScheduler = null;
+ 		await phase("rt.cron", "Cron init (recovery deferred post-response)", async () => {
++			if (isReadOnly()) return;
+ 			try {
+ 				cronExecutor = new CronExecutor(resolveDb, invokeCronHook, deps.now);
+ 				pipeline.setContextFactory({ cronReschedule: () => cronScheduler?.reschedule() });
+@@ -2007,7 +2010,7 @@ var EmDashRuntime = class EmDashRuntime {
+ 		runtimeRef.current = runtime;
+ 		sandboxRunner?.setCommentModerate?.((pluginId, id, status, expectedStatus) => runtime.handlePluginCommentModerate(pluginId, id, status, expectedStatus));
+ 		sandboxRunner?.setContentActions?.(contentActions);
+-		if (ownsConfiguredDb && pluginStatesRead) await phase("rt.lifecycle", "Config plugin install/activate", () => runtime.installUnrecordedConfigPlugins(deps.plugins, new Map(pluginStates)));
++		if (!isReadOnly() && ownsConfiguredDb && pluginStatesRead) await phase("rt.lifecycle", "Config plugin install/activate", () => runtime.installUnrecordedConfigPlugins(deps.plugins, new Map(pluginStates)));
+ 		return runtime;
+ 	}
+ 	/**
+@@ -2055,7 +2058,7 @@ var EmDashRuntime = class EmDashRuntime {
+ 				log: kyselyLogOption()
+ 			});
+ 			try {
+-				await enforceRuntimeMigrationPolicy(db, deps.migrationMode ?? "auto");
++				await enforceRuntimeMigrationPolicy(db, isReadOnly() ? "check" : (deps.migrationMode ?? "auto"));
+ 			} catch (error) {
+ 				if (error instanceof MigrationFailedError || error instanceof MigrationLockHeldError) holder.failures.set(cacheKey, {
+ 					at: Date.now(),
+@@ -2397,9 +2400,11 @@ var EmDashRuntime = class EmDashRuntime {
+ 				}
+ 				return selections;
+ 			},
+-			setOption: (key, value) => optionsRepo.set(key, value),
++			setOption: async (key, value) => {
++				if (!isReadOnly()) await optionsRepo.set(key, value);
++			},
+ 			deleteOption: async (key) => {
+-				await optionsRepo.delete(key);
++				if (!isReadOnly()) await optionsRepo.delete(key);
+ 			},
+ 			preferredHints,
+ 			fallbackProviders: new Set([DEFAULT_COMMENT_MODERATOR_PLUGIN_ID])
+@@ -2579,7 +2584,7 @@ var EmDashRuntime = class EmDashRuntime {
+ 	* defend against FTS not existing yet (pre-setup).
+ 	*/
+ 	async ensureSearchHealthy() {
+-		if (!isSqlite(this._db)) return;
++		if (isReadOnly() || !isSqlite(this._db)) return;
+ 		try {
+ 			await singleFlightCached(this._searchHealthCache, async () => {
+ 				try {
+diff --git a/dist/fence-vc3aHgRA.mjs b/dist/fence-vc3aHgRA.mjs
+index 3730a54477a719d529b39dbc13601e1296ab24dd..6eca5b9dcd1e170e16e767a838966992f49eb8f2 100644
+--- a/dist/fence-vc3aHgRA.mjs
++++ b/dist/fence-vc3aHgRA.mjs
+@@ -1,3 +1,4 @@
++import { isReadOnly, assertWritable } from "./read-only.mjs";
+ import { n as isMissingTableError } from "./db-errors-CBD5yMro.mjs";
+ import { y as tableExists } from "./dialect-helpers-7_IqPdh9.mjs";
+ import { t as apiError } from "./error-DxgQdaZ_.mjs";
+@@ -142,6 +143,7 @@ const NOTHING_TO_RECORD = async () => {};
+ * was captured while the write ran still sees it.
+ */
+ async function assertSiteWriteAllowed(db) {
++	assertWritable();
+ 	const status = await readSiteWriteFence(db);
+ 	if (status.error) throw new SiteWriteBlockedError(status.error);
+ 	return status.exportRunning ? () => recordSiteWrite(db) : NOTHING_TO_RECORD;
+@@ -152,6 +154,7 @@ async function assertSiteWriteAllowed(db) {
+ * middleware records a successful response's write.
+ */
+ async function checkSiteWriteFence(db) {
++	if (isReadOnly()) return apiError("READ_ONLY", "EmDash is read-only on this replica", 503);
+ 	const status = await readSiteWriteFence(db);
+ 	if (status.error) return apiError(status.error.code, status.error.message, status.error.status);
+ 	return null;
+diff --git a/dist/node-sqlite-compat-VuyzJw1b.mjs b/dist/node-sqlite-compat-VuyzJw1b.mjs
+index c65c473ed78f4d8e97f3ab1e839cd2c343dad486..f2f6176f2a03515feb7634f25c52983b635ca683 100644
+--- a/dist/node-sqlite-compat-VuyzJw1b.mjs
++++ b/dist/node-sqlite-compat-VuyzJw1b.mjs
+@@ -12,6 +12,7 @@ var NodeSqliteCompatDatabase = class {
+ 		try {
+ 			database.exec("PRAGMA busy_timeout = 5000");
+ 			database.exec("PRAGMA foreign_keys = ON");
++			if (options.readOnly) database.exec("PRAGMA query_only = ON");
+ 			database.exec("PRAGMA cache_size = -16000");
+ 			if (options.journalMode === "wal" && !options.readOnly) database.exec("PRAGMA journal_mode = WAL");
+ 			if (database.prepare("PRAGMA journal_mode").get()?.["journal_mode"] === "wal") database.exec("PRAGMA synchronous = NORMAL");
+diff --git a/dist/read-only.mjs b/dist/read-only.mjs
+new file mode 100644
+index 0000000000000000000000000000000000000000..fc32074a4b7d46975eec166a7e2edbaf1f2e3602
+--- /dev/null
++++ b/dist/read-only.mjs
+@@ -0,0 +1,11 @@
++/** Opt-in process role: set before starting the server, never at request time. */
++export function isReadOnly() {
++	const value = typeof process !== "undefined" ? process.env?.EMDASH_READ_ONLY : undefined;
++	if (value !== undefined && value !== "true" && value !== "false") {
++		throw new Error("EMDASH_READ_ONLY must be true or false when set");
++	}
++	return value === "true";
++}
++export function assertWritable() {
++	if (isReadOnly()) throw new Error("EmDash is read-only on this replica");
++}
+diff --git a/src/astro/middleware/redirect.ts b/src/astro/middleware/redirect.ts
+index 629fe003bf28e913e8646620ad692ef3df6710b7..f72483ba955db12175918a402e0139af28ab2882 100644
+--- a/src/astro/middleware/redirect.ts
++++ b/src/astro/middleware/redirect.ts
+@@ -1,3 +1,4 @@
++import { isReadOnly } from "../../utils/read-only.js";
+ /**
+  * Redirect middleware
+  *
+@@ -44,6 +45,7 @@ function warnUnsafeDestination(id: string): void {
+ }
+ 
+ function recordHitInBackground(repo: RedirectRepository, id: string): void {
++	if (isReadOnly()) return;
+ 	after(async () => {
+ 		try {
+ 			await repo.recordHit(id);
+@@ -150,7 +152,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
+ 		const missedByRedirect =
+ 			isRedirectCode(response.status) && (location === "/404" || location === "/404/");
+ 		const missedDirectly = response.status === 404 && pathname !== "/404" && pathname !== "/404/";
+-		if (missedDirectly || missedByRedirect) {
++		if (!isReadOnly() && (missedDirectly || missedByRedirect)) {
+ 			const referrer = context.request.headers.get("referer") ?? null;
+ 			const userAgent = context.request.headers.get("user-agent") ?? null;
+ 			after(async () => {
+diff --git a/src/astro/middleware.ts b/src/astro/middleware.ts
+index c8ecf5f3778fb3b29332bb4efaaeea8c1c4c5a82..f8fedc578a395c614fcdb5d3e12907b48a060329 100644
+--- a/src/astro/middleware.ts
++++ b/src/astro/middleware.ts
+@@ -1,3 +1,4 @@
++import { isReadOnly } from "../utils/read-only.js";
+ /**
+  * EmDash middleware
+  *
+@@ -467,6 +468,7 @@ const NOOP_COOKIE_JAR = {
+ const CRON_EVENT_URL = new URL("https://cron.emdash.internal/");
+ 
+ function resolveConfiguredMigrationMode(config: EmDashConfig): RuntimeMigrationMode {
++	if (isReadOnly()) return "check";
+ 	const processOverride =
+ 		typeof process !== "undefined" && process.env ? process.env.EMDASH_MIGRATIONS_MODE : undefined;
+ 	const importMetaOverride = import.meta.env.EMDASH_MIGRATIONS_MODE;
+diff --git a/src/db/adapters.ts b/src/db/adapters.ts
+index 1f98d07ec556ee5897796cefb1f250a7a50b1272..a593301923b299871a67bd30d64de886a845c58a 100644
+--- a/src/db/adapters.ts
++++ b/src/db/adapters.ts
+@@ -117,6 +117,8 @@ export interface DatabaseDescriptor {
+ }
+ 
+ export interface SqliteConfig {
++	/** Optional runtime environment variable overriding url (name only, never a secret). */
++	urlEnv?: string;
+ 	/**
+ 	 * Database URL (e.g., "file:./data.db")
+ 	 */
+@@ -152,7 +154,7 @@ export function sqlite(config: SqliteConfig): DatabaseDescriptor {
+ 		type: "sqlite",
+ 		migrations: {
+ 			entrypoint: "emdash/internal/db/sqlite-migrations",
+-			manifestConfig: { url: config.url },
++			manifestConfig: { url: config.url, ...(config.urlEnv ? { urlEnv: config.urlEnv } : {}) },
+ 		},
+ 	};
+ }
+diff --git a/src/db/node-sqlite-compat.ts b/src/db/node-sqlite-compat.ts
+index f9487f8a86262d8c28b0780cbdd097e0b4252a3b..1477f379dfe866320d6aa78dc4763d1863d6f517 100644
+--- a/src/db/node-sqlite-compat.ts
++++ b/src/db/node-sqlite-compat.ts
+@@ -42,6 +42,7 @@ export class NodeSqliteCompatDatabase {
+ 		try {
+ 			database.exec("PRAGMA busy_timeout = 5000");
+ 			database.exec("PRAGMA foreign_keys = ON");
++			if (options.readOnly) database.exec("PRAGMA query_only = ON");
+ 			// Negative cache_size values are kibibytes.
+ 			database.exec("PRAGMA cache_size = -16000");
+ 			if (options.journalMode === "wal" && !options.readOnly) {
+diff --git a/src/db/sqlite-migrations.ts b/src/db/sqlite-migrations.ts
+index 978604fd2bfe799c55476f20bbc4a812bee35369..acd71e0b49cefee8b883328f8dd9a19cdb4f82e1 100644
+--- a/src/db/sqlite-migrations.ts
++++ b/src/db/sqlite-migrations.ts
+@@ -6,6 +6,7 @@ import { createMigrationTarget } from "../migrations/target.js";
+ import { createDialect } from "./sqlite.js";
+ 
+ export interface SqliteMigrationManifestConfig {
++	urlEnv?: string;
+ 	url: string;
+ }
+ 
+@@ -13,7 +14,8 @@ function resolveDatabasePath(
+ 	manifestConfig: SqliteMigrationManifestConfig,
+ 	context: MigrationExecutorFactoryContext,
+ ): string {
+-	const configuredUrl = context.overrides?.database ?? manifestConfig.url;
++	const configuredUrl = context.overrides?.database ??
++		(manifestConfig.urlEnv ? context.env[manifestConfig.urlEnv] : undefined) ?? manifestConfig.url;
+ 	if (typeof configuredUrl !== "string" || configuredUrl.length === 0) {
+ 		throw new Error("SQLite migration database path is missing.");
+ 	}
+diff --git a/src/db/sqlite.ts b/src/db/sqlite.ts
+index 7767c114295d08c9f62a4128a69b058cc47a3e86..d78f67bde04ccdeeaeb04748f42d3fa2e5f47bde 100644
+--- a/src/db/sqlite.ts
++++ b/src/db/sqlite.ts
+@@ -1,3 +1,4 @@
++import { isReadOnly } from "../utils/read-only.js";
+ /**
+  * SQLite runtime adapter
+  *
+@@ -15,10 +16,10 @@ import { openNodeSqliteDatabase } from "./node-sqlite-compat.js";
+  */
+ export function createDialect(config: SqliteConfig): Dialect {
+ 	// Parse URL to get file path
+-	const url = config.url;
++	const url = (config.urlEnv ? process.env[config.urlEnv] : undefined) ?? config.url;
+ 	const filePath = url.startsWith("file:") ? url.slice(5) : url;
+ 
+-	const database = openNodeSqliteDatabase(filePath, { journalMode: "wal" });
++	const database = openNodeSqliteDatabase(filePath, { journalMode: "wal", readOnly: isReadOnly() });
+ 
+ 	return new SqliteDialect({ database });
+ }
+diff --git a/src/emdash-runtime.ts b/src/emdash-runtime.ts
+index 774a25a31d3da4c6039a5665fda651de9297cab1..6e7bebcbe0e4c4e4d7b1f8573ba54339f3b87d9f 100644
+--- a/src/emdash-runtime.ts
++++ b/src/emdash-runtime.ts
+@@ -1,3 +1,4 @@
++import { isReadOnly, assertWritable } from "./utils/read-only.js";
+ /**
+  * EmDashRuntime - Core runtime for EmDash CMS
+  *
+@@ -947,6 +948,7 @@ export class EmDashRuntime {
+ 			invalidateContentCache?: PluginContentCacheInvalidator;
+ 		} = {},
+ 	): Promise<{ processed: number; published: PublishedRef[] }> {
++		assertWritable();
+ 		if (options.invalidateContentCache) {
+ 			this.pluginContentCacheInvalidator = options.invalidateContentCache;
+ 		}
+@@ -1807,7 +1809,7 @@ export class EmDashRuntime {
+ 		}
+ 
+ 		if (
+-			localeCasingRepairVersion &&
++			!isReadOnly() && localeCasingRepairVersion &&
+ 			(configuredLocales.some(
+ 				(locale) => locale.includes("-") || locale !== locale.toLowerCase(),
+ 			) ||
+@@ -1824,7 +1826,7 @@ export class EmDashRuntime {
+ 		// wizard (the wizard and dev-bypass apply seeds explicitly). Run under a
+ 		// per-isolate lock keyed by the configured db so a reclaimed-and-rerun
+ 		// create() can't apply the seed a second time concurrently.
+-		if (seedCollectionsReadable && !seedComplete && !setupDone) {
++		if (!isReadOnly() && seedCollectionsReadable && !seedComplete && !setupDone) {
+ 			try {
+ 				const activation = await activateMediaUsageCapture(db, { writersDrained: true });
+ 				if (activation.outcome !== "active") {
+@@ -2204,6 +2206,7 @@ export class EmDashRuntime {
+ 		// the runtime wrapper (firing content:afterPublish hooks). The first tick
+ 		// is ≥1s out, well after the synchronous assignment below.
+ 		await phase("rt.cron", "Cron init (recovery deferred post-response)", async () => {
++			if (isReadOnly()) return;
+ 			try {
+ 				cronExecutor = new CronExecutor(resolveDb, invokeCronHook, deps.now);
+ 				// Plugin schedules are always database-backed. On long-lived runtimes this
+@@ -2332,7 +2335,7 @@ export class EmDashRuntime {
+ 		);
+ 		sandboxRunner?.setContentActions?.(contentActions);
+ 
+-		if (ownsConfiguredDb && pluginStatesRead) {
++		if (!isReadOnly() && ownsConfiguredDb && pluginStatesRead) {
+ 			await phase("rt.lifecycle", "Config plugin install/activate", () =>
+ 				runtime.installUnrecordedConfigPlugins(deps.plugins, new Map(pluginStates)),
+ 			);
+@@ -2432,7 +2435,7 @@ export class EmDashRuntime {
+ 				const db = new Kysely<Database>({ dialect, log: kyselyLogOption() });
+ 
+ 				try {
+-					await enforceRuntimeMigrationPolicy(db, deps.migrationMode ?? "auto");
++					await enforceRuntimeMigrationPolicy(db, isReadOnly() ? "check" : (deps.migrationMode ?? "auto"));
+ 				} catch (error) {
+ 					// Only a failed migration run, or a lock its holder left behind,
+ 					// backs off. Waiting behind a slow concurrent migrator, pending
+@@ -3013,9 +3016,11 @@ export class EmDashRuntime {
+ 				}
+ 				return selections;
+ 			},
+-			setOption: (key, value) => optionsRepo.set(key, value),
++			setOption: async (key, value) => {
++				if (!isReadOnly()) await optionsRepo.set(key, value);
++			},
+ 			deleteOption: async (key) => {
+-				await optionsRepo.delete(key);
++				if (!isReadOnly()) await optionsRepo.delete(key);
+ 			},
+ 			preferredHints,
+ 			fallbackProviders: new Set([DEFAULT_COMMENT_MODERATOR_PLUGIN_ID]),
+@@ -3303,7 +3308,7 @@ export class EmDashRuntime {
+ 	async ensureSearchHealthy(): Promise<void> {
+ 		// Non-SQLite has no FTS to verify; the check is a cheap synchronous
+ 		// branch, no need to cache it.
+-		if (!isSqlite(this._db)) return;
++		if (isReadOnly() || !isSqlite(this._db)) return;
+ 		try {
+ 			await singleFlightCached(
+ 				this._searchHealthCache,
+diff --git a/src/redirects/artifacts.ts b/src/redirects/artifacts.ts
+index 033dd4464bb704920e556e1384beb63440b8a2e6..5c204115f8e07d0b7b0977661d057f0802a865b9 100644
+--- a/src/redirects/artifacts.ts
++++ b/src/redirects/artifacts.ts
+@@ -1,3 +1,4 @@
++import { isReadOnly } from "../utils/read-only.js";
+ /**
+  * Published redirect artifacts.
+  *
+@@ -412,6 +413,7 @@ async function repairRedirectArtifacts(db: Kysely<Database>): Promise<void> {
+ }
+ 
+ function scheduleRedirectRepair(db: Kysely<Database>): void {
++	if (isReadOnly()) return;
+ 	const now = Date.now();
+ 	if (repairState.runningUntil > now) return;
+ 	const runningUntil = now + REPAIR_LEASE_MS;
+diff --git a/src/transfer/fence.ts b/src/transfer/fence.ts
+index 428d3a56306c74e1fc5a925a60a69bd75228e576..82aea55cb19d8f608d5738854f287929a9240899 100644
+--- a/src/transfer/fence.ts
++++ b/src/transfer/fence.ts
+@@ -1,3 +1,4 @@
++import { isReadOnly, assertWritable } from "../utils/read-only.js";
+ /**
+  * Unified site write fence: media-usage activation and transfer imports.
+  *
+@@ -176,6 +177,7 @@ const NOTHING_TO_RECORD: RecordSiteWrite = async () => {};
+  * was captured while the write ran still sees it.
+  */
+ export async function assertSiteWriteAllowed(db: Kysely<Database>): Promise<RecordSiteWrite> {
++	assertWritable();
+ 	const status = await readSiteWriteFence(db);
+ 	if (status.error) throw new SiteWriteBlockedError(status.error);
+ 	return status.exportRunning ? () => recordSiteWrite(db) : NOTHING_TO_RECORD;
+@@ -187,6 +189,7 @@ export async function assertSiteWriteAllowed(db: Kysely<Database>): Promise<Reco
+  * middleware records a successful response's write.
+  */
+ export async function checkSiteWriteFence(db: Kysely<Database>): Promise<Response | null> {
++	if (isReadOnly()) return apiError("READ_ONLY", "EmDash is read-only on this replica", 503);
+ 	const status = await readSiteWriteFence(db);
+ 	if (status.error) return apiError(status.error.code, status.error.message, status.error.status);
+ 	return null;
+diff --git a/src/utils/read-only.ts b/src/utils/read-only.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d9868fe7f16ba00be483091407b8a0a32b3174ab
+--- /dev/null
++++ b/src/utils/read-only.ts
+@@ -0,0 +1,12 @@
++/** Opt-in process role: set before starting the server, never at request time. */
++export function isReadOnly(): boolean {
++	const value = typeof process !== "undefined" ? process.env?.EMDASH_READ_ONLY : undefined;
++	if (value !== undefined && value !== "true" && value !== "false") {
++		throw new Error("EMDASH_READ_ONLY must be true or false when set");
++	}
++	return value === "true";
++}
++
++export function assertWritable(): void {
++	if (isReadOnly()) throw new Error("EmDash is read-only on this replica");
++}
