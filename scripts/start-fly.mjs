@@ -140,7 +140,11 @@ export async function start(env = process.env, mode = process.argv[2]) {
     }
     return replaceProcess(
       process.execPath,
-      [join(siteRoot, "dist/server/entry.mjs")],
+      [
+        "--import",
+        join(siteRoot, "scripts/backup-scheduler.mjs"),
+        join(siteRoot, "dist/server/entry.mjs"),
+      ],
       runtime,
     );
   }

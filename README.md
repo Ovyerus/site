@@ -191,10 +191,14 @@ deployed by local development. The container now runs LiteFS in front of Node: a
 fixed Sydney writer and two regional read replicas. Shared media stays in public
 `ovy-cdn/blog/` behind Bunny; backups and transfer staging use a separate
 private B2 bucket. Missing private-bucket configuration fails closed rather than
-falling back to public storage. No extra CDN configuration is needed for the
-private bucket. The application reads `/litefs/emdash.db`; `/data` holds each
-Machine's private LiteFS files and primary-only sessions. Local development
-still defaults to `data/emdash.db`, `data/uploads`, and `data/sessions`.
+falling back to public storage. Daily full SQLite backups are encrypted,
+remotely restore-verified and retained for 30 days in private B2; retain the
+production encryption key separately. Media binaries remain in the existing
+versioned public bucket rather than inside database archives. No extra CDN
+configuration is needed for the private bucket. The application reads
+`/litefs/emdash.db`; `/data` holds each Machine's private LiteFS files and
+primary-only sessions. Local development still defaults to `data/emdash.db`,
+`data/uploads`, and `data/sessions`.
 
 Follow the [Fly deployment runbook](docs/fly-deployment.md) for required runtime
 secrets, per-region volumes, explicit one-time seed bootstrap, primary-first

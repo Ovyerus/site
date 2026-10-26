@@ -105,27 +105,44 @@ Atmosphere sign-in and that their posts are present.
 
 The GitHub workflow's repository variables are set and verified:
 `FLY_PRIMARY_MACHINE_ID=7847575f5093e8` and
-`FLY_REPLICA_MACHINE_IDS=28744397c16178,8576906a40e138`. **The source change is
-still local.** GitHub's old deploy-all workflow is disabled to prevent it from
-replacing the new topology. Publish this change first, verify that remote
-`push.yaml` targets only these three Machines and runs on pushes to `main`, then
-re-enable it with `gh workflow enable push.yaml --repo Ovyerus/site`. Subsequent
-pushes to `main` will build, test, and deploy automatically; manual dispatch on
-`main` remains available. The initial push while disabled does not deploy—use
-one manual run afterward if needed. Do not re-enable or rerun the old workflow
-definition.
+`FLY_REPLICA_MACHINE_IDS=28744397c16178,8576906a40e138`. On 2026-10-26 the
+published `main` workflow was verified byte-for-byte against the safe local
+definition and was active. Pushes to `main` build, test and deploy
+automatically; manual dispatch on `main` remains available. It targets only the
+three volume-backed Machines, primary first. Do not restore the old unqualified
+app-wide deployment or include retained rollback Machines.
 
 One production concurrency group covers build, image publication, and both
 rollout stages. An active run finishes rather than being cancelled between the
 writer and replicas; rapid pushes can replace an older pending run with the
 latest one. If the primary deployment fails, replicas are not updated.
 
-Automated B2 backup scheduling/retention and an offsite restore test remain
-outstanding; Fly snapshots are not a substitute.
+The first encrypted full database backup was uploaded to private B2 and restored
+on an independent workstation on 2026-10-26. The restored bytes matched the
+export's SHA-256; SQLite integrity/foreign-key checks passed (75 tables, one
+user). The isolated packaged app then served the home page, weeknote and RSS
+using that read-only restored database without production storage credentials;
+admin requests deliberately return writer-replay responses and were not an
+isolated login test. Its database bytes remained unchanged. Plaintext scratch
+and the local server were removed afterward. This also verified the existing
+separately stored production encryption key. Daily scheduling and 30-day
+retention are described below; Fly snapshots are not the backup policy.
 
-Deployed image:
+The scheduler image was then rolled out primary-first to exactly the three 512
+MB volume-backed Machines, leaving the stopped originals unchanged. The serving
+process's five-minute timer produced another remotely verified backup at
+`2026-10-26T02:56:47Z` (193,817 encrypted bytes); no manual backup command
+triggered that run. Its stored manifest authenticated successfully, temporary
+scratch was removed, and no backup/retention failure events appeared. Both
+replicas retained read-only mode. Health, home, weeknote, RSS and sitemap checks
+passed after deployment. The backup feature's source remains local in change
+`uvqxmxyo`: publish it before another main deployment, otherwise the older
+published source can remove the manually deployed scheduler.
+
+Initial deployment image (before backup scheduling):
 `registry.fly.io/site-polished-fog-5586@sha256:9a72c9e49c0a03b06e6afc21ac80dfecbfaaee2bb35664f88b37c9fe31fba4e7`.
-The rollout passed 98 unit/regression tests in 12 files.
+That initial rollout passed 98 unit/regression tests in 12 files. Query current
+Machine configuration rather than treating this historical image as latest.
 
 ## Before the first rollout
 
@@ -165,15 +182,17 @@ The rollout passed 98 unit/regression tests in 12 files.
 
    Create two bucket-restricted application keys (not the master account key),
    one per bucket, restricted to `blog/` where supported. Each needs read,
-   write, list, and delete capabilities for its own bucket only. Set the media
-   key as `S3_ACCESS_KEY_ID` / `S3_SECRET_ACCESS_KEY`; set the private key as
-   `PRIVATE_S3_ACCESS_KEY_ID` / `PRIVATE_S3_SECRET_ACCESS_KEY`. Private
-   credentials are mandatory and never inherit the public key. Optional
-   `PRIVATE_S3_ENDPOINT` and `PRIVATE_S3_REGION` default to the media
-   endpoint/region if omitted; set both explicitly if the private bucket is
-   elsewhere. Never set `PRIVATE_S3_PUBLIC_URL`. Verify the new bucket is
-   actually private in B2: constructor validation cannot establish its remote
-   ACL.
+   write, list, and delete capabilities for its own bucket only. The private
+   backup key also needs B2 `readBuckets` for the owner-only ACL preflight;
+   version listing uses `listFiles`, and permanent version deletion uses
+   `deleteFiles`. Set the media key as `S3_ACCESS_KEY_ID` /
+   `S3_SECRET_ACCESS_KEY`; set the private key as `PRIVATE_S3_ACCESS_KEY_ID` /
+   `PRIVATE_S3_SECRET_ACCESS_KEY`. Private credentials are mandatory and never
+   inherit the public key. Optional `PRIVATE_S3_ENDPOINT` and
+   `PRIVATE_S3_REGION` default to the media endpoint/region if omitted; set both
+   explicitly if the private bucket is elsewhere. Never set
+   `PRIVATE_S3_PUBLIC_URL`. Verify the new bucket is actually private in B2:
+   constructor validation cannot establish its remote ACL.
 
    This is a new split, not an automatic migration. Do not deploy over an older
    CMS installation that stored private files in the public bucket without
@@ -347,11 +366,117 @@ those three Machines, deploys primary first, and reuses one image digest. Do not
 include old stateless Machines awaiting retirement. Incompatible schema changes
 still need a maintenance window, not an automatic rollback.
 
-Take scheduled, consistent database exports using `litefs export`, retain them
-off-machine in private storage, and back up uploads and the EmDash encryption
-key. Decide retention and test a restore before relying on this deployment. This
-change does not configure an automated backup policy or change your B2 bucket
-lifecycle. Do not put private exports in a publicly readable prefix.
+### Daily database backups
+
+`EMDASH_BACKUPS_ENABLED=true` in `fly.toml` enables a tiny Node preload on the
+fixed writer only. It registers unreferenced timers, not a second daemon: first
+check five minutes after startup, then hourly. A verified backup is due after 24
+hours; failures retry at the next hourly check. This is best-effort daily
+scheduling, not a precise UTC cron or a guarantee while the writer is stopped.
+Replicas never schedule backups. Enabling backups must not block web startup.
+
+`scripts/backup-database.mjs` exports the full live database through the private
+loopback LiteFS API (`GET http://127.0.0.1:20202/export?name=emdash.db`), not by
+copying the FUSE or backing files. It checks SQLite integrity and foreign keys,
+compresses/encrypts the snapshot, and uploads to **private**
+`ovy-site-priv/blog/backups/sqlite/v1/`. Auth/users/OAuth data, plugin config,
+content and media metadata are included: this is not EmDash's content-only JSON
+export. Files in `/data/sessions` are not included; restored users sign in
+again.
+
+Each archive uses a unique salt and nonce with AES-256-GCM and a
+context-separated HKDF-SHA256 key derived from the **existing**
+`EMDASH_ENCRYPTION_KEY`. The entire header and exact physical object key are
+authenticated. The manifest records plaintext/encrypted SHA-256 and sizes,
+creation time and database identity, with a separately derived HMAC. The archive
+is downloaded, authenticated, decrypted and SQLite-checked before its manifest
+is committed; the manifest is then read back before `/data/backups/state.json`
+records success. Plaintext is never uploaded. Do not rotate or lose the
+production encryption key: B2 objects alone cannot recover the database. Keep
+its existing separate, user-controlled escrow outside both the repository and
+this bucket; do not print it into logs/chat.
+
+Retention runs only after a successful commit and freshly verifies the keeper
+again before deleting anything. It preserves that backup and recent archives;
+only correctly named, authenticated pairs older than **30 days** are eligible.
+Malformed/foreign objects and ambiguous manifest-read failures are preserved.
+Old uncommitted archive orphans require an explicit `NoSuchKey`/404 for their
+manifest and a 30-day grace period. B2 version IDs are deleted explicitly:
+ordinary S3 DELETE would only hide an object and leave its stored versions. The
+marker is deleted last; uncertain orphan markers remain for inspection. No
+bucket-wide lifecycle rule is changed.
+
+A separate `/data/backups/coordination.sqlite` transaction serializes manual and
+scheduled jobs and releases its OS lock on process death; this is **not** the
+application database. Scratch files/directories are 0600/0700 and normally
+removed immediately. Aged, narrowly named interrupted scratch/state temp files
+are scavenged under that lock. Snapshots are capped at 128 MiB, archives at 132
+MiB, and the job requires 692 MiB of free scratch space (worst-case copies plus
+reserve). Storage requests and pagination are bounded, with a 20-minute S3
+operation budget. An overfull namespace fails closed at 510 objects rather than
+accumulating unlimited failed uploads; investigate the emitted error,
+permissions/capacity and orphan data rather than broad-deleting prefixes.
+
+For an on-demand backup, run the packaged script **on the current fixed
+writer**:
+
+```sh
+node /nix/store/<current-site-package>/scripts/backup-database.mjs
+```
+
+Use the current serving process's site package, not a historical store path. The
+command refuses replicas/non-FUSE environments and shares the same lock. Check
+`/data/backups/state.json` for `lastVerifiedAt` and the committed object key.
+Logs emit `backup-verified`, `backup-failed`, `backup-retention-failed` and
+`backup-orphan-cleanup-failed`; SDK request/credential objects are never logged.
+A success marker means the archive was remotely restored, not that retention
+necessarily succeeded. There is no external alert delivery configured: monitor
+these events and alert if `lastVerifiedAt` is older than 48 hours. Backup
+failure must not take the CMS health checks offline.
+
+### Isolated recovery and media
+
+Download an archive and its adjacent `.json` manifest using private B2 access,
+and use the retained v1 script with the original key: `validManifest`,
+`decryptFile`, `fileDigest` and `inspectDatabase` verify it in a fresh **private
+scratch directory**. Authenticate GCM fully before decompressing or opening
+SQLite. Match both checksums/sizes and run integrity/foreign-key checks. Never
+point a restore at `/litefs`, `/data/litefs`, the working database or an
+existing file. Test the restored app with read-only mode, migration checking,
+bootstrap and announcements disabled, isolated sessions and no production
+credentials. A real production restore is a separate maintenance operation:
+fence the old writer, preserve survivors, restore/import through LiteFS's
+documented workflow into a fresh isolated volume, then verify before
+exposing/promoting it. Never repair a live LiteFS backing database by copying
+files into it.
+
+The v1 archive layout is `OVYDB01\n` (8 bytes), 32-byte salt, 12-byte nonce,
+gzip ciphertext, then 16-byte GCM tag. HKDF info is
+`ovyerus/emdash.db/backup/v1/archive`; AAD is the full 52-byte header followed
+by the UTF-8 physical object key. Manifest HMAC uses the same master key with
+empty HKDF salt and info `ovyerus/emdash.db/backup/v1/manifest`, over JSON
+fields in creation order, excluding `mac`. Keep this format/context stable; use
+a new version/prefix for incompatible changes.
+
+**Media binaries are not inside SQLite.** Read-only B2 checks on 2026-10-26
+confirmed both buckets have versioning enabled and no lifecycle expiration
+configuration. All 11 current public `blog/` objects (5,008,155 bytes) were read
+in full, checked against response lengths and applicable MD5 ETags, and SHA-256
+inventoried with their current version IDs in the private verification receipts.
+A disposable public fixture was overwritten and hidden, then its original
+version was retrieved with `VersionId` and byte-verified. All three fixture
+versions/markers were explicitly purged. A separate private fixture also
+verified the backup client's exact-key physical version purge. No existing media
+object or lifecycle rule was changed. Existing media stays in `ovy-cdn`, with
+its visibility, objects and Bunny config unchanged. To recover an
+overwritten/hidden asset, inspect that exact physical key's B2 versions, GET the
+chosen `VersionId`, verify its bytes/metadata, and only with explicit restore
+authorization PUT it back to the original key. Preserve content type and stable
+URLs, then check Bunny cache/range delivery as needed. This is existing
+same-bucket version recovery, **not a new independent media copy**: permanent
+version/bucket deletion or account loss can still destroy assets. References to
+external providers are not backed up by this job. Do not change the public
+bucket's lifecycle or copy an entire bucket implicitly.
 
 If the primary fails, writes/admin/announcements stop. Replicas can be drained
 by freshness checks; do not assume the public site remains available. Before

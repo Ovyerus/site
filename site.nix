@@ -65,7 +65,7 @@ stdenv.mkDerivation (finalAttrs: {
     mkdir -p "$out"
     cp -r dist "$out/dist"
     mkdir -p "$out/scripts" "$out/seed" "$out/.emdash"
-    cp scripts/start-fly.mjs scripts/prepare-database.mjs scripts/migrate-weeknotes.mjs scripts/migrate-bluesky-announcements.mjs "$out/scripts/"
+    cp scripts/backup-database.mjs scripts/backup-scheduler.mjs scripts/start-fly.mjs scripts/prepare-database.mjs scripts/migrate-weeknotes.mjs scripts/migrate-bluesky-announcements.mjs "$out/scripts/"
     mkdir -p "$out/src/lib"
     cp src/lib/iso-week.ts "$out/src/lib/"
     cp seed/seed.json "$out/seed/"
