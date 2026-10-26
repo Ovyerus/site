@@ -46,26 +46,29 @@ selected by **Machine ID**, not by region.
   as a publication. Fly currently treats LiteFS as self-managed/outside its
   support scope.
 
-## Provisioning checkpoint (2026-10-25)
+## Production checkpoint (updated 2026-10-26)
 
 **Public cutover completed.** Sydney is the sole writer; Virginia and Frankfurt
 serve read-only regional content. All three run the same immutable image on
 shared CPU / **512 MB RAM** (explicitly approved, with higher compute costs).
-The old stateless Machines are **cordoned and stopped**, retained for rollback;
-no Machine or volume was destroyed. Recheck live inventory before acting.
-Autostart on the replacements is disabled and autostop is off.
+The three old stateless **256 MB Machines were destroyed on 2026-10-26**, with
+explicit owner approval, after checking they were stopped and had no attached
+volumes. Only the three existing 512 MB Machines remain; their IDs and data
+volumes were preserved. Recheck live inventory before acting. Autostart on the
+replacements is disabled and autostop is off.
 
 The production database is no longer pristine: it contains content through
 **2026-w42**, the sole prelinked owner DID, and a completed setup flag. Preserve
 its encryption key and volumes. Do not reseed, regenerate the key, or export the
 local w43 placeholder. `EMDASH_BOOTSTRAP=false` is deployed on all three;
-`BLUESKY_ANNOUNCE_ENABLED=false` remains intentional.
+`BLUESKY_ANNOUNCE_ENABLED=true` now enables announcements on the fixed writer
+only; replicas still suppress the worker through read-only mode.
 
-| Region            | Original (retained) | Replacement target         | Attached 1 GiB `data` volume |
-| ----------------- | ------------------- | -------------------------- | ---------------------------- |
-| Sydney (`syd`)    | `78432d5f466938`    | `7847575f5093e8` — writer  | `vol_vp2nw1w5x60633y4`       |
-| Virginia (`iad`)  | `48e254dc794d08`    | `28744397c16178` — replica | `vol_40o3ezepn5egppk4`       |
-| Frankfurt (`fra`) | `4d89704c2d7768`    | `8576906a40e138` — replica | `vol_4585jmjzomgoyl94`       |
+| Region            | Original (destroyed) | Replacement target         | Attached 1 GiB `data` volume |
+| ----------------- | -------------------- | -------------------------- | ---------------------------- |
+| Sydney (`syd`)    | `78432d5f466938`     | `7847575f5093e8` — writer  | `vol_vp2nw1w5x60633y4`       |
+| Virginia (`iad`)  | `48e254dc794d08`     | `28744397c16178` — replica | `vol_40o3ezepn5egppk4`       |
+| Frankfurt (`fra`) | `4d89704c2d7768`     | `8576906a40e138` — replica | `vol_4585jmjzomgoyl94`       |
 
 The 256 MB guests had only about 207 MiB usable RAM and stalled under measured
 memory/page pressure, even after removing two idle Node startup wrappers. At 512
@@ -110,7 +113,7 @@ published `main` workflow was verified byte-for-byte against the safe local
 definition and was active. Pushes to `main` build, test and deploy
 automatically; manual dispatch on `main` remains available. It targets only the
 three volume-backed Machines, primary first. Do not restore the old unqualified
-app-wide deployment or include retained rollback Machines.
+app-wide deployment or target any IDs outside those three Machines.
 
 One production concurrency group covers build, image publication, and both
 rollout stages. An active run finishes rather than being cancelled between the
@@ -135,9 +138,26 @@ process's five-minute timer produced another remotely verified backup at
 triggered that run. Its stored manifest authenticated successfully, temporary
 scratch was removed, and no backup/retention failure events appeared. Both
 replicas retained read-only mode. Health, home, weeknote, RSS and sitemap checks
-passed after deployment. The backup feature's source remains local in change
-`uvqxmxyo`: publish it before another main deployment, otherwise the older
-published source can remove the manually deployed scheduler.
+passed after deployment. The backup feature was subsequently published to `main`
+at `b23a1ee4858c7f13b0d691f1b5e59c7772d315a9`; GitHub Actions run `40263364536`
+successfully deployed it.
+
+After the owner staged announcement secrets in the dashboard, all three Machines
+were redeployed primary-first on that same published immutable image. The PDS
+matched the author's DID document, and login plus an authenticated read-only
+`getSession` request verified the dedicated credentials. The enabled
+`announce-weeknotes` cron ran on its minute schedule; no published entries had a
+teaser, so nothing was announced and no synthetic test post was sent. All eleven
+secrets reported deployed after the old Machines were removed. Existing backup
+manifests still authenticated with the runtime encryption key.
+
+**Dashboard/cross-client secret changes:** before a controlled rollout, run
+`fly secrets sync --app site-polished-fog-5586 --stage`, then the exact-target
+primary-first deployments below. Flyctl 0.4.111 otherwise reused old cached
+secret versions: both an ordinary deploy and restart left new credentials absent
+despite apparent secret deployment status. Do not omit `--stage`: the sync
+command can otherwise trigger an app-wide deployment. Verify actual
+serving-process gates, not just the secret status labels.
 
 Initial deployment image (before backup scheduling):
 `registry.fly.io/site-polished-fog-5586@sha256:9a72c9e49c0a03b06e6afc21ac80dfecbfaaee2bb35664f88b37c9fe31fba4e7`.
@@ -316,11 +336,12 @@ request bootstrap it. Replicas never run these operations.
 
 Once all three are healthy, stage `EMDASH_BOOTSTRAP=false` and apply it through
 controlled primary-first, exact-target updates. Do not casually use
-`fly secrets unset EMDASH_BOOTSTRAP`: that can restart **every** app Machine,
-including retained originals. Leaving the flag true cannot replay the archive
-over existing collections, but disabling it keeps future mistakes obvious. Sign
-in at `https://ovyerus.com/_emdash/admin/` with Atmosphere. The canonical HTTPS
-site URL must be reachable by the PDS for OAuth metadata discovery.
+`fly secrets unset EMDASH_BOOTSTRAP`: that can restart **every** app Machine
+without controlled primary-first ordering. Leaving the flag true cannot replay
+the archive over existing collections, but disabling it keeps future mistakes
+obvious. Sign in at `https://ovyerus.com/_emdash/admin/` with Atmosphere. The
+canonical HTTPS site URL must be reachable by the PDS for OAuth metadata
+discovery.
 
 If importing an **existing production database** instead of a fresh seed, use
 LiteFS's documented import on the primary while application writes are stopped,
