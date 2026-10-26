@@ -58,6 +58,15 @@ export default defineConfig({
           ),
         },
         {
+          id: "standard-site",
+          version: "1.0.0",
+          format: "standard",
+          capabilities: ["content:read"],
+          entrypoint: fileURLToPath(
+            new URL("./src/lib/emdash-standard-site.ts", import.meta.url),
+          ),
+        },
+        {
           id: "weeknote-bluesky",
           version: "1.0.0",
           format: "standard",

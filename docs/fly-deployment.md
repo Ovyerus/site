@@ -350,6 +350,21 @@ copy a live `.db` without its WAL or overwrite a running mount with `cp`. Move
 existing CMS media objects to B2 preserving keys, or use EmDash's export/import
 workflow. Do not turn on bootstrap as a substitute for restoring private edits.
 
+## Standard.site publishing (default disabled)
+
+The optional `standard-site` worker has its own `STANDARD_SITE_ENABLED` gate and
+an independent `STANDARD_SITE_BACKFILL` archive opt-in. Neither is enabled by
+this implementation or by the existing Bluesky announcement flag. It uses only
+the fixed writer; replicas serve confirmed discovery links from the replicated
+ledger. See [the publishing runbook](standard-site.md) before activation.
+
+Keep both flags false during rollout/validation and restore exercises. Enabling
+the worker permits PDS publication writes; backfill additionally enrolls the
+existing public archive at one record/minute. Disabling pauses work but does not
+remove already-public PDS records. Use staged secret synchronization and the
+existing exact-primary-first deployment procedure; never deploy all Machines or
+seed production to test this feature.
+
 ## Verify before enabling announcements
 
 - Both `/healthz` (runtime, seeded/custom schema, replica attachment) and

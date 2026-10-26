@@ -2,12 +2,14 @@
 import ArticleLayout from "~layouts/ArticleLayout.astro";
 import MarkdownContent from "~components/MarkdownContent.astro";
 import { getArticle } from "~lib/content";
+import { getStandardDocumentUri } from "~lib/standard-site-verification";
 import { getWeeknoteStrings } from "~lib/weeknotes";
 
 const slug = Astro.params.slug;
 const weeknote = slug ? await getArticle("weeknotes", slug) : undefined;
 
 if (!weeknote) return Astro.rewrite("/404");
+const standardDocumentUri = getStandardDocumentUri("weeknotes", slug);
 
 const { title, sentence } = getWeeknoteStrings(weeknote.id);
 const description =
@@ -21,6 +23,7 @@ const description =
   preamble={weeknote.data.subtitle}
   comments={weeknote.data.comments}
   ogImage={`/og/weeknotes/${slug}.png`}
+  {standardDocumentUri}
 >
   <MarkdownContent body={weeknote.body} />
 </ArticleLayout>

@@ -2,13 +2,19 @@
 import ArticleLayout from "~layouts/ArticleLayout.astro";
 import MarkdownContent from "~components/MarkdownContent.astro";
 import { getArticle } from "~lib/content";
+import { getStandardDocumentUri } from "~lib/standard-site-verification";
 
 const slug = Astro.params.slug;
 const post = slug ? await getArticle("posts", slug) : undefined;
 
 if (!post) return Astro.rewrite("/404");
+const standardDocumentUri = getStandardDocumentUri("posts", slug);
 ---
 
-<ArticleLayout {...post.data} ogImage={`/og/posts/${slug}.png`}>
+<ArticleLayout
+  {...post.data}
+  ogImage={`/og/posts/${slug}.png`}
+  {standardDocumentUri}
+>
   <MarkdownContent body={post.body} />
 </ArticleLayout>

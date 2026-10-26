@@ -103,6 +103,16 @@ serve it locally with the private `.env` file. Run
 `nix build .#site` and `nix build .#container` package the server and runtime
 dependencies, excluding local data and secrets.
 
+### Standard.site publishing
+
+An independent, default-disabled worker can mirror published posts/weeknotes to
+AT Protocol using Standard.site metadata and plaintext. It preserves document
+identity across edits and removes tracked documents after unpublish/delete;
+private drafts and Bluesky teaser fields are excluded. Archive backfill requires
+a separate opt-in. See
+[configuration, safety, and monitoring](docs/standard-site.md) before enabling
+live PDS writes.
+
 ### Weeknote identifiers
 
 For an existing database, run `node scripts/migrate-weeknotes.mjs` and

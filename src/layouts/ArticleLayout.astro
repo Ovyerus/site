@@ -18,6 +18,7 @@ interface Props {
   preamble?: string;
   tags?: string[];
   ogImage?: string;
+  standardDocumentUri?: string | null;
 }
 
 const fmt = (d: Date) => format(d, "MMMM do, yyyy");
@@ -29,6 +30,7 @@ const {
   comments,
   preamble,
   ogImage,
+  standardDocumentUri,
   createdAt: _createdAt,
   modifiedAt: _modifiedAt,
 } = Astro.props;
@@ -41,6 +43,15 @@ const backlink = new URL(Astro.url.pathname, Astro.site).href;
 
 <Layout title={`${title} - Ovyerus`} ogTitle={title} {description} {ogImage}>
   {comments && <meta slot="head" name="giscus:backlink" content={backlink} />}
+  {
+    standardDocumentUri && (
+      <link
+        slot="head"
+        rel="site.standard.document"
+        href={standardDocumentUri}
+      />
+    )
+  }
 
   <ArticleNav current={navCurrent} />
 
